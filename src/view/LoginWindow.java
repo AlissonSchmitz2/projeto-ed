@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 import javax.swing.*;
 import lib.ArquivoManipular;
@@ -48,7 +49,8 @@ public class LoginWindow extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				login = txfNome.getText();
 				senha = new String(txfSenha.getPassword());
-				String destino = "C:\\Users\\PC Magazine\\eclipse-workspace\\SistemaEscolar\\src\\view\\cadastro\\cadastro.txt";
+				
+				String destino = new File(".\\src\\data\\usuarios.txt").getAbsolutePath();
 
 				if (login.equals("admin") && senha.equals("admin")
 						&& (aM.lerArquivo(destino, login, senha) == "CadastraAdministrador")) {

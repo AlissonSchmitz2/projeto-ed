@@ -1,6 +1,7 @@
 package lib;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,17 +19,16 @@ public class ArquivoManipular {
 	}
 
 	public void criarArquivo(Cidade cidade) throws IOException {
-		FileWriter arq = new FileWriter(
-				"C:\\Users\\PC Magazine\\eclipse-workspace\\SistemaEscolar\\src\\view\\cadastroCidades\\cadastro.txt",
-				true);
+		String destino = new File(".\\src\\data\\cidades.txt").getAbsolutePath();
+		FileWriter arq = new FileWriter(destino, true);
 		PrintWriter gravarArq = new PrintWriter(arq);
 		gravarArq.println(cidade.getCidade() + "," + cidade.getUf() + "," + cidade.getPais());
 		arq.close();
 	}
 
 	public void criarArquivo(Usuario usuario) throws IOException {
-		FileWriter arq = new FileWriter(
-				"C:\\Users\\PC Magazine\\eclipse-workspace\\SistemaEscolar\\src\\view\\cadastro\\cadastro.txt", true);
+		String destino = new File(".\\src\\data\\usuarios.txt").getAbsolutePath();
+		FileWriter arq = new FileWriter(destino, true);
 		PrintWriter gravarArq = new PrintWriter(arq);
 
 		gravarArq.println(usuario.getNomeUsuario() + "," + usuario.getSenha() + "," + usuario.getPerfil());

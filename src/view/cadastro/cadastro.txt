@@ -1,3 +1,0 @@
-99497,pwj222,Administrador
-Giovane,xadrezgrande,Convidado
-User,User,Administrador
