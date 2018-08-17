@@ -23,7 +23,10 @@ public class AlunosWindow extends JDialog{
 	private JLabel labes;
 	private JFormattedTextField txfData, txfFone, txfCel, txfCep;
 	
-	//testando o git agora vai 
+	//pessoal, tenho que modificar ainda essa classe.
+	//Vou encaixa-la com as outras. Irei fazer no find ou na aula. 
+	//Deixa comigo essa tela abraços :D
+	
 	
 	AlunosWindow(){
 		setSize(800,700);
