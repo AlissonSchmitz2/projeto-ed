@@ -73,7 +73,7 @@ public class LoginWindow extends JDialog {
 
 	}
 
-	//public static void main(String[] args) {
-	//	new LoginWindow().setVisible(true);
-	//}
+	public static void main(String[] args) {
+		new LoginWindow().setVisible(true);
+	}
 }

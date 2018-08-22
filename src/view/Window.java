@@ -97,7 +97,10 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				System.out.println("TODO: Cadastro de Aluno");
+				//System.out.println("TODO: Cadastro de Aluno");
+				CadastrarAlunosWindow frame = new CadastrarAlunosWindow();
+				abrirFrame(frame);
+				
 			}
 		});
 			
