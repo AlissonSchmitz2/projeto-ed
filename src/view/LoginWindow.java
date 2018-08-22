@@ -55,13 +55,13 @@ public class LoginWindow extends JDialog {
 				if (login.equals("admin") && senha.equals("admin")
 						&& (aM.lerArquivo(destino, login, senha) == "CadastraAdministrador")) {
 					setVisible(false);
-					new Menu().setVisible(true);
+					//new Menu().setVisible(true);
 				} else if (aM.lerArquivo(destino, login, senha) == "Convidado") {
 					setVisible(false);
-					new SalaConvidado().setVisible(true);
+					//new SalaConvidado().setVisible(true);
 				} else if (aM.lerArquivo(destino, login, senha) == "Administrador") {
 					setVisible(false);
-					new Menu().setVisible(true);
+					//new Menu().setVisible(true);
 				} else if (aM.lerArquivo(destino, login, senha) == "Incorreto") {
 					JOptionPane.showMessageDialog(null, "Id ou senha incorreta!");
 				}
@@ -73,7 +73,7 @@ public class LoginWindow extends JDialog {
 
 	}
 
-	public static void main(String[] args) {
-		new LoginWindow().setVisible(true);
-	}
+	//public static void main(String[] args) {
+	//	new LoginWindow().setVisible(true);
+	//}
 }
