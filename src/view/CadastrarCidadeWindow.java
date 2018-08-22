@@ -8,13 +8,12 @@ import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import lib.ArquivoManipular;
 
-public class CadastraCidade extends JDialog {
+public class CadastrarCidadeWindow extends WindowFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JTextField txfCidade;
@@ -23,16 +22,13 @@ public class CadastraCidade extends JDialog {
 	private JLabel saida;
 	private JButton btnCadastra;
 
-	public CadastraCidade() {
-		setSize(800, 700);
-		setTitle("Cadastrar Cidade");
-		setLayout(null);
-		setResizable(false);
-		ComponentesCriar();
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	public CadastrarCidadeWindow() {
+		super("Cadastrar Cidade");
+
+		criarComponentes();
 	}
 
-	public void ComponentesCriar() {
+	private void criarComponentes() {
 		saida = new JLabel("Cidade:");
 		saida.setBounds(10, 10, 200, 25);
 		getContentPane().add(saida);
@@ -103,11 +99,9 @@ public class CadastraCidade extends JDialog {
 				try {
 					ArquivoManipular aM = new ArquivoManipular();
 					aM.criarArquivo(cidade);
-					setVisible(false);
-
-					new Menu().setVisible(true);
+					//TODO: Limpar o formulário
+					//TODO: exibir mensagem de sucesso
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

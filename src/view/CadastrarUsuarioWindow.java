@@ -8,14 +8,13 @@ import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import lib.ArquivoManipular;
 
-public class CadastraUsuario extends JDialog {
+public class CadastrarUsuarioWindow extends WindowFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JPasswordField txfSenha;
@@ -25,16 +24,13 @@ public class CadastraUsuario extends JDialog {
 	private JButton btnVoltar;
 	private JLabel saida;
 
-	public CadastraUsuario() {
-		setSize(800, 700);
-		setTitle("Cadastro");
-		setLayout(null);
-		setResizable(false);
-		ComponentesCriar();
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	public CadastrarUsuarioWindow() {
+		super("Cadastrar Usuário");
+
+		criarComponentes();
 	}
 
-	public void ComponentesCriar() {
+	private void criarComponentes() {
 		saida = new JLabel("Digite seu codigo para cadastro: ");
 		saida.setBounds(10, 10, 200, 25);
 		getContentPane().add(saida);
@@ -70,6 +66,7 @@ public class CadastraUsuario extends JDialog {
 				new LoginWindow().setVisible(true);
 			}
 		});
+		
 		btnVoltar.setBounds(10, 170, 95, 25);
 		getContentPane().add(btnVoltar);
 
@@ -92,10 +89,9 @@ public class CadastraUsuario extends JDialog {
 				try {
 					ArquivoManipular aM = new ArquivoManipular();
 					aM.criarArquivo(usuario);
-					setVisible(false);
-					new LoginWindow().setVisible(true);
+					//TODO: Limpar o formulário
+					//TODO: exibir mensagem de sucesso
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
