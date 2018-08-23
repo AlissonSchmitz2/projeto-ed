@@ -29,17 +29,26 @@ public class CadastrarCidadeWindow extends WindowFrame {
 	}
 
 	private void criarComponentes() {
+
+		saida = new JLabel("País:");
+		saida.setBounds(15, 10, 200, 25);
+		getContentPane().add(saida);
+
+		txfPais = new JTextField();
+		txfPais.setBounds(15, 30, 200, 25);
+		getContentPane().add(txfPais);
+
+		saida = new JLabel("Estado (UF)");
+		saida.setBounds(15, 60, 200, 25);
+		getContentPane().add(saida);
+
 		saida = new JLabel("Cidade:");
-		saida.setBounds(10, 10, 200, 25);
+		saida.setBounds(15, 110, 200, 25);
 		getContentPane().add(saida);
 
 		txfCidade = new JTextField();
-		txfCidade.setBounds(10, 30, 200, 25);
+		txfCidade.setBounds(15, 130, 200, 25);
 		getContentPane().add(txfCidade);
-
-		saida = new JLabel("UF");
-		saida.setBounds(10, 60, 200, 25);
-		getContentPane().add(saida);
 
 		txfUf = new JComboBox<String>();
 		txfUf.addItem("Selecione");
@@ -70,18 +79,10 @@ public class CadastrarCidadeWindow extends WindowFrame {
 		txfUf.addItem("SE");
 		txfUf.addItem("SP");
 		txfUf.addItem("TO");
-		txfUf.setBounds(10, 80, 200, 25);
+		txfUf.setBounds(15, 80, 200, 25);
 		getContentPane().add(txfUf);
 
-		saida = new JLabel("País:");
-		saida.setBounds(10, 110, 200, 25);
-		getContentPane().add(saida);
-
-		txfPais = new JTextField();
-		txfPais.setBounds(10, 130, 200, 25);
-		getContentPane().add(txfPais);
-
-		btnCadastra = new JButton(new AbstractAction("Cadastrar cidade") {
+		btnCadastra = new JButton(new AbstractAction("Cadastrar") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -99,14 +100,14 @@ public class CadastrarCidadeWindow extends WindowFrame {
 				try {
 					ArquivoManipular aM = new ArquivoManipular();
 					aM.inserirDado(cidade);
-					//TODO: Limpar o formulário
-					//TODO: exibir mensagem de sucesso
+					// TODO: Limpar o formulário
+					// TODO: exibir mensagem de sucesso
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
-		btnCadastra.setBounds(10, 160, 100, 25);
+		btnCadastra.setBounds(15, 170, 95, 25);
 		getContentPane().add(btnCadastra);
 	}
 }

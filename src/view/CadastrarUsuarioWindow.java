@@ -32,33 +32,35 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 
 	private void criarComponentes() {
 		saida = new JLabel("Digite seu codigo para cadastro: ");
-		saida.setBounds(10, 10, 200, 25);
+		saida.setBounds(15, 10, 200, 25);
 		getContentPane().add(saida);
 
 		txfCodAluno = new JTextField();
-		txfCodAluno.setBounds(10, 30, 200, 25);
+		txfCodAluno.setBounds(15, 30, 200, 25);
 		getContentPane().add(txfCodAluno);
 
 		saida = new JLabel("Digite sua senha:");
-		saida.setBounds(10, 60, 200, 25);
+		saida.setBounds(15, 60, 200, 25);
 		getContentPane().add(saida);
 
 		txfSenha = new JPasswordField();
-		txfSenha.setBounds(10, 80, 200, 25);
+		txfSenha.setBounds(15, 80, 200, 25);
 		getContentPane().add(txfSenha);
 
 		saida = new JLabel("Escolha seu perfil:");
-		saida.setBounds(10, 110, 200, 25);
+		saida.setBounds(15, 110, 200, 25);
 		getContentPane().add(saida);
 
 		txfPerfil = new JComboBox<String>();
 		txfPerfil.addItem("Selecione");
 		txfPerfil.addItem("Administrador");
 		txfPerfil.addItem("Convidado");
-		txfPerfil.setBounds(10, 135, 200, 25);
+		txfPerfil.setBounds(15, 130, 200, 25);
 		getContentPane().add(txfPerfil);
-
-		btnVoltar = new JButton(new AbstractAction("Voltar") {
+		
+		btnVoltar = new JButton(new AbstractAction("Limpar") {
+			//TODO: Implementar função limpar
+			
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -66,8 +68,8 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 				new LoginWindow().setVisible(true);
 			}
 		});
-		
-		btnVoltar.setBounds(10, 170, 95, 25);
+
+		btnVoltar.setBounds(15, 170, 95, 25);
 		getContentPane().add(btnVoltar);
 
 		btnCadastra = new JButton(new AbstractAction("Cadastrar") {
@@ -89,14 +91,14 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 				try {
 					ArquivoManipular aM = new ArquivoManipular();
 					aM.inserirDado(usuario);
-					//TODO: Limpar o formulário
-					//TODO: exibir mensagem de sucesso
+					// TODO: Limpar o formulário
+					// TODO: exibir mensagem de sucesso
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
-		btnCadastra.setBounds(115, 170, 95, 25);
+		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
 	}
 }
