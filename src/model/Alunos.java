@@ -1,7 +1,7 @@
 package model;
 
 public class Alunos {
-	private String     codAluno;
+	private String  codAluno;
 	private int     numero;
 	private char    sexo;
 	private String  senhaAluno;
@@ -16,9 +16,8 @@ public class Alunos {
 	private String  cidade;
 	private String  uf;
 	private String  pais;
-	private String cep;
-	private String endereco;
-	
+	private String  cep;
+	private String  endereco;
 	
 	public String getCep() {
 		return cep;

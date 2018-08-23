@@ -2,6 +2,7 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.ParseException;
 
 import javax.swing.JButton;
@@ -11,10 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import lib.ArquivoManipular;
 import model.Alunos;
 
 public class CadastrarAlunosWindow extends WindowFrame {
 	Alunos aluno = new Alunos();
+	ArquivoManipular aM = new ArquivoManipular();
 	
 	private static final long serialVersionUID = -4479891238469664919L;
 
@@ -116,17 +119,6 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		txfObs.setBounds(15, 380, 200, 25);
 		getContentPane().add(txfObs);
 
-		btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(15, 600, 100, 25);
-		getContentPane().add(btnSalvar);
-		btnSalvar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				// new Teste().setVisible(true);
-				// Adaptar para a outra tela
-			}
-		});
-
 		// coluna da direita, cmpos e escrita
 
 		labes = new JLabel("Endereço:");
@@ -196,6 +188,33 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		getContentPane().add(btnSalvar);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				aluno.setCodAluno(txfCod.getText());
+				aluno.setNomeAluno(txfNome.getText());
+				String auxSexo = cbxGenero.getSelectedItem().toString();
+				
+				char sexo = auxSexo.charAt(0);
+				aluno.setSexo(sexo);
+				aluno.setDataNascimento(txfData.getText());
+				aluno.setTelefone(txfFone.getText());
+				aluno.setCelular(txfCel.getText());
+				aluno.setCep(txfCep.getText());
+				aluno.setEmail(txfEmail.getText());
+				aluno.setObservacao(txfObs.getText());
+				aluno.setEndereco(txfEnder.getText());
+				aluno.setComplemento(txfComplemen.getText());
+				aluno.setBairro(txfBairro.getText());
+				aluno.setNumero(Integer.parseInt(txfNum.getText()));
+				aluno.setCidade(cbxCidade.getSelectedItem().toString());
+				aluno.setUf(cbxEstado.getSelectedItem().toString());
+				aluno.setPais(cbxPais.getSelectedItem().toString());
+				
+				try {
+					aM.inserirDado(aluno);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
 				setVisible(false);
 				//TODO: inseriDado(Aluno);
 				// new Teste().setVisible(true);
