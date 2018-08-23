@@ -12,12 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-import lib.ArquivoManipular;
+import lib.ManipularArquivo;
 import model.Alunos;
 
 public class CadastrarAlunosWindow extends WindowFrame {
 	Alunos aluno = new Alunos();
-	ArquivoManipular aM = new ArquivoManipular();
+	ManipularArquivo aM = new ManipularArquivo();
 	
 	private static final long serialVersionUID = -4479891238469664919L;
 

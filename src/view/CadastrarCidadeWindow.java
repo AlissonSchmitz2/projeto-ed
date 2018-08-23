@@ -11,7 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import lib.ArquivoManipular;
+import lib.ManipularArquivo;
 
 public class CadastrarCidadeWindow extends WindowFrame {
 	private static final long serialVersionUID = 1L;
@@ -107,7 +107,7 @@ public class CadastrarCidadeWindow extends WindowFrame {
 				cidade.setPais(pais);
 
 				try {
-					ArquivoManipular aM = new ArquivoManipular();
+					ManipularArquivo aM = new ManipularArquivo();
 					aM.inserirDado(cidade);
 					// TODO: Limpar o formulário
 					// TODO: exibir mensagem de sucesso

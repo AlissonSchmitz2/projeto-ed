@@ -4,12 +4,12 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 
 import javax.swing.*;
-import lib.ArquivoManipular;
+import lib.ManipularArquivo;
 
 public class LoginWindow extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
-	ArquivoManipular aM = new ArquivoManipular();
+	ManipularArquivo aM = new ManipularArquivo();
 	private JTextField txfNome;
 	private JPasswordField txfSenha;
 	private JButton btnAcessar;

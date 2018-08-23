@@ -11,11 +11,11 @@ import model.Alunos;
 import model.Cidade;
 import model.Usuario;
 
-public class ArquivoManipular {
+public class ManipularArquivo {
 
 	private BufferedReader lerArq;
 
-	public ArquivoManipular() {
+	public ManipularArquivo() {
 
 	}
 

@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import lib.ArquivoManipular;
+import lib.ManipularArquivo;
 
 public class CadastrarUsuarioWindow extends WindowFrame {
 	private static final long serialVersionUID = 1L;
@@ -89,7 +89,7 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 				usuario.setPerfil(perfilUsuario);
 
 				try {
-					ArquivoManipular aM = new ArquivoManipular();
+					ManipularArquivo aM = new ManipularArquivo();
 					aM.inserirDado(usuario);
 					// TODO: Limpar o formulário
 					// TODO: exibir mensagem de sucesso
