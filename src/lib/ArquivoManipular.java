@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import model.Alunos;
 import model.Cidade;
 import model.Usuario;
 
@@ -18,7 +19,7 @@ public class ArquivoManipular {
 
 	}
 
-	public void criarArquivo(Cidade cidade) throws IOException {
+	public void inserirDado(Cidade cidade) throws IOException {
 		String destino = new File(".\\src\\data\\cidades.txt").getAbsolutePath();
 		FileWriter arq = new FileWriter(destino, true);
 		PrintWriter gravarArq = new PrintWriter(arq);
@@ -26,7 +27,7 @@ public class ArquivoManipular {
 		arq.close();
 	}
 
-	public void criarArquivo(Usuario usuario) throws IOException {
+	public void inserirDado(Usuario usuario) throws IOException {
 		String destino = new File(".\\src\\data\\usuarios.txt").getAbsolutePath();
 		FileWriter arq = new FileWriter(destino, true);
 		PrintWriter gravarArq = new PrintWriter(arq);
@@ -35,6 +36,18 @@ public class ArquivoManipular {
 		arq.close();
 	}
 
+	public void inserirDado(Alunos aluno) throws IOException {
+		String destino = new File(".\\src\\data\\alunos.txt").getAbsolutePath();
+		FileWriter arq = new FileWriter(destino, true);
+		PrintWriter gravarArq = new PrintWriter(arq);
+
+		gravarArq.println(aluno.getCodAluno() + "," + aluno.getNomeAluno() + "," + aluno.getSexo() + ","
+				+ aluno.getDataNascimento() + "," + aluno.getTelefone() + "," + aluno.getCelular() + ","
+				+ aluno.getEmail() + "," + aluno.getObservacao() + "," + aluno.getEndereco() + ","
+				+ aluno.getComplemento() + "," + aluno.getCep() + "," + aluno.getBairro() + "," + aluno.getCidade()
+				+ "," + aluno.getUf() + "," + aluno.getPais());
+		arq.close();
+	}
 	public String lerArquivo(String destino, String login, String senha) {
 		try {
 			FileReader arq = new FileReader(destino);

@@ -11,7 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import model.Alunos;
+
 public class CadastrarAlunosWindow extends WindowFrame {
+	Alunos aluno = new Alunos();
+	
 	private static final long serialVersionUID = -4479891238469664919L;
 
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfNum, txfComplemen, txfBairro;
@@ -193,6 +197,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				//TODO: inseriDado(Aluno);
 				// new Teste().setVisible(true);
 				// new Teste().setVisible(true);
 				// Adaptar para a outra tela

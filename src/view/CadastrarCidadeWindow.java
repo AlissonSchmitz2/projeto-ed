@@ -29,8 +29,18 @@ public class CadastrarCidadeWindow extends WindowFrame {
 	}
 
 	private void criarComponentes() {
+
+		saida = new JLabel("País:");
+		saida.setBounds(15, 10, 200, 25);
+		getContentPane().add(saida);
+
+		txfPais = new JTextField();
+		txfPais.setBounds(15, 30, 200, 25);
+		getContentPane().add(txfPais);
+
 		saida = new JLabel("Cidade:");
 		saida.setBounds(15, 10, 200, 25);
+		saida.setBounds(15, 110, 200, 25);
 		getContentPane().add(saida);
 
 		txfCidade = new JTextField();
@@ -81,7 +91,7 @@ public class CadastrarCidadeWindow extends WindowFrame {
 		txfPais.setBounds(15, 130, 200, 25);
 		getContentPane().add(txfPais);
 
-		btnCadastra = new JButton(new AbstractAction("Cadastrar cidade") {
+		btnCadastra = new JButton(new AbstractAction("Cadastrar") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -98,15 +108,17 @@ public class CadastrarCidadeWindow extends WindowFrame {
 
 				try {
 					ArquivoManipular aM = new ArquivoManipular();
-					aM.criarArquivo(cidade);
-					//TODO: Limpar o formulário
-					//TODO: exibir mensagem de sucesso
+					aM.inserirDado(cidade);
+					// TODO: Limpar o formulário
+					// TODO: exibir mensagem de sucesso
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
+
 		btnCadastra.setBounds(15, 160, 100, 25);
+		btnCadastra.setBounds(15, 170, 95, 25);
 		getContentPane().add(btnCadastra);
 	}
 }
