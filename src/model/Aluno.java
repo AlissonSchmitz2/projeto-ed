@@ -1,6 +1,6 @@
 package model;
 
-public class Alunos {
+public class Aluno {
 	private String  codAluno;
 	private int     numero;
 	private char    sexo;

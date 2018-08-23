@@ -13,10 +13,10 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import lib.ManipularArquivo;
-import model.Alunos;
+import model.Aluno;
 
 public class CadastrarAlunosWindow extends WindowFrame {
-	Alunos aluno = new Alunos();
+	Aluno aluno = new Aluno();
 	ManipularArquivo aM = new ManipularArquivo();
 	
 	private static final long serialVersionUID = -4479891238469664919L;

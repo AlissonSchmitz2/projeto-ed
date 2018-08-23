@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import model.Alunos;
+import model.Aluno;
 import model.Cidade;
 import model.Usuario;
 
@@ -36,7 +36,7 @@ public class ManipularArquivo {
 		arq.close();
 	}
 
-	public void inserirDado(Alunos aluno) throws IOException {
+	public void inserirDado(Aluno aluno) throws IOException {
 		String destino = new File(".\\src\\data\\alunos.txt").getAbsolutePath();
 		FileWriter arq = new FileWriter(destino, true);
 		PrintWriter gravarArq = new PrintWriter(arq);
