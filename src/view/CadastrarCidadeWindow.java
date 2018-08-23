@@ -98,7 +98,7 @@ public class CadastrarCidadeWindow extends WindowFrame {
 
 				try {
 					ArquivoManipular aM = new ArquivoManipular();
-					aM.criarArquivo(cidade);
+					aM.inserirDado(cidade);
 					//TODO: Limpar o formulário
 					//TODO: exibir mensagem de sucesso
 				} catch (IOException e1) {

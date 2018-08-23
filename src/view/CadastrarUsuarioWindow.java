@@ -88,7 +88,7 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 
 				try {
 					ArquivoManipular aM = new ArquivoManipular();
-					aM.criarArquivo(usuario);
+					aM.inserirDado(usuario);
 					//TODO: Limpar o formulário
 					//TODO: exibir mensagem de sucesso
 				} catch (IOException e1) {
