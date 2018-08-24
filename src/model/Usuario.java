@@ -1,8 +1,8 @@
 package model;
 
 public class Usuario {
-	private static String ADMINISTRADOR = "Administrador";
-	private static String CONVIDADO = "Convidado";
+	public static String ADMINISTRADOR = "Administrador";
+	public static String CONVIDADO = "Convidado";
 	
 	private Integer id;
 	private String senha;
