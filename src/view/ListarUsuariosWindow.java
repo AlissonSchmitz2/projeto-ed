@@ -1,14 +1,8 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,46 +11,93 @@ import javax.swing.JScrollPane;
 public class ListarUsuariosWindow extends WindowFrame {
 	private static final long serialVersionUID = 6347451344224720236L;
 	
+	private static final int HEADER_HEIGHT = 22; //Diferença do topo a ser considerada
+	
+	private JScrollPane grid = null;
+	private JPanel panel = null;
+	private GridBagLayout glayout = null;
+	private GridBagConstraints gbc = null;
+	
 	public ListarUsuariosWindow() {
 		super("Lista de Usuários");
+		
+		carregarGrid();
 	}
-	
-	public void carregarGrid() {
-		JPanel panel = new JPanel();
+
+	private void carregarGrid() {
+		if (panel == null) {
+			panel = new JPanel();
+			
+			glayout = new GridBagLayout();
+			panel.setLayout(glayout);
+			
+			gbc = new GridBagConstraints();
+		}
+
 		
-		GridBagLayout glayout = new GridBagLayout();
-		panel.setLayout(glayout);
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.anchor = GridBagConstraints.SOUTHEAST;
 		
-		GridBagConstraints c = new GridBagConstraints();
-		c.weightx = 1;
-		c.weighty = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		
-		for (int i = 0; i < 60; i++) {
+		//TODO: Popular a lista de usuários
+		for (int i = 1; i < 60; i++) {
 			JLabel button = new JLabel("Teste " + i);
-			button.setBounds(0, 0, 100, 100);
 			button.setMinimumSize(new Dimension(200,25));
-			c.gridx = 0;
-			c.gridy = i;
-			panel.add(button, c);
+			gbc.gridx = 0;
+			gbc.gridy = i;
+			panel.add(button, gbc);
 			
 			JLabel buttona = new JLabel("Teste A " + i);
-			buttona.setBounds(0, 0, 100, 100);
-			c.gridx = 1;
-			c.gridy = i;
-			panel.add(buttona, c);
+			gbc.gridx = 1;
+			gbc.gridy = i;
+			panel.add(buttona, gbc);
 			
-			JButton buttonb = new JButton("Teste B " + i);
-			buttonb.setBounds(0, 0, 100, 100);
-			c.gridx = 2;
-			c.gridy = i;
-			panel.add(buttonb, c);
+			JButton buttonb = new JButton("Editar");
+			gbc.gridx = 2;
+			gbc.gridy = i;
+			gbc.weightx = 0.02;
+			buttonb.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					grid.setVisible(false);
+					carregarGrid();
+				}
+			});
+			panel.add(buttonb, gbc);
+			
+			JButton buttonc = new JButton("Excluir");
+			gbc.gridx = 3;
+			gbc.gridy = i;
+			gbc.weightx = 0.02;
+			buttonc.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					grid.setVisible(false);
+					carregarGrid();
+				}
+			});
+			panel.add(buttonc, gbc);
 		}
+		//Remover até aqui
 	    
-		JScrollPane scroll = new JScrollPane(panel);
+		if (grid == null) {
+			grid = new JScrollPane(panel);
+		}
 		
-		setLayout(new BorderLayout());
-		scroll.setVisible(true);
-		add(scroll);
+		//setLayout(new FlowLayout()); //Lista com preenchimento total da tela
+		setLayout(null);
+		redimensionarGrid(grid);
+		grid.setVisible(true);
+		add(grid);
+	}
+	
+	public void redimensionarGrid(JScrollPane grid) {
+		int espacoFiltroGrid = 100;
+		
+		//TODO: atualmente a grid ocupa é baseada no tamanho total da tela e não da aplicação
+		grid.setBounds(0, espacoFiltroGrid, getWidth(), getHeight() - espacoFiltroGrid - HEADER_HEIGHT);
+	}
+	
+	public JScrollPane getGrid() {
+		return grid;
 	}
 }

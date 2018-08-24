@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 import model.Usuario;
@@ -33,6 +34,7 @@ public class Window extends JFrame {
 
 		desktop = new JDesktopPane();
 		desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+		desktop.setVisible(true);
 	    setContentPane(desktop);
 		
 		inicializar();
@@ -203,7 +205,8 @@ public class Window extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				ListarUsuariosWindow frame = new ListarUsuariosWindow();
 				abrirFrame(frame);
-				frame.carregarGrid();
+				//Necessário chamar este método para dimensionar a grid em tela cheia
+				frame.redimensionarGrid(frame.getGrid());
 			}
 		});
 		
@@ -222,12 +225,13 @@ public class Window extends JFrame {
 	}
 	
 	private void abrirFrame(WindowFrame frame) {
-		frame.setVisible(true);
 	    desktop.add(frame);
 	    try {
 	    	frame.setMaximum(true);
 	        frame.setSelected(true);
-	    } catch (PropertyVetoException e) {}
+	    } catch (PropertyVetoException e) {
+	    	//TODO
+	    }
 	}
 
 	private Font getDefaultFont() {
