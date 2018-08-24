@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Rectangle;
 import java.beans.PropertyVetoException;
 
@@ -38,6 +39,9 @@ public class Window extends JFrame {
 	    setContentPane(desktop);
 		
 		inicializar();
+		
+		//Full screen
+		setExtendedState(Frame.MAXIMIZED_BOTH);
 	}
 	
 	private void inicializar() {
@@ -68,10 +72,7 @@ public class Window extends JFrame {
 		
 		menuAlunos.add(getMenuItemCadastrarAluno());
 		menuAlunos.add(getMenuItemListarAlunos());
-		
-		//TODO: habilitar somente após logado
-		//desabilitarMenuItems(menuAlunos);
-			
+
 		return menuAlunos;
 	}
 	
@@ -80,12 +81,12 @@ public class Window extends JFrame {
 		menuItem.setText("Cadastrar");
 		menuItem.setFont(getDefaultFont());
 		
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
+		
 		menuItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				//System.out.println("TODO: Cadastro de Aluno");
 				CadastrarAlunosWindow frame = new CadastrarAlunosWindow();
 				abrirFrame(frame);
-				
 			}
 		});
 			
@@ -115,8 +116,6 @@ public class Window extends JFrame {
 		
 		menuCidades.add(getMenuItemCadastrarCidade());
 		menuCidades.add(getMenuItemListarCidades());
-		
-		//TODO: desabilitarMenuItems(menuCidades);
 			
 		return menuCidades;
 	}
@@ -124,6 +123,8 @@ public class Window extends JFrame {
 		JMenuItem menuItem = new JMenuItem();
 		menuItem.setText("Cadastrar");
 		menuItem.setFont(getDefaultFont());
+		
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 		
 		menuItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -158,8 +159,7 @@ public class Window extends JFrame {
 		
 		menuUsuarios.add(getMenuItemCadastrarUsuario());
 		menuUsuarios.add(getMenuItemListarUsuarios());
-		
-		//TODO: desabilitarMenuItems(menuUsuarios);
+		menuUsuarios.add(getMenuItemAlterarSenhaUsuario());
 			
 		return menuUsuarios;
 	}
@@ -168,6 +168,8 @@ public class Window extends JFrame {
 		JMenuItem menuItem = new JMenuItem();
 		menuItem.setText("Cadastrar");
 		menuItem.setFont(getDefaultFont());
+		
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 		
 		menuItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -179,10 +181,26 @@ public class Window extends JFrame {
 		return menuItem;
 	}
 
+	private JMenuItem getMenuItemAlterarSenhaUsuario() {
+		JMenuItem menuItem = new JMenuItem();
+		menuItem.setText("Alterar Minha Senha");
+		menuItem.setFont(getDefaultFont());
+		
+		menuItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				//TODO: abrir a página para alterar a senha
+			}
+		});
+		
+		return menuItem;
+	}
+	
 	private JMenuItem getMenuItemListarUsuarios() {
 		JMenuItem menuItem = new JMenuItem();
 		menuItem.setText("Listar");
 		menuItem.setFont(getDefaultFont());
+		
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 		
 		menuItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -198,6 +216,13 @@ public class Window extends JFrame {
 	/*
 	 * HELPERS
 	 */
+	private void protegerMenuItemBaseadoPerfilUsuario(JMenuItem menuItem) {
+		//Se usuário for diferente de administrador, desabilita menu item
+		if (!usuarioLogado.possuiPerfilAdministrador()) {
+			menuItem.setEnabled(false);
+		}
+	}
+	
 	private void abrirFrame(WindowFrame frame) {
 		frame.setVisible(true);
 	    desktop.add(frame);
@@ -206,26 +231,8 @@ public class Window extends JFrame {
 	        frame.setSelected(true);
 	    } catch (PropertyVetoException e) {}
 	}
-	
-	private void habilitarMenuItems(JMenu menuPrincipal) {
-		for (Component menuItem : menuPrincipal.getMenuComponents()) {
-			menuItem.setEnabled(false);
-		}
-	}
-	
-	
-	private void desabilitarMenuItems(JMenu menuPrincipal) {
-		for (Component menuItem : menuPrincipal.getMenuComponents()) {
-			menuItem.setEnabled(false);
-		}
-	}
 
 	private Font getDefaultFont() {
 		return new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12);
 	}
-	
-	//public static void main(String[] args) {
-		//Window tela = new Window();
-		//tela.setVisible(true);
-	//}
 }

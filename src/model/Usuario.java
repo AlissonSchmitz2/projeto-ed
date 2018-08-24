@@ -1,6 +1,9 @@
 package model;
 
 public class Usuario {
+	private static String ADMINISTRADOR = "Administrador";
+	private static String CONVIDADO = "Convidado";
+	
 	private Integer id;
 	private String senha;
 	private String login;
@@ -46,5 +49,13 @@ public class Usuario {
 	
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
+	}
+	
+	public Boolean possuiPerfilConvidado() {
+		return CONVIDADO.equals(getPerfil());
+	}
+	
+	public Boolean possuiPerfilAdministrador() {
+		return ADMINISTRADOR.equals(getPerfil());
 	}
 }
