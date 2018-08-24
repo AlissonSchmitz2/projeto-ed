@@ -1,26 +1,31 @@
 package view;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
 import lib.ManipularArquivo;
 import model.Usuario;
 
-public class LoginWindow extends JDialog {
-	private static final long serialVersionUID = 1L;
-	
-	private ManipularArquivo aM = new ManipularArquivo();
+public class CadastrarPrimeiroUser extends JDialog {
+
+	private static final long serialVersionUID = -111508881355118807L;
+	private ManipularArquivo mA = new ManipularArquivo();
+
 	private JTextField txfNome;
 	private JPasswordField txfSenha;
 	private JButton btnAcessar;
 	private JLabel Descricao;
 	private String login, senha;
 
-	LoginWindow() {
+	public CadastrarPrimeiroUser() {
 		setSize(250, 200);
-		setTitle("Sistema Escolar");
+		setTitle("Cadastro Administrador");
 		setLayout(null);
 		setResizable(false);
 		criarComponentes();
@@ -28,8 +33,7 @@ public class LoginWindow extends JDialog {
 	}
 
 	public void criarComponentes() {
-
-		Descricao = new JLabel("Informe seu login: ");
+		Descricao = new JLabel("Informe um login para cadastro: ");
 		Descricao.setBounds(10, 10, 200, 25);
 		getContentPane().add(Descricao);
 
@@ -51,19 +55,18 @@ public class LoginWindow extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				login = txfNome.getText();
 				senha = new String(txfSenha.getPassword());
-				
+				Usuario usuario = new Usuario();
+
+				usuario.setLogin(login);
+				usuario.setSenha(senha);
+				usuario.setPerfil("Administrador");
+
 				try {
-					Usuario usuarioLogado = aM.pegarUsuarioPorLoginSenha(login, senha);
-					if (usuarioLogado instanceof Usuario) {
-						setVisible(false);
-						Window tela = new Window(usuarioLogado);
-						tela.setVisible(true);
-					} else {
-						JOptionPane.showMessageDialog(null, "Login e/ou senha incorretos!");
-					}
-				} catch (Exception message) {
-					//Cadastra administrador caso Exception seja lançada
-					new CadastrarPrimeiroUser().setVisible(true);
+					System.out.println("entrou");
+					mA.inserirDado(usuario);
+					setVisible(false);
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
@@ -71,9 +74,5 @@ public class LoginWindow extends JDialog {
 
 		getContentPane().add(btnAcessar);
 
-	}
-
-	public static void main(String[] args) {
-		new LoginWindow().setVisible(true);
 	}
 }
