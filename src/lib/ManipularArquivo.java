@@ -66,7 +66,7 @@ public class ManipularArquivo {
 				String[] verificaLinha = linha.split(SEPARATOR);
 				
 				if (login.equals(verificaLinha[1]) && senha.equals(verificaLinha[2])) {
-					return new Usuario();
+					return new Usuario(Integer.parseInt(verificaLinha[0]), verificaLinha[1], verificaLinha[2], verificaLinha[3]);
 				}
 				
 				linha = lerArq.readLine();
