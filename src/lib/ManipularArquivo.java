@@ -1,10 +1,14 @@
 package lib;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 
 import model.Aluno;
@@ -17,56 +21,54 @@ public class ManipularArquivo {
 	private static String CIDADES_PATH = ".\\src\\data\\cidades.txt";
 	private static String ALUNOS_PATH = ".\\src\\data\\alunos.txt";
 	
+	private static String SEPARATOR = ",";
+	
 	private BufferedReader lerArq;
 
 	public ManipularArquivo() {
 	}
 
 	public void inserirDado(Cidade cidade) throws IOException {
-		FileWriter arq = new FileWriter(getDestinoArquivo("cidades"), true);
-		PrintWriter gravarArq = new PrintWriter(arq);
-		gravarArq.println(cidade.getCidade() + "," + cidade.getUf() + "," + cidade.getPais());
-		arq.close();
+		cidade.setId(pegarProximoId("cidades"));
+		
+		inserirDadosNoArquivo("cidades", cidade.getId() + SEPARATOR + cidade.getCidade() + SEPARATOR + cidade.getUf() + SEPARATOR + cidade.getPais());
 	}
 
 	public void inserirDado(Usuario usuario) throws IOException {
-		FileWriter arq = new FileWriter(getDestinoArquivo("usuarios"), true);
-		PrintWriter gravarArq = new PrintWriter(arq);
+		usuario.setId(pegarProximoId("usuarios"));
 
-		gravarArq.println(usuario.getLogin() + "," + usuario.getSenha() + "," + usuario.getPerfil());
-		arq.close();
+		inserirDadosNoArquivo("usuarios", usuario.getId() + SEPARATOR + usuario.getLogin() + SEPARATOR + usuario.getSenha() + SEPARATOR + usuario.getPerfil());
 	}
 
 	public void inserirDado(Aluno aluno) throws IOException {
-		FileWriter arq = new FileWriter(getDestinoArquivo("alunos"), true);
-		PrintWriter gravarArq = new PrintWriter(arq);
+		aluno.setId(pegarProximoId("alunos"));
 
-		gravarArq.println(aluno.getCodAluno() + "," + aluno.getNomeAluno() + "," + aluno.getSexo() + ","
-				+ aluno.getDataNascimento() + "," + aluno.getTelefone() + "," + aluno.getCelular() + ","
-				+ aluno.getEmail() + "," + aluno.getObservacao() + "," + aluno.getEndereco() + ","
-				+ aluno.getComplemento() + "," + aluno.getCep() + "," + aluno.getBairro() + "," + aluno.getCidade()
-				+ "," + aluno.getUf() + "," + aluno.getPais());
-		arq.close();
+		inserirDadosNoArquivo("alunos", aluno.getId() + SEPARATOR + aluno.getCodAluno() + SEPARATOR + aluno.getNomeAluno() + SEPARATOR + aluno.getSexo() + SEPARATOR
+				+ aluno.getDataNascimento() + SEPARATOR + aluno.getTelefone() + SEPARATOR + aluno.getCelular() + SEPARATOR
+				+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
+				+ aluno.getComplemento() + SEPARATOR + aluno.getCep() + SEPARATOR + aluno.getBairro() + SEPARATOR + aluno.getCidade()
+				+ SEPARATOR + aluno.getUf() + SEPARATOR + aluno.getPais());
 	}
 	
-	public Usuario getUsuarioByCodigoSenha(String codigo, String senha) throws Exception {
+	public Usuario pegarUsuarioPorLoginSenha(String login, String senha) throws Exception {
 		try {
 			FileReader arq = new FileReader(getDestinoArquivo("usuarios"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
 			
-			//Se a linha estiver vazia (Nenhum usuário cadastrado)
+			//Se a linha for null, significa que o arquivo de dados está vazio (Uma exeption é retornada)
 			if (linha == null) {
 				throw new Exception("Nenhum usuário cadastrado");
 			}
 			
 			while (linha != null) {
-				String[] verificaLinha = linha.split(",");
+				String[] verificaLinha = linha.split(SEPARATOR);
 				
-				if (codigo.equals(verificaLinha[0]) && senha.equals(verificaLinha[1])) {
+				if (login.equals(verificaLinha[1]) && senha.equals(verificaLinha[2])) {
 					return new Usuario();
 				}
+				
 				linha = lerArq.readLine();
 			}
 		} catch (IOException e) {
@@ -76,6 +78,29 @@ public class ManipularArquivo {
 		return null;
 	}
 	
+	private void inserirDadosNoArquivo(String area, String dados) {
+		try {
+			FileWriter arq = new FileWriter(getDestinoArquivo(area), true);
+			PrintWriter gravarArq = new PrintWriter(arq);
+			gravarArq.println(dados);
+			arq.close();
+		} catch (IOException e) {
+			System.err.printf("Não foi possível gravar o arquivo: %s.\n", e.getMessage());
+		}
+		
+	}
+	
+	private int pegarProximoId(String area) {
+		try {
+			return contarLinhas(getDestinoArquivo(area)) + 1;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	//Retorna o caminho para o arquivo de dados
 	private String getDestinoArquivo(String area) {
 		switch (area) {
 			case "usuarios":
@@ -87,5 +112,50 @@ public class ManipularArquivo {
 		}
 		
 		return null;
+	}
+	
+	//Pega a quantidade de linhas no arquivo (código de terceiros)
+	//TODO: encontrar forma melhor de fazer esta função
+	private int contarLinhas(String filename) throws IOException {
+		try {
+			InputStream is = new BufferedInputStream(new FileInputStream(filename));
+			
+			try {
+		        byte[] c = new byte[1024];
+
+		        int readChars = is.read(c);
+		        if (readChars == -1) {
+		            // bail out if nothing to read
+		            return 0;
+		        }
+
+		        // make it easy for the optimizer to tune this loop
+		        int count = 0;
+		        while (readChars == 1024) {
+		            for (int i=0; i<1024;) {
+		                if (c[i++] == '\n') {
+		                    ++count;
+		                }
+		            }
+		            readChars = is.read(c);
+		        }
+
+		        // count remaining characters
+		        while (readChars != -1) {
+		            for (int i=0; i<readChars; ++i) {
+		                if (c[i] == '\n') {
+		                    ++count;
+		                }
+		            }
+		            readChars = is.read(c);
+		        }
+
+		        return count == 0 ? 1 : count;
+		    } finally {
+		        is.close();
+		    }
+		} catch(FileNotFoundException e) {
+			return 0;
+		}
 	}
 }

@@ -52,14 +52,14 @@ public class LoginWindow extends JDialog {
 				senha = new String(txfSenha.getPassword());
 				
 				try {
-					Usuario usuarioLogado = aM.getUsuarioByCodigoSenha(login, senha);
+					Usuario usuarioLogado = aM.pegarUsuarioPorLoginSenha(login, senha);
 					if (usuarioLogado instanceof Usuario) {
 						setVisible(false);
 						
 						Window tela = new Window(usuarioLogado);
 						tela.setVisible(true);
 					} else {
-						JOptionPane.showMessageDialog(null, "Id ou senha incorreta!");
+						JOptionPane.showMessageDialog(null, "Login e/ou senha incorretos!");
 					}
 				} catch (Exception message) {
 					//Se uma exceção for retornada, nenhum usuário foi encontrado. Diante disso, abre a tela para cadastro do usuário

@@ -82,7 +82,6 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 				usuario.setLogin(codUsuario);
 
 				String senhaUsuario = new String(txfSenha.getPassword());
-				;
 				usuario.setSenha(senhaUsuario);
 
 				String perfilUsuario = txfPerfil.getSelectedItem().toString();

@@ -1,9 +1,18 @@
 package model;
 
 public class Cidade {
+	private int id;
 	private String cidade;
 	private String uf;
 	private String pais;
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public String getCidade() {
 		return cidade;

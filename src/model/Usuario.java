@@ -1,6 +1,7 @@
 package model;
 
 public class Usuario {
+	private Integer id;
 	private String senha;
 	private String login;
 	private String perfil;
@@ -8,10 +9,19 @@ public class Usuario {
 	public Usuario() {
 	}
 	
-	public Usuario(String login, String senha, String perfil) {
+	public Usuario(Integer id, String login, String senha, String perfil) {
+		this.id = id;
 		this.senha = senha;
 		this.login = login;
 		this.perfil = perfil;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	public String getSenha() {
