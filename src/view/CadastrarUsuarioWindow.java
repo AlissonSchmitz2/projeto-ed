@@ -9,6 +9,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -57,15 +58,12 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 		txfPerfil.addItem("Convidado");
 		txfPerfil.setBounds(15, 130, 200, 25);
 		getContentPane().add(txfPerfil);
-		
+
 		btnVoltar = new JButton(new AbstractAction("Limpar") {
-			//TODO: Implementar função limpar
-			
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				new LoginWindow().setVisible(true);
+				limparFormulario();
 			}
 		});
 
@@ -90,8 +88,8 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 				try {
 					ManipularArquivo aM = new ManipularArquivo();
 					aM.inserirDado(usuario);
-					// TODO: Limpar o formulário
-					// TODO: exibir mensagem de sucesso
+					limparFormulario();
+					JOptionPane.showMessageDialog(null,"Usuario cadastrado com sucesso!");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -99,5 +97,13 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 		});
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
+	}
+
+	public void limparFormulario() {
+		
+		txfCodAluno.setText("");
+		txfSenha.setText("");
+		txfPerfil.setSelectedIndex(0);
+		
 	}
 }

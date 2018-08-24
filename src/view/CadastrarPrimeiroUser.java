@@ -49,7 +49,7 @@ public class CadastrarPrimeiroUser extends JDialog {
 		txfSenha.setBounds(10, 85, 200, 25);
 		getContentPane().add(txfSenha);
 
-		btnAcessar = new JButton(new AbstractAction("Acessar") {
+		btnAcessar = new JButton(new AbstractAction("Cadastrar") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
