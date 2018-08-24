@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Rectangle;
@@ -11,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import model.Usuario;
@@ -25,7 +23,6 @@ public class Window extends JFrame {
 	private JMenu menuAlunos;
 	private JMenu menuCidades;
 	private JMenu menuUsuarios;
-	private JMenuItem menuLogin;
 
 	private JDesktopPane desktop;
 	
@@ -206,6 +203,7 @@ public class Window extends JFrame {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				ListarUsuariosWindow frame = new ListarUsuariosWindow();
 				abrirFrame(frame);
+				frame.carregarGrid();
 			}
 		});
 		
