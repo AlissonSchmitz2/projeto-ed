@@ -40,7 +40,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		getContentPane().add(labes);
 
 		txfCod = new JTextField();
-		txfCod.setBounds(15, 30, 200, 25);
+		txfCod.setBounds(15, 30, 125, 25);
 		getContentPane().add(txfCod);
 
 		labes = new JLabel("Nome:");
@@ -48,19 +48,19 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		getContentPane().add(labes);
 
 		txfNome = new JTextField();
-		txfNome.setBounds(15, 80, 330, 25);
+		txfNome.setBounds(15, 80, 350, 25);
 		getContentPane().add(txfNome);
 
-		labes = new JLabel("Sexo:");//
-		labes.setBounds(150, 110, 250, 25);
-		getContentPane().add(labes);
-
-		cbxGenero = new JComboBox<String>();
-		cbxGenero.addItem("-Selecione-");
-		cbxGenero.addItem("Masculino");
-		cbxGenero.addItem("Feminino");
-		cbxGenero.setBounds(150, 130, 200, 25);
-		getContentPane().add(cbxGenero);
+						labes = new JLabel("Sexo:");
+						labes.setBounds(175, 110, 250, 25);
+						getContentPane().add(labes);
+				
+						cbxGenero = new JComboBox<String>();
+						cbxGenero.addItem("-Selecione-");
+						cbxGenero.addItem("Masculino");
+						cbxGenero.addItem("Feminino");
+						cbxGenero.setBounds(175, 130, 185, 25);
+						getContentPane().add(cbxGenero);
 
 		labes = new JLabel("Data de Nascimento:");
 		labes.setBounds(15, 110, 230, 25);
@@ -76,20 +76,20 @@ public class CadastrarAlunosWindow extends WindowFrame {
 			getContentPane().add(txfData);
 
 			labes = new JLabel("Telefone:");//
-			labes.setBounds(15, 160, 250, 25);
+			labes.setBounds(15, 160, 125, 25);
 			getContentPane().add(labes);
 
 			txfFone = new JFormattedTextField(maskFone);
-			txfFone.setBounds(15, 180, 100, 25);
+			txfFone.setBounds(15, 180, 125, 25);
 			getContentPane().add(txfFone);
 
-			labes = new JLabel("Celular:");//
-			labes.setBounds(15, 210, 250, 25);
-			getContentPane().add(labes);
-
-			txfCel = new JFormattedTextField(maskFone);
-			txfCel.setBounds(15, 230, 100, 25);
-			getContentPane().add(txfCel);
+						labes = new JLabel("Celular:");//
+						labes.setBounds(175, 160, 125, 25);
+						getContentPane().add(labes);
+			
+						txfCel = new JFormattedTextField(maskFone);
+						txfCel.setBounds(175, 180, 125, 25);
+						getContentPane().add(txfCel);
 
 			labes = new JLabel("CEP:");
 			labes.setBounds(450, 160, 250, 25);
@@ -104,19 +104,19 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		}
 
 		labes = new JLabel("Email:");
-		labes.setBounds(15, 310, 250, 25);
+		labes.setBounds(15, 210, 350, 25);
 		getContentPane().add(labes);
 
 		txfEmail = new JTextField();
-		txfEmail.setBounds(15, 330, 200, 25);
+		txfEmail.setBounds(15, 230, 350, 25);
 		getContentPane().add(txfEmail);
 
 		labes = new JLabel("Observação:");
-		labes.setBounds(15, 360, 250, 25);
+		labes.setBounds(15, 260, 350, 25);
 		getContentPane().add(labes);
 
 		txfObs = new JTextField();
-		txfObs.setBounds(15, 380, 200, 25);
+		txfObs.setBounds(15, 280, 350, 25);
 		getContentPane().add(txfObs);
 
 		// coluna da direita, cmpos e escrita
