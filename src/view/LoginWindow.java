@@ -5,16 +5,17 @@ import java.io.File;
 
 import javax.swing.*;
 import lib.ManipularArquivo;
+import model.Usuario;
 
 public class LoginWindow extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
-	ManipularArquivo aM = new ManipularArquivo();
+	private ManipularArquivo aM = new ManipularArquivo();
 	private JTextField txfNome;
 	private JPasswordField txfSenha;
 	private JButton btnAcessar;
 	private JLabel Descricao;
-	String login, senha;
+	private String login, senha;
 
 	LoginWindow() {
 		setSize(250, 200);
@@ -50,20 +51,21 @@ public class LoginWindow extends JDialog {
 				login = txfNome.getText();
 				senha = new String(txfSenha.getPassword());
 				
-				String destino = new File(".\\src\\data\\usuarios.txt").getAbsolutePath();
-
-				if (login.equals("admin") && senha.equals("admin")
-						&& (aM.lerArquivo(destino, login, senha) == "CadastraAdministrador")) {
-					setVisible(false);
-					//new Menu().setVisible(true);
-				} else if (aM.lerArquivo(destino, login, senha) == "Convidado") {
-					setVisible(false);
-					//new SalaConvidado().setVisible(true);
-				} else if (aM.lerArquivo(destino, login, senha) == "Administrador") {
-					setVisible(false);
-					//new Menu().setVisible(true);
-				} else if (aM.lerArquivo(destino, login, senha) == "Incorreto") {
-					JOptionPane.showMessageDialog(null, "Id ou senha incorreta!");
+				try {
+					Usuario usuarioLogado = aM.getUsuarioByCodigoSenha(login, senha);
+					if (usuarioLogado instanceof Usuario) {
+						setVisible(false);
+						
+						Window tela = new Window(usuarioLogado);
+						tela.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Id ou senha incorreta!");
+					}
+				} catch (Exception message) {
+					//Se uma exceção for retornada, nenhum usuário foi encontrado. Diante disso, abre a tela para cadastro do usuário
+					//TODO: fechar tela login, abrir window já com a tela de cadastro de usuário aberta
+					//TODO: ou talvez criar uma JDialog simple somente com os campos usuário e senha (Essa parece ser a mais fácil)
+					System.out.println("Abrir a tela para cadastro do novo usuário");
 				}
 			}
 		});

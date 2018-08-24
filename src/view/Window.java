@@ -28,8 +28,10 @@ public class Window extends JFrame {
 
 	private JDesktopPane desktop;
 	
-	public Window() {
+	public Window(Usuario usuarioLogado) {
 		super();
+		
+		this.usuarioLogado = usuarioLogado;
 
 		desktop = new JDesktopPane();
 		desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
@@ -54,25 +56,8 @@ public class Window extends JFrame {
 		menuBar.add(getMenuAlunos());
 		menuBar.add(getMenuCidades());
 		menuBar.add(getMenuUsuarios());
-		menuBar.add(getMenuLogin());
 		
 		return menuBar;
-	}
-	
-	//Menu Login
-	private JMenuItem getMenuLogin() {
-		menuLogin = new JMenuItem();
-		menuLogin.setText("Logar");
-		menuLogin.setFont(getDefaultFont());
-		
-		menuLogin.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				System.out.println("TODO: Login");
-				//TODO: menuLogin.setText("Deslogar");
-			}
-		});
-
-		return menuLogin;
 	}
 	
 	//Menu Alunos
@@ -239,8 +224,8 @@ public class Window extends JFrame {
 		return new java.awt.Font("Dialog", java.awt.Font.PLAIN, 12);
 	}
 	
-	public static void main(String[] args) {
-		Window tela = new Window();
-		tela.setVisible(true);
-	}
+	//public static void main(String[] args) {
+		//Window tela = new Window();
+		//tela.setVisible(true);
+	//}
 }

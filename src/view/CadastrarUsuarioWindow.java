@@ -79,7 +79,7 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 				Usuario usuario = new Usuario();
 
 				String codUsuario = txfCodAluno.getText();
-				usuario.setNomeUsuario(codUsuario);
+				usuario.setLogin(codUsuario);
 
 				String senhaUsuario = new String(txfSenha.getPassword());
 				;
