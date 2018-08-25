@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
@@ -190,8 +191,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Implementar método limpar
-				
+				limparFormulario();
 			}
 		});
 		
@@ -223,25 +223,40 @@ public class CadastrarAlunosWindow extends WindowFrame {
 				
 				try {
 					aM.inserirDado(aluno);
+					limparFormulario();
+					JOptionPane.showMessageDialog(null,"Aluno cadastrado com sucesso!");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 				
 				setVisible(false);
 				//TODO: inseriDado(Aluno);
-				// new Teste().setVisible(true);
-				// new Teste().setVisible(true);
-				// Adaptar para a outra tela
+				
 			}
 
 		});
 
 	}
-
-	public static void main(String[] args) {
-
-		new CadastrarAlunosWindow();
-
+	
+	public void limparFormulario() {
+		
+		txfNome.setText("");
+		txfCod.setText("");
+		txfEmail.setText("");
+		txfObs.setText("");
+		txfEnder.setText("");
+		txfNum.setText("");
+		txfComplemen.setText("");
+		txfBairro.setText("");
+		cbxGenero.setSelectedIndex(0);
+		cbxCidade.setSelectedIndex(0);
+		cbxUf.setSelectedIndex(0);
+		cbxPais.setSelectedIndex(0);
+		txfData.setText("");
+		txfFone.setText("");
+		txfCel.setText("");
+		txfCep.setText("");
+		
 	}
 
 }
