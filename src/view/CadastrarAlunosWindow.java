@@ -23,7 +23,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfNum, txfComplemen, txfBairro;
 	private JComboBox<String> cbxGenero, cbxCidade, cbxEstado, cbxPais;
-	private JButton btnSalvar;
+	private JButton btnSalvar,btnLimpar;
 	private JLabel labes;
 	private JFormattedTextField txfData, txfFone, txfCel, txfCep;
 
@@ -92,11 +92,11 @@ public class CadastrarAlunosWindow extends WindowFrame {
 						getContentPane().add(txfCel);
 
 			labes = new JLabel("CEP:");
-			labes.setBounds(450, 110, 125, 25);
+			labes.setBounds(450, 110, 100, 25);
 			getContentPane().add(labes);
 
 			txfCep = new JFormattedTextField(maskCep);
-			txfCep.setBounds(450, 130, 125, 25);
+			txfCep.setBounds(450, 130, 100, 25);
 			getContentPane().add(txfCep);
 
 		} catch (ParseException e) {
@@ -150,41 +150,53 @@ public class CadastrarAlunosWindow extends WindowFrame {
 							getContentPane().add(labes);
 					
 							txfBairro = new JTextField();
-							txfBairro.setBounds(570, 130, 200, 25);
+							txfBairro.setBounds(570, 130, 180, 25);
 							getContentPane().add(txfBairro);
 
 		labes = new JLabel("Cidade (Outra tela):");
-		labes.setBounds(450, 210, 250, 25);
+		labes.setBounds(450, 160, 250, 25);
 		getContentPane().add(labes);
 
 		cbxCidade = new JComboBox<String>();
 		cbxCidade.addItem("-Selecione-");
 		cbxCidade.addItem("Vem da outra tela");
-		cbxCidade.setBounds(450, 230, 200, 25);
+		cbxCidade.setBounds(450, 180, 200, 25);
 		getContentPane().add(cbxCidade);
 
 		labes = new JLabel("Estado (Outra tela):");
-		labes.setBounds(450, 260, 250, 25);
+		labes.setBounds(450, 210, 250, 25);
 		getContentPane().add(labes);
 
 		cbxEstado = new JComboBox<String>();
 		cbxEstado.addItem("-Selecione-");
 		cbxEstado.addItem("Vem da outra tela");
-		cbxEstado.setBounds(450, 280, 200, 25);
+		cbxEstado.setBounds(450, 230, 200, 25);
 		getContentPane().add(cbxEstado);
 
 		labes = new JLabel("País (Outra tela):");
-		labes.setBounds(450, 510, 250, 25);
+		labes.setBounds(450, 260, 250, 25);
 		getContentPane().add(labes);
 
 		cbxPais = new JComboBox<String>();
 		cbxPais.addItem("-Selecione-");
 		cbxPais.addItem("Vem da outra tela");
-		cbxPais.setBounds(450, 540, 200, 25);
+		cbxPais.setBounds(450, 280, 200, 25);
 		getContentPane().add(cbxPais);
-
+		
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.setBounds(15, 320, 95, 25);
+		getContentPane().add(btnLimpar);
+		btnLimpar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Implementar método limpar
+				
+			}
+		});
+		
 		btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(20, 600, 100, 25);
+		btnSalvar.setBounds(120, 320, 95, 25);
 		getContentPane().add(btnSalvar);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
