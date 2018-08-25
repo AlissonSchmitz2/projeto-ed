@@ -22,7 +22,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 	private static final long serialVersionUID = -4479891238469664919L;
 
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfNum, txfComplemen, txfBairro;
-	private JComboBox<String> cbxGenero, cbxCidade, cbxEstado, cbxPais;
+	private JComboBox<String> cbxGenero, cbxCidade, cbxUf, cbxPais;
 	private JButton btnSalvar,btnLimpar;
 	private JLabel labes;
 	private JFormattedTextField txfData, txfFone, txfCel, txfCep;
@@ -163,15 +163,15 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		cbxCidade.setBounds(450, 180, 200, 25);
 		getContentPane().add(cbxCidade);
 
-		labes = new JLabel("Estado (Outra tela):");
+		labes = new JLabel("UF (Outra tela):");
 		labes.setBounds(450, 210, 250, 25);
 		getContentPane().add(labes);
 
-		cbxEstado = new JComboBox<String>();
-		cbxEstado.addItem("-Selecione-");
-		cbxEstado.addItem("Vem da outra tela");
-		cbxEstado.setBounds(450, 230, 200, 25);
-		getContentPane().add(cbxEstado);
+		cbxUf = new JComboBox<String>();
+		cbxUf.addItem("-Selecione-");
+		cbxUf.addItem("Vem da outra tela");
+		cbxUf.setBounds(450, 230, 200, 25);
+		getContentPane().add(cbxUf);
 
 		labes = new JLabel("País (Outra tela):");
 		labes.setBounds(450, 260, 250, 25);
@@ -218,7 +218,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 				aluno.setBairro(txfBairro.getText());
 				aluno.setNumero(Integer.parseInt(txfNum.getText()));
 				aluno.setCidade(cbxCidade.getSelectedItem().toString());
-				aluno.setUf(cbxEstado.getSelectedItem().toString());
+				aluno.setUf(cbxUf.getSelectedItem().toString());
 				aluno.setPais(cbxPais.getSelectedItem().toString());
 				
 				try {
