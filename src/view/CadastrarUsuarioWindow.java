@@ -22,7 +22,7 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 	private JTextField txfCodAluno;
 	private JComboBox<String> txfPerfil;
 	private JButton btnCadastra;
-	private JButton btnVoltar;
+	private JButton btnLimpar;
 	private JLabel saida;
 
 	public CadastrarUsuarioWindow() {
@@ -59,7 +59,7 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 		txfPerfil.setBounds(15, 130, 200, 25);
 		getContentPane().add(txfPerfil);
 
-		btnVoltar = new JButton(new AbstractAction("Limpar") {
+		btnLimpar = new JButton(new AbstractAction("Limpar") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -67,8 +67,8 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 			}
 		});
 
-		btnVoltar.setBounds(15, 170, 95, 25);
-		getContentPane().add(btnVoltar);
+		btnLimpar.setBounds(15, 170, 95, 25);
+		getContentPane().add(btnLimpar);
 
 		btnCadastra = new JButton(new AbstractAction("Cadastrar") {
 			private static final long serialVersionUID = 1L;

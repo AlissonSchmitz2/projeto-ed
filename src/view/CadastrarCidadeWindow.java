@@ -38,15 +38,6 @@ public class CadastrarCidadeWindow extends WindowFrame {
 		txfPais.setBounds(15, 30, 200, 25);
 		getContentPane().add(txfPais);
 
-		saida = new JLabel("Cidade:");
-		saida.setBounds(15, 10, 200, 25);
-		saida.setBounds(15, 110, 200, 25);
-		getContentPane().add(saida);
-
-		txfCidade = new JTextField();
-		txfCidade.setBounds(15, 30, 200, 25);
-		getContentPane().add(txfCidade);
-
 		saida = new JLabel("UF");
 		saida.setBounds(15, 60, 200, 25);
 		getContentPane().add(saida);
@@ -83,13 +74,14 @@ public class CadastrarCidadeWindow extends WindowFrame {
 		txfUf.setBounds(15, 80, 200, 25);
 		getContentPane().add(txfUf);
 
-		saida = new JLabel("País:");
+		saida = new JLabel("Cidade:");
+		saida.setBounds(15, 10, 200, 25);
 		saida.setBounds(15, 110, 200, 25);
 		getContentPane().add(saida);
 
-		txfPais = new JTextField();
-		txfPais.setBounds(15, 130, 200, 25);
-		getContentPane().add(txfPais);
+		txfCidade = new JTextField();
+		txfCidade.setBounds(15, 130, 200, 25);
+		getContentPane().add(txfCidade);
 
 		btnCadastra = new JButton(new AbstractAction("Cadastrar") {
 			private static final long serialVersionUID = 1L;
