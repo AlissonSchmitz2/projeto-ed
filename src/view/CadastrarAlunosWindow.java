@@ -84,19 +84,19 @@ public class CadastrarAlunosWindow extends WindowFrame {
 			getContentPane().add(txfFone);
 
 						labes = new JLabel("Celular:");//
-						labes.setBounds(175, 160, 125, 25);
+						labes.setBounds(175, 160, 185, 25);
 						getContentPane().add(labes);
 			
 						txfCel = new JFormattedTextField(maskFone);
-						txfCel.setBounds(175, 180, 125, 25);
+						txfCel.setBounds(175, 180, 185, 25);
 						getContentPane().add(txfCel);
 
 			labes = new JLabel("CEP:");
-			labes.setBounds(450, 160, 250, 25);
+			labes.setBounds(450, 110, 125, 25);
 			getContentPane().add(labes);
 
 			txfCep = new JFormattedTextField(maskCep);
-			txfCep.setBounds(450, 190, 200, 25);
+			txfCep.setBounds(450, 130, 125, 25);
 			getContentPane().add(txfCep);
 
 		} catch (ParseException e) {
@@ -122,55 +122,55 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		// coluna da direita, cmpos e escrita
 
 		labes = new JLabel("Endereço:");
-		labes.setBounds(450, 20, 250, 25);
+		labes.setBounds(450, 10, 250, 25);
 		getContentPane().add(labes);
 
 		txfEnder = new JTextField();
-		txfEnder.setBounds(450, 50, 200, 25);
+		txfEnder.setBounds(450, 30, 200, 25);
 		getContentPane().add(txfEnder);
+		
+							labes = new JLabel("Número:");
+							labes.setBounds(675, 10, 50, 25);
+							getContentPane().add(labes);
+					
+							txfNum = new JTextField();
+							txfNum.setBounds(675, 30, 75, 25);
+							getContentPane().add(txfNum);
 
 		labes = new JLabel("Complemento:");
-		labes.setBounds(450, 90, 250, 25);
+		labes.setBounds(450, 60, 250, 25);
 		getContentPane().add(labes);
 
 		txfComplemen = new JTextField();
-		txfComplemen.setBounds(450, 120, 200, 25);
+		txfComplemen.setBounds(450, 80, 300, 25);
 		getContentPane().add(txfComplemen);
 
-		labes = new JLabel("Número:");
-		labes.setBounds(450, 230, 250, 25);
-		getContentPane().add(labes);
-
-		txfNum = new JTextField();
-		txfNum.setBounds(450, 260, 200, 25);
-		getContentPane().add(txfNum);
-
-		labes = new JLabel("Bairro:");
-		labes.setBounds(450, 300, 250, 25);
-		getContentPane().add(labes);
-
-		txfBairro = new JTextField();
-		txfBairro.setBounds(450, 330, 200, 25);
-		getContentPane().add(txfBairro);
+							labes = new JLabel("Bairro:");
+							labes.setBounds(570, 110, 250, 25);
+							getContentPane().add(labes);
+					
+							txfBairro = new JTextField();
+							txfBairro.setBounds(570, 130, 200, 25);
+							getContentPane().add(txfBairro);
 
 		labes = new JLabel("Cidade (Outra tela):");
-		labes.setBounds(450, 370, 250, 25);
+		labes.setBounds(450, 210, 250, 25);
 		getContentPane().add(labes);
 
 		cbxCidade = new JComboBox<String>();
 		cbxCidade.addItem("-Selecione-");
 		cbxCidade.addItem("Vem da outra tela");
-		cbxCidade.setBounds(450, 400, 200, 25);
+		cbxCidade.setBounds(450, 230, 200, 25);
 		getContentPane().add(cbxCidade);
 
 		labes = new JLabel("Estado (Outra tela):");
-		labes.setBounds(450, 440, 250, 25);
+		labes.setBounds(450, 260, 250, 25);
 		getContentPane().add(labes);
 
 		cbxEstado = new JComboBox<String>();
 		cbxEstado.addItem("-Selecione-");
 		cbxEstado.addItem("Vem da outra tela");
-		cbxEstado.setBounds(450, 470, 200, 25);
+		cbxEstado.setBounds(450, 280, 200, 25);
 		getContentPane().add(cbxEstado);
 
 		labes = new JLabel("País (Outra tela):");
