@@ -44,7 +44,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		getContentPane().add(txfCod);
 
 		labes = new JLabel("Nome:");
-		labes.setBounds(15, 60, 250, 25);
+		labes.setBounds(15, 60, 350, 25);
 		getContentPane().add(labes);
 
 		txfNome = new JTextField();
@@ -59,7 +59,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 						cbxGenero.addItem("-Selecione-");
 						cbxGenero.addItem("Masculino");
 						cbxGenero.addItem("Feminino");
-						cbxGenero.setBounds(175, 130, 185, 25);
+						cbxGenero.setBounds(175, 130, 190, 25);
 						getContentPane().add(cbxGenero);
 
 		labes = new JLabel("Data de Nascimento:");
@@ -84,11 +84,11 @@ public class CadastrarAlunosWindow extends WindowFrame {
 			getContentPane().add(txfFone);
 
 						labes = new JLabel("Celular:");//
-						labes.setBounds(175, 160, 185, 25);
+						labes.setBounds(175, 160, 190, 25);
 						getContentPane().add(labes);
 			
 						txfCel = new JFormattedTextField(maskFone);
-						txfCel.setBounds(175, 180, 185, 25);
+						txfCel.setBounds(175, 180, 190, 25);
 						getContentPane().add(txfCel);
 
 			labes = new JLabel("CEP:");
