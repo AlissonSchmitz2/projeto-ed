@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.List;
+>>>>>>> lista-jtable
 
 import model.Aluno;
 import model.Cidade;
@@ -50,6 +54,7 @@ public class ManipularArquivo {
 				+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
 				+ aluno.getComplemento() + SEPARATOR + aluno.getCep() + SEPARATOR + aluno.getBairro() + SEPARATOR + aluno.getCidade()
 				+ SEPARATOR + aluno.getUf() + SEPARATOR + aluno.getPais());
+		//TODO: falta salvar Número do endereço
 	}
 	
 	public Usuario pegarUsuarioPorLoginSenha(String login, String senha) throws Exception {
@@ -80,7 +85,144 @@ public class ManipularArquivo {
 		return null;
 	}
 	
-	private void inserirDadosNoArquivo(String area, String dados) {
+	public Aluno pegarAlunoPorId(Integer id) {
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("alunos"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				if (id.toString().equals(atributo[0])) {
+					return criarAlunoApartirAtributos(atributo);
+				}
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	public List<Aluno> pegarAlunos() throws Exception {
+		List<Aluno> alunos = new ArrayList<Aluno>();
+
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("alunos"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				alunos.add(criarAlunoApartirAtributos(atributo));
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return alunos;
+	}
+	
+	public void removerDado(Aluno aluno) {
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("alunos"));
+			lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+			StringBuffer inputBuffer = new StringBuffer();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				if (!aluno.getId().toString().equals(atributo[0])) {
+					inputBuffer.append(linha);
+		            inputBuffer.append('\n');
+				}
+				
+				linha = lerArq.readLine();
+	        }
+			
+	        String inputStr = inputBuffer.toString();
+	        
+	        lerArq.close();
+			
+	        FileOutputStream fileOut = new FileOutputStream(getDestinoArquivo("alunos"));
+	        fileOut.write(inputStr.getBytes());
+	        fileOut.close();
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+	}
+	
+	public void editarDado(Aluno aluno) {
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("alunos"));
+			lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+			StringBuffer inputBuffer = new StringBuffer();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				if (aluno.getId().toString().equals(atributo[0])) {
+					linha = aluno.getId() + SEPARATOR + aluno.getCodAluno() + SEPARATOR + aluno.getNomeAluno() + SEPARATOR + aluno.getSexo() + SEPARATOR
+							+ aluno.getDataNascimento() + SEPARATOR + aluno.getTelefone() + SEPARATOR + aluno.getCelular() + SEPARATOR
+							+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
+							+ aluno.getComplemento() + SEPARATOR + aluno.getCep() + SEPARATOR + aluno.getBairro() + SEPARATOR + aluno.getCidade()
+							+ SEPARATOR + aluno.getUf() + SEPARATOR + aluno.getPais();
+					//TODO: falta salvar Número do endereço
+				}
+				
+				inputBuffer.append(linha);
+	            inputBuffer.append('\n');
+				
+				linha = lerArq.readLine();
+	        }
+			
+	        String inputStr = inputBuffer.toString();
+	        
+	        lerArq.close();
+			
+	        FileOutputStream fileOut = new FileOutputStream(getDestinoArquivo("alunos"));
+	        fileOut.write(inputStr.getBytes());
+	        fileOut.close();
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+	}
+	
+	private Aluno criarAlunoApartirAtributos(String[] atributo) {
+		Aluno novoAluno = new Aluno();
+		
+		novoAluno.setId(Integer.parseInt(atributo[0]));
+		novoAluno.setCodAluno(atributo[1]);
+		novoAluno.setNomeAluno(atributo[2]);
+		novoAluno.setSexo(atributo[3].charAt(0));
+		novoAluno.setDataNascimento(atributo[4]);
+		novoAluno.setTelefone(atributo[5]);
+		novoAluno.setCelular(atributo[6]);
+		novoAluno.setCep(atributo[11]);
+		novoAluno.setEmail(atributo[7]);
+		novoAluno.setObservacao(atributo[8]);
+		novoAluno.setEndereco(atributo[9]);
+		novoAluno.setComplemento(atributo[10]);
+		novoAluno.setBairro(atributo[12]);
+		novoAluno.setNumero(0); //TODO: não está sendo carregado no arquivo (Posição 16)
+		novoAluno.setCidade(atributo[13]);
+		novoAluno.setUf(atributo[14]);
+		novoAluno.setPais(atributo[15]);
+		
+		return novoAluno;
+	}
+	
+ 	private void inserirDadosNoArquivo(String area, String dados) {
 		try {
 			FileWriter arq = new FileWriter(getDestinoArquivo(area), true);
 			PrintWriter gravarArq = new PrintWriter(arq);
@@ -92,9 +234,27 @@ public class ManipularArquivo {
 		
 	}
 	
-	private int pegarProximoId(String area) {
+	private Integer pegarProximoId(String area) {
 		try {
-			return contarLinhas(getDestinoArquivo(area)) + 1;
+			FileReader arq = new FileReader(getDestinoArquivo(area));
+			lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+			Integer maiorId = 0;
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				Integer currentId = Integer.parseInt(atributo[0]);
+				if (currentId.compareTo(maiorId) == 1) {
+					maiorId = currentId;
+				}
+				
+				linha = lerArq.readLine();
+	        }
+	        
+	        lerArq.close();
+	        
+	        return maiorId + 1;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -115,6 +275,7 @@ public class ManipularArquivo {
 		
 		return null;
 	}
+<<<<<<< HEAD
 	
 	//Recupera dados de um TXT de acordo com o índice e o id da informação desejada.
 	//Observação: * Para recuperar informações de uma única linha, passar o id da respectiva linha.
@@ -231,4 +392,6 @@ public class ManipularArquivo {
 			return 0;
 		}
 	}
+=======
+>>>>>>> lista-jtable
 }

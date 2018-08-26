@@ -1,12 +1,12 @@
 package model;
 
 public class Cidade {
-	private int id;
+	private Integer id;
 	private String cidade;
 	private String uf;
 	private String pais;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	

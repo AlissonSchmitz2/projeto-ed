@@ -16,8 +16,8 @@ import javax.swing.text.MaskFormatter;
 import lib.ManipularArquivo;
 import model.Aluno;
 
-public class CadastrarAlunosWindow extends WindowFrame {
-	Aluno aluno = new Aluno();
+public class CadastrarAlunosWindow extends AbstractWindowFrame {
+	Aluno aluno;
 	ManipularArquivo aM = new ManipularArquivo();
 	
 	private static final long serialVersionUID = -4479891238469664919L;
@@ -30,7 +30,15 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 	public CadastrarAlunosWindow() {
 		super("Cadastrar Aluno");
+		this.aluno = new Aluno();
 		criarComponentes();
+	}
+	
+	public CadastrarAlunosWindow(Aluno aluno) {
+		super("Cadastrar Aluno");
+		this.aluno = aluno;
+		criarComponentes();
+		setarValores(aluno);
 	}
 
 	public void criarComponentes() {
@@ -247,10 +255,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 				}
 				
 				setVisible(false);
-				//TODO: inseriDado(Aluno);
-				
 			}
-
 		});
 
 	}
@@ -274,5 +279,9 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		txfCel.setText("");
 		txfCep.setText("");
 	}
-
+	
+	private void setarValores(Aluno aluno) {
+		//TODO: setar valores iniciais para edição
+		txfNome.setText(aluno.getNomeAluno());
+	}
 }

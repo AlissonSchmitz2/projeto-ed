@@ -1,7 +1,7 @@
 package model;
 
 public class Aluno {
-	private int     id;
+	private Integer     id;
 	private String  codAluno;
 	private int     numero;
 	private char    sexo;
@@ -20,7 +20,7 @@ public class Aluno {
 	private String  cep;
 	private String  endereco;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	

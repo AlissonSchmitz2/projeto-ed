@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 import lib.ManipularArquivo;
 
-public class CadastrarUsuarioWindow extends WindowFrame {
+public class CadastrarUsuarioWindow extends AbstractWindowFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JPasswordField txfSenha;
