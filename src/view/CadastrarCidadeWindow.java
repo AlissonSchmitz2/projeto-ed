@@ -1,5 +1,6 @@
 package view;
 
+import model.Aluno;
 import model.Cidade;
 
 import java.awt.event.ActionEvent;
@@ -23,11 +24,20 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame {
 	private JTextField txfPais;
 	private JLabel saida;
 	private JButton btnCadastra, btnLimpar;
+	
+	private Cidade cidade;
 
 	public CadastrarCidadeWindow() {
 		super("Cadastrar Cidade");
-
+		this.cidade = new Cidade();
 		criarComponentes();
+	}
+	
+	public CadastrarCidadeWindow(Cidade cidade) {
+		super("Cadastrar Cidade");
+		this.cidade = cidade;
+		criarComponentes();
+		setarValores(cidade);
 	}
 
 	private void criarComponentes() {
@@ -129,5 +139,10 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame {
 		
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
+	}
+	
+	private void setarValores(Cidade cidade) {
+		//TODO: setar valores iniciais para edição
+		txfCidade.setText(cidade.getCidade());
 	}
 }

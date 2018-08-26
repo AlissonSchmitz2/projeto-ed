@@ -146,7 +146,10 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("TODO: Listar Cidades");
+				ListarCidadesWindow frame = new ListarCidadesWindow(desktop, usuarioLogado);
+				abrirFrame(frame);
+				//Garante que a grid se encaixe na tela depois que a tela é criada
+				frame.redimensionarGrid(frame.getGridContent());
 			}
 		});
 		

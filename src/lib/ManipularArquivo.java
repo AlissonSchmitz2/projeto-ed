@@ -346,7 +346,93 @@ public class ManipularArquivo {
 		
 		inserirDadosNoArquivo("cidades", cidade.getId() + SEPARATOR + cidade.getCidade() + SEPARATOR + cidade.getUf() + SEPARATOR + cidade.getPais());
 	}
+	
+	public void removerDado(Cidade cidade) {
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("cidades"));
+			lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+			StringBuffer inputBuffer = new StringBuffer();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				if (!cidade.getId().toString().equals(atributo[0])) {
+					inputBuffer.append(linha);
+		            inputBuffer.append('\n');
+				}
+				
+				linha = lerArq.readLine();
+	        }
+			
+	        String inputStr = inputBuffer.toString();
+	        
+	        lerArq.close();
+			
+	        FileOutputStream fileOut = new FileOutputStream(getDestinoArquivo("cidades"));
+	        fileOut.write(inputStr.getBytes());
+	        fileOut.close();
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+	}
+	
+	public Cidade pegarCidadePorId(Integer id) {
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("cidades"));
+			lerArq = new BufferedReader(arq);
 
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				if (id.toString().equals(atributo[0])) {
+					return criarCidadeApartirAtributos(atributo);
+				}
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return null;
+	}
+
+	public List<Cidade> pegarCidades() throws Exception {
+		List<Cidade> cidades = new ArrayList<Cidade>();
+
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("cidades"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				cidades.add(criarCidadeApartirAtributos(atributo));
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return cidades;
+	}
+	
+	private Cidade criarCidadeApartirAtributos(String[] atributo) {
+		Cidade novaCidade = new Cidade();
+		
+		novaCidade.setId(Integer.parseInt(atributo[0]));
+		novaCidade.setCidade(atributo[1]);
+		novaCidade.setUf(atributo[2]);
+		novaCidade.setPais(atributo[3]);
+		
+		return novaCidade;
+	}
 	
 	/*
 	 * HELPERS
@@ -385,10 +471,8 @@ public class ManipularArquivo {
 	        
 	        return maiorId + 1;
 		} catch (IOException e) {
-			e.printStackTrace();
+			return 1;
 		}
-		
-		return 0;
 	}
 	
 	//Retorna o caminho para o arquivo de dados
