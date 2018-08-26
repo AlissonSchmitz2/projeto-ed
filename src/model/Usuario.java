@@ -1,6 +1,6 @@
 package model;
 
-public class Usuario {
+public class Usuario implements Model {
 	public static String ADMINISTRADOR = "Administrador";
 	public static String CONVIDADO = "Convidado";
 	

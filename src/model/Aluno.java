@@ -1,6 +1,6 @@
 package model;
 
-public class Aluno {
+public class Aluno implements Model {
 	private Integer     id;
 	private String  codAluno;
 	private int     numero;
@@ -24,7 +24,7 @@ public class Aluno {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
@@ -130,6 +130,4 @@ public class Aluno {
 	public void setPais(String pais) {
 		this.pais = pais;
 	}
-	
-
 }

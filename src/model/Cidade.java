@@ -1,6 +1,6 @@
 package model;
 
-public class Cidade {
+public class Cidade implements Model {
 	private Integer id;
 	private String cidade;
 	private String uf;
@@ -10,7 +10,7 @@ public class Cidade {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
