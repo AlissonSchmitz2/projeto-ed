@@ -209,11 +209,10 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarUsuariosWindow frame = new ListarUsuariosWindow();
+				ListarUsuariosWindow frame = new ListarUsuariosWindow(desktop, usuarioLogado);
 				abrirFrame(frame);
-				
-				//Necessário chamar este método para dimensionar a grid em tela cheia
-				frame.redimensionarGrid(frame.getGrid());
+				//Garante que a grid se encaixe na tela depois que a tela é criada
+				frame.redimensionarGrid(frame.getGridContent());
 			}
 		});
 		

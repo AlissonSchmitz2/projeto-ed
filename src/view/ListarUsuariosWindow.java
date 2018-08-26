@@ -1,102 +1,153 @@
 package view;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class ListarUsuariosWindow extends AbstractWindowFrame {
-	private static final long serialVersionUID = 6347451344224720236L;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import lib.ManipularArquivo;
+import model.Usuario;
+import table.model.UsuarioTableModel;
+
+public class ListarUsuariosWindow extends AbstractGridWindow {
+	private static final long serialVersionUID = 5436871882222628866L;
 	
-	private static final int HEADER_HEIGHT = 22; //Diferença do topo a ser considerada
+	ManipularArquivo aM = new ManipularArquivo();
+
+	private JButton botaoExcluir;
+	private JButton botaoEditar;
+	private Usuario usuarioLogado;
+	private String idSelecionado;
 	
-	private JScrollPane grid = null;
-	private JPanel panel = null;
-	private GridBagLayout glayout = null;
-	private GridBagConstraints gbc = null;
+	private JTable jTableUsuarios;
+	private UsuarioTableModel model;
+	private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
+	private JDesktopPane desktop;
 	
-	public ListarUsuariosWindow() {
+	public ListarUsuariosWindow(JDesktopPane desktop, Usuario usuarioLogado) {
 		super("Lista de Usuários");
 		
+		this.desktop = desktop;
+		this.usuarioLogado = usuarioLogado;
+
+		criarComponentes();
 		carregarGrid();
+	}
+	
+	private void criarComponentes() {
+		//Botão de ação Editar
+		botaoEditar = new JButton("Editar");
+		botaoEditar.setBounds(15, 30, 100, 25);
+		botaoEditar.setEnabled(false);
+		add(botaoEditar);
+		botaoEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
+				
+				if (usuario instanceof Usuario) {
+					CadastrarUsuarioWindow frame = new CadastrarUsuarioWindow(usuario);
+					abrirFrame(frame);
+					//TODO: Implementar um Observer para atualizar a lista após a edição
+				}
+			}
+		});
+		
+		//Botão de ação Excluir
+		botaoExcluir = new JButton("Excluir");
+		botaoExcluir.setBounds(135, 30, 100, 25);
+		botaoExcluir.setEnabled(false);
+		add(botaoExcluir);
+		botaoExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
+
+				if (usuario instanceof Usuario) {
+					//Remove dado do arquivo
+					aM.removerDado(usuario);
+					
+					//Percorre a lista de usuarios e remove o Usuario com ID selecionado
+					listaUsuarios = listaUsuarios.stream()
+							.filter(it -> !it.getId().equals(usuario.getId()))
+							.collect(Collectors.toList());
+					
+					//Reseta a lista e atualiza JTable novamente
+					model.limpar();
+					model.addListaDeUsuarios(listaUsuarios);
+					
+					//Limpa seleção
+					jTableUsuarios.getSelectionModel().clearSelection();
+					
+					//Desabilita botão de ações (uma vez que a linha selecionada anteriormente não existe, desabilita botões de ação
+					desabilitarBotoesDeAcoes();
+				}
+			}
+		});
+	}
+	
+	private void abrirFrame(AbstractWindowFrame frame) {
+	    desktop.add(frame);
+	    
+	    frame.showFrame();
 	}
 
 	private void carregarGrid() {
-		if (panel == null) {
-			panel = new JPanel();
-			
-			glayout = new GridBagLayout();
-			panel.setLayout(glayout);
-			
-			gbc = new GridBagConstraints();
-		}
-		
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.anchor = GridBagConstraints.SOUTHEAST;
-		
-		//TODO: Popular a lista de usuários
-		for (int i = 1; i < 60; i++) {
-			JLabel button = new JLabel("Teste " + i);
-			button.setMinimumSize(new Dimension(200,25));
-			gbc.gridx = 0;
-			gbc.gridy = i;
-			panel.add(button, gbc);
-			
-			JLabel buttona = new JLabel("Teste A " + i);
-			gbc.gridx = 1;
-			gbc.gridy = i;
-			panel.add(buttona, gbc);
-			
-			JButton buttonb = new JButton("Editar");
-			gbc.gridx = 2;
-			gbc.gridy = i;
-			gbc.weightx = 0.02;
-			buttonb.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					grid.setVisible(false);
-					carregarGrid();
+		model = new UsuarioTableModel();
+		jTableUsuarios = new JTable(model);
+
+		//Habilita a seleção por linha
+		jTableUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		//Ação Seleção de uma linha
+		jTableUsuarios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				habilitarBotoesDeAcoes();
+				
+				if (jTableUsuarios.getSelectedRow() != -1) {
+					idSelecionado = jTableUsuarios.getValueAt(jTableUsuarios.getSelectedRow(), 0).toString();
 				}
-			});
-			panel.add(buttonb, gbc);
-			
-			JButton buttonc = new JButton("Excluir");
-			gbc.gridx = 3;
-			gbc.gridy = i;
-			gbc.weightx = 0.02;
-			buttonc.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					grid.setVisible(false);
-					carregarGrid();
-				}
-			});
-			panel.add(buttonc, gbc);
-		}
-		//Remover até aqui
-	    
-		if (grid == null) {
-			grid = new JScrollPane(panel);
-		}
+			}
+		});
 		
-		//setLayout(new FlowLayout()); //Lista com preenchimento total da tela
+		try {
+			listaUsuarios = aM.pegarUsuarios();
+			model.addListaDeUsuarios(listaUsuarios);
+		} catch (Exception e) {
+			System.err.printf("Erro ao iniciar lista de usuarios: %s.\n", e.getMessage());
+		}
+
+		grid = new JScrollPane(jTableUsuarios);
 		setLayout(null);
 		redimensionarGrid(grid);
 		grid.setVisible(true);
+
 		add(grid);
 	}
 	
-	public void redimensionarGrid(JScrollPane grid) {
-		int espacoFiltroGrid = 100;
-		
-		//TODO: atualmente a grid ocupa é baseada no tamanho total da tela e não da aplicação
-		grid.setBounds(0, espacoFiltroGrid, getWidth(), getHeight() - espacoFiltroGrid - HEADER_HEIGHT);
+	private void habilitarBotoesDeAcoes() {
+		//Somente usuário administrador pode manipular dados
+		if (Usuario.ADMINISTRADOR.equals(this.usuarioLogado.getPerfil())) {
+			botaoEditar.setEnabled(true);
+			botaoExcluir.setEnabled(true);
+		}
 	}
 	
-	public JScrollPane getGrid() {
-		return grid;
+	private void desabilitarBotoesDeAcoes() {
+		botaoEditar.setEnabled(false);
+		botaoExcluir.setEnabled(false);
+	}
+	
+	protected void windowFoiRedimensionada() {
+		if (grid != null) {
+			redimensionarGrid(grid);
+		}
 	}
 }

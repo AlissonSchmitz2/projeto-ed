@@ -17,9 +17,6 @@ import lib.ManipularArquivo;
 import model.Aluno;
 
 public class CadastrarAlunosWindow extends AbstractWindowFrame {
-	Aluno aluno;
-	ManipularArquivo aM = new ManipularArquivo();
-	
 	private static final long serialVersionUID = -4479891238469664919L;
 
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfNum, txfComplemen, txfBairro;
@@ -27,6 +24,9 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 	private JButton btnSalvar,btnLimpar;
 	private JLabel labes;
 	private JFormattedTextField txfData, txfFone, txfCel, txfCep;
+	
+	private Aluno aluno;
+	private ManipularArquivo aM = new ManipularArquivo();
 
 	public CadastrarAlunosWindow() {
 		super("Cadastrar Aluno");

@@ -1,5 +1,6 @@
 package view;
 
+import model.Aluno;
 import model.Usuario;
 
 import java.awt.event.ActionEvent;
@@ -24,11 +25,20 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame {
 	private JButton btnCadastra;
 	private JButton btnLimpar;
 	private JLabel saida;
+	
+	private Usuario usuario;
 
 	public CadastrarUsuarioWindow() {
 		super("Cadastrar Usuário");
-
+		this.usuario = new Usuario();
 		criarComponentes();
+	}
+	
+	public CadastrarUsuarioWindow(Usuario usuario) {
+		super("Cadastrar Usuário");
+		this.usuario = usuario;
+		criarComponentes();
+		setarValores(usuario);
 	}
 
 	private void criarComponentes() {
@@ -104,10 +114,14 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame {
 	}
 
 	public void limparFormulario() {
-		
 		txfCodAluno.setText("");
 		txfSenha.setText("");
 		txfPerfil.setSelectedIndex(0);
 		
+	}
+	
+	private void setarValores(Usuario usuario) {
+		//TODO: setar valores iniciais para edição
+		txfCodAluno.setText(usuario.getLogin());
 	}
 }
