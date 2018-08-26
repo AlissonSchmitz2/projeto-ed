@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -35,20 +36,22 @@ public class AlterarSenhaWindow extends WindowFrame{
 	}
 	
 	public void criarComponentes() {
-		descricaoCampo = new JLabel("Informe sua senha antiga:");
+		descricaoCampo = new JLabel("Senha Atual:");
 		descricaoCampo.setBounds(15, 10, 200, 25);
 		getContentPane().add(descricaoCampo);
 		
 		senhaAntiga = new JPasswordField();
 		senhaAntiga.setBounds(15, 30, 200, 25);
+		senhaAntiga.setToolTipText("Informe sua senha atual");
 		getContentPane().add(senhaAntiga);
 		
-		descricaoCampo = new JLabel("Informe a nova senha:");
+		descricaoCampo = new JLabel("Nova senha:");
 		descricaoCampo.setBounds(15, 60, 200, 25);
 		getContentPane().add(descricaoCampo);
 		
 		novaSenha = new JPasswordField();
 		novaSenha.setBounds(15, 80, 200, 25);
+		novaSenha.setToolTipText("Informe sua nova senha");
 		getContentPane().add(novaSenha);
 		
 		descricaoCampo = new JLabel("Confirme a nova senha:");
@@ -57,22 +60,25 @@ public class AlterarSenhaWindow extends WindowFrame{
 		
 		confirmaSenha = new JPasswordField();
 		confirmaSenha.setBounds(15, 130, 200, 25);
+		confirmaSenha.setToolTipText("Confirme a nova senha");
 		getContentPane().add(confirmaSenha);
 		
-		btnLimpar = new JButton(new AbstractAction("Limpar") {
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.setBounds(15, 170, 95, 25);
+		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
+		getContentPane().add(btnLimpar);
+		btnLimpar.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				senhaAntiga.setText("");
-				novaSenha.setText("");
-				confirmaSenha.setText("");
+			public void actionPerformed(ActionEvent e) {
+				limparFormulario();
 			}
 		});
-		btnLimpar.setBounds(15, 170, 95, 25);
-		getContentPane().add(btnLimpar);
 		
-		btnConfirma = new JButton(new AbstractAction("Confirmar") {
-			
+		btnConfirma = new JButton("Confirmar");
+		btnConfirma.setBounds(120, 170, 95, 25);
+		getContentPane().add(btnConfirma);
+		btnConfirma.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (novaSenha.getText().equals(confirmaSenha.getText()) && senhaAntiga.getText().equals(senhaAtual)) {
@@ -94,8 +100,18 @@ public class AlterarSenhaWindow extends WindowFrame{
 				}
 			}
 		});
-		btnConfirma.setBounds(120, 170, 95, 25);
-		getContentPane().add(btnConfirma);
+		
 	}
 	
+	public void limparFormulario() {
+		senhaAntiga.setText("");
+		novaSenha.setText("");
+		confirmaSenha.setText("");
+		
+		}
+
+	
 }
+
+
+
