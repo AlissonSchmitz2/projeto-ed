@@ -79,7 +79,7 @@ public class LoginWindow extends JDialog {
             	new LoginWindow().setVisible(true);
         		
         		//Modo debug. Pula a tela de login ;)
-        		new Window(new Usuario(1, "Teste", "teste", Usuario.ADMINISTRADOR)).setVisible(true);
+        		//new Window(new Usuario(1, "Teste", "teste", Usuario.ADMINISTRADOR)).setVisible(true);
             }
         });
 	}

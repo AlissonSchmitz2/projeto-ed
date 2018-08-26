@@ -12,10 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
 import java.util.List;
->>>>>>> lista-jtable
 
 import model.Aluno;
 import model.Cidade;
@@ -34,27 +31,45 @@ public class ManipularArquivo {
 	public ManipularArquivo() {
 	}
 
-	public void inserirDado(Cidade cidade) throws IOException {
-		cidade.setId(pegarProximoId("cidades"));
-		
-		inserirDadosNoArquivo("cidades", cidade.getId() + SEPARATOR + cidade.getCidade() + SEPARATOR + cidade.getUf() + SEPARATOR + cidade.getPais());
-	}
-
+	/*
+	 * USUÁRIOS
+	 */
 	public void inserirDado(Usuario usuario) throws IOException {
 		usuario.setId(pegarProximoId("usuarios"));
 
 		inserirDadosNoArquivo("usuarios", usuario.getId() + SEPARATOR + usuario.getLogin() + SEPARATOR + usuario.getSenha() + SEPARATOR + usuario.getPerfil());
 	}
-
-	public void inserirDado(Aluno aluno) throws IOException {
-		aluno.setId(pegarProximoId("alunos"));
-
-		inserirDadosNoArquivo("alunos", aluno.getId() + SEPARATOR + aluno.getCodAluno() + SEPARATOR + aluno.getNomeAluno() + SEPARATOR + aluno.getSexo() + SEPARATOR
-				+ aluno.getDataNascimento() + SEPARATOR + aluno.getTelefone() + SEPARATOR + aluno.getCelular() + SEPARATOR
-				+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
-				+ aluno.getComplemento() + SEPARATOR + aluno.getCep() + SEPARATOR + aluno.getBairro() + SEPARATOR + aluno.getCidade()
-				+ SEPARATOR + aluno.getUf() + SEPARATOR + aluno.getPais());
-		//TODO: falta salvar Número do endereço
+	
+	public void editarDado(Usuario usuario) {
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("usuarios"));
+			lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+			StringBuffer inputBuffer = new StringBuffer();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				if (usuario.getId().toString().equals(atributo[0])) {
+					linha = usuario.getId() + SEPARATOR + usuario.getLogin() + SEPARATOR + usuario.getSenha() + SEPARATOR + usuario.getPerfil();
+				}
+				
+				inputBuffer.append(linha);
+	            inputBuffer.append('\n');
+				
+				linha = lerArq.readLine();
+	        }
+			
+	        String inputStr = inputBuffer.toString();
+	        
+	        lerArq.close();
+			
+	        FileOutputStream fileOut = new FileOutputStream(getDestinoArquivo("usuarios"));
+	        fileOut.write(inputStr.getBytes());
+	        fileOut.close();
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
 	}
 	
 	public Usuario pegarUsuarioPorLoginSenha(String login, String senha) throws Exception {
@@ -83,6 +98,54 @@ public class ManipularArquivo {
 		}
 		
 		return null;
+	}
+	
+	public List<Usuario> pegarUsuarios() throws Exception {
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+
+		try {
+			FileReader arq = new FileReader(getDestinoArquivo("usuarios"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				usuarios.add(criarUsuarioApartirAtributos(atributo));
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return usuarios;
+	}
+	
+	private Usuario criarUsuarioApartirAtributos(String[] atributo) {
+		Usuario novoUsuario = new Usuario();
+		
+		novoUsuario.setId(Integer.parseInt(atributo[0]));
+		novoUsuario.setLogin(atributo[1]);
+		novoUsuario.setSenha(atributo[2]);
+		novoUsuario.setPerfil(atributo[3]);
+		
+		return novoUsuario;
+	}
+	
+	/*
+	 * ALUNOS
+	 */
+	public void inserirDado(Aluno aluno) throws IOException {
+		aluno.setId(pegarProximoId("alunos"));
+
+		inserirDadosNoArquivo("alunos", aluno.getId() + SEPARATOR + aluno.getCodAluno() + SEPARATOR + aluno.getNomeAluno() + SEPARATOR + aluno.getSexo() + SEPARATOR
+				+ aluno.getDataNascimento() + SEPARATOR + aluno.getTelefone() + SEPARATOR + aluno.getCelular() + SEPARATOR
+				+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
+				+ aluno.getComplemento() + SEPARATOR + aluno.getCep() + SEPARATOR + aluno.getBairro() + SEPARATOR + aluno.getCidade()
+				+ SEPARATOR + aluno.getUf() + SEPARATOR + aluno.getPais());
+		//TODO: falta salvar Número do endereço
 	}
 	
 	public Aluno pegarAlunoPorId(Integer id) {
@@ -222,6 +285,19 @@ public class ManipularArquivo {
 		return novoAluno;
 	}
 	
+	/*
+	 * CIDADES
+	 */
+	public void inserirDado(Cidade cidade) throws IOException {
+		cidade.setId(pegarProximoId("cidades"));
+		
+		inserirDadosNoArquivo("cidades", cidade.getId() + SEPARATOR + cidade.getCidade() + SEPARATOR + cidade.getUf() + SEPARATOR + cidade.getPais());
+	}
+
+	
+	/*
+	 * HELPERS
+	 */
  	private void inserirDadosNoArquivo(String area, String dados) {
 		try {
 			FileWriter arq = new FileWriter(getDestinoArquivo(area), true);
@@ -275,123 +351,4 @@ public class ManipularArquivo {
 		
 		return null;
 	}
-<<<<<<< HEAD
-	
-	//Recupera dados de um TXT de acordo com o índice e o id da informação desejada.
-	//Observação: * Para recuperar informações de uma única linha, passar o id da respectiva linha.
-	//            * Para recuperar informações de todas as linhas, passar o id como '-1'. 
-	public ArrayList<String> recuperarDados(int indicesInformacao[], String txtAlvo, String id) {
-		try {			
-			FileReader arq = new FileReader(getDestinoArquivo(txtAlvo));
-			lerArq = new BufferedReader(arq);
-			String linha = lerArq.readLine();
-			ArrayList<String> dadosRecuperados = new ArrayList<>();
-			
-			//Recupera as informações de todas as linhas.
-			if ("-1".equals(id)) {
-				while (linha != null) {
-					String[] verificaLinha = linha.split(",");
-					for (int i : indicesInformacao) {
-					dadosRecuperados.add(verificaLinha[i]);
-					}
-					linha = lerArq.readLine();
-			  }
-			} 
-			//Recupera as informações de uma linha específica.
-			else {
-				while (linha != null) {
-					String[] verificaLinha = linha.split(",");
-					for (int i : indicesInformacao) {
-						if(verificaLinha[0].equals(id)) {
-					       dadosRecuperados.add(verificaLinha[i]);
-						}
-					}
-					linha = lerArq.readLine();
-			  }
-			}			 
-			 
-			 return dadosRecuperados;
-		} catch (IOException e) {
-			System.err.printf("Erro na leitura do arquivo: %s.\n", e.getMessage());
-		}
-		return null;
-	}
-	
-	//Método para a substituição de informações em qualquer TXT.
-	public void substituirInformacao(String txtAlvo, String textoAntigo, String textoNovo) {
-		try {
-	        BufferedReader arquivo = new BufferedReader(new FileReader(getDestinoArquivo(txtAlvo)));
-	        String linha;
-	        StringBuffer inputBuffer = new StringBuffer();
-	        
-	        //Alimenta o Buffer 'inputBuffer' com os dados do arquivo original.
-	        while ((linha = arquivo.readLine()) != null) {
-	            inputBuffer.append(linha);
-	            inputBuffer.append('\n');
-	        }
-	        
-	        //Transforma o conteúdo do Buffer em uma String.
-	        String inputStr = inputBuffer.toString();
-
-	        arquivo.close();	        
-	        
-	        //Substitui a informação.
-	        inputStr = inputStr.replace(textoAntigo, textoNovo);
-	        
-	        //Grava o inputStr com a nova informação sobre o arquivo original.
-	        FileOutputStream fileOut = new FileOutputStream(getDestinoArquivo(txtAlvo));
-	        fileOut.write(inputStr.getBytes());
-	        fileOut.close();
-	        
-		} catch(Exception e) {
-	        System.err.println("Problema na leitura do arquivo.");
-	    }
-	}
-	
-	//Pega a quantidade de linhas no arquivo (código de terceiros)
-	//TODO: encontrar forma melhor de fazer esta função
-	private int contarLinhas(String filename) throws IOException {
-		try {
-			InputStream is = new BufferedInputStream(new FileInputStream(filename));
-			
-			try {
-		        byte[] c = new byte[1024];
-
-		        int readChars = is.read(c);
-		        if (readChars == -1) {
-		            // bail out if nothing to read
-		            return 0;
-		        }
-
-		        // make it easy for the optimizer to tune this loop
-		        int count = 0;
-		        while (readChars == 1024) {
-		            for (int i=0; i<1024;) {
-		                if (c[i++] == '\n') {
-		                    ++count;
-		                }
-		            }
-		            readChars = is.read(c);
-		        }
-
-		        // count remaining characters
-		        while (readChars != -1) {
-		            for (int i=0; i<readChars; ++i) {
-		                if (c[i] == '\n') {
-		                    ++count;
-		                }
-		            }
-		            readChars = is.read(c);
-		        }
-
-		        return count == 0 ? 1 : count;
-		    } finally {
-		        is.close();
-		    }
-		} catch(FileNotFoundException e) {
-			return 0;
-		}
-	}
-=======
->>>>>>> lista-jtable
 }

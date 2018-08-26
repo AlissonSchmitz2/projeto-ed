@@ -2,8 +2,6 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -12,7 +10,7 @@ import javax.swing.JPasswordField;
 import lib.ManipularArquivo;
 import model.Usuario;
 
-public class AlterarSenhaWindow extends WindowFrame{
+public class AlterarSenhaWindow extends AbstractWindowFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPasswordField senhaAntiga;
@@ -83,15 +81,12 @@ public class AlterarSenhaWindow extends WindowFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (novaSenha.getText().equals(confirmaSenha.getText()) && senhaAntiga.getText().equals(senhaAtual)) {
 					ManipularArquivo aM = new ManipularArquivo();
-					String textoAntigo = idAtual + "," + loginAtual + "," + senhaAtual;
-					String textoNovo = idAtual + "," + loginAtual + "," + novaSenha.getText();
-					
-					//Realiza a alteração da senha.
-					aM.substituirInformacao("usuarios", textoAntigo, textoNovo);
-					
+
 					//Atualiza as informações do usuário após a alteração da senha.
-					usuarioLogado.setSenha(novaSenha.getText());
-					senhaAtual = novaSenha.getText();					
+					usuarioLogado.setSenha(novaSenha.getText()); //Todo: getText parece estar depreciado
+					senhaAtual = novaSenha.getText(); //Todo: getText parece estar depreciado
+					
+					aM.editarDado(usuarioLogado);
 					
 					limparFormulario();
 					JOptionPane.showMessageDialog(null,"Senha alterada com sucesso");
@@ -108,10 +103,5 @@ public class AlterarSenhaWindow extends WindowFrame{
 		senhaAntiga.setText("");
 		novaSenha.setText("");
 		confirmaSenha.setText("");
-		
-		}
-
+	}
 }
-
-
-
