@@ -38,6 +38,7 @@ public class CadastrarCidadeWindow extends WindowFrame {
 
 		txfPais = new JTextField();
 		txfPais.setBounds(15, 30, 200, 25);
+		txfPais.setToolTipText("Digite o país");
 		getContentPane().add(txfPais);
 
 		saida = new JLabel("UF");
@@ -74,6 +75,7 @@ public class CadastrarCidadeWindow extends WindowFrame {
 		txfUf.addItem("SP");
 		txfUf.addItem("TO");
 		txfUf.setBounds(15, 80, 200, 25);
+		txfUf.setToolTipText("Informe o UF");
 		getContentPane().add(txfUf);
 
 		saida = new JLabel("Cidade:");
@@ -83,10 +85,12 @@ public class CadastrarCidadeWindow extends WindowFrame {
 
 		txfCidade = new JTextField();
 		txfCidade.setBounds(15, 130, 200, 25);
+		txfCidade.setToolTipText("Digite a cidade");
 		getContentPane().add(txfCidade);
 		
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(15, 170, 95, 25);
+		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
 		btnLimpar.addActionListener(new ActionListener() {
 			

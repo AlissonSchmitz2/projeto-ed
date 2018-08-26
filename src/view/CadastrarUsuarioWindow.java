@@ -32,23 +32,25 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 	}
 
 	private void criarComponentes() {
-		saida = new JLabel("Digite seu codigo para cadastro: ");
+		saida = new JLabel("Código: ");
 		saida.setBounds(15, 10, 200, 25);
 		getContentPane().add(saida);
 
 		txfCodAluno = new JTextField();
 		txfCodAluno.setBounds(15, 30, 200, 25);
+		txfCodAluno.setToolTipText("Digite o código");
 		getContentPane().add(txfCodAluno);
 
-		saida = new JLabel("Digite sua senha:");
+		saida = new JLabel("Senha:");
 		saida.setBounds(15, 60, 200, 25);
 		getContentPane().add(saida);
 
 		txfSenha = new JPasswordField();
 		txfSenha.setBounds(15, 80, 200, 25);
+		txfSenha.setToolTipText("Digite uma senha");
 		getContentPane().add(txfSenha);
 
-		saida = new JLabel("Escolha seu perfil:");
+		saida = new JLabel("Perfil:");
 		saida.setBounds(15, 110, 200, 25);
 		getContentPane().add(saida);
 
@@ -57,6 +59,7 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 		txfPerfil.addItem(Usuario.ADMINISTRADOR);
 		txfPerfil.addItem(Usuario.CONVIDADO);
 		txfPerfil.setBounds(15, 130, 200, 25);
+		txfPerfil.setToolTipText("Informe o perfil");
 		getContentPane().add(txfPerfil);
 
 		btnLimpar = new JButton(new AbstractAction("Limpar") {
@@ -68,6 +71,7 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 		});
 
 		btnLimpar.setBounds(15, 170, 95, 25);
+		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
 
 		btnCadastra = new JButton(new AbstractAction("Cadastrar") {

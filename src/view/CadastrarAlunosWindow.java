@@ -42,6 +42,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 		txfCod = new JTextField();
 		txfCod.setBounds(15, 30, 125, 25);
+		txfCod.setToolTipText("Digite o código do aluno");
 		getContentPane().add(txfCod);
 
 		labes = new JLabel("Nome:");
@@ -50,6 +51,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 		txfNome = new JTextField();
 		txfNome.setBounds(15, 80, 350, 25);
+		txfNome.setToolTipText("Digite o nome completo");
 		getContentPane().add(txfNome);
 
 						labes = new JLabel("Sexo:");
@@ -61,6 +63,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 						cbxGenero.addItem("Masculino");
 						cbxGenero.addItem("Feminino");
 						cbxGenero.setBounds(175, 130, 190, 25);
+						cbxGenero.setToolTipText("Informe o sexo");
 						getContentPane().add(cbxGenero);
 
 		labes = new JLabel("Data de Nascimento:");
@@ -74,6 +77,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 			txfData = new JFormattedTextField(maskDat);
 			txfData.setBounds(15, 130, 125, 25);
+			txfData.setToolTipText("Digite a data de nascimento");
 			getContentPane().add(txfData);
 
 			labes = new JLabel("Telefone:");//
@@ -82,6 +86,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 			txfFone = new JFormattedTextField(maskFone);
 			txfFone.setBounds(15, 180, 125, 25);
+			txfFone.setToolTipText("Digite o telefone");
 			getContentPane().add(txfFone);
 
 						labes = new JLabel("Celular:");//
@@ -90,6 +95,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 			
 						txfCel = new JFormattedTextField(maskFone);
 						txfCel.setBounds(175, 180, 190, 25);
+						txfCel.setToolTipText("Digite o celular");
 						getContentPane().add(txfCel);
 
 			labes = new JLabel("CEP:");
@@ -98,6 +104,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 			txfCep = new JFormattedTextField(maskCep);
 			txfCep.setBounds(450, 130, 100, 25);
+			txfCep.setToolTipText("Digite o CEP");
 			getContentPane().add(txfCep);
 
 		} catch (ParseException e) {
@@ -110,6 +117,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 		txfEmail = new JTextField();
 		txfEmail.setBounds(15, 230, 350, 25);
+		txfEmail.setToolTipText("Digite o email");
 		getContentPane().add(txfEmail);
 
 		labes = new JLabel("Observação:");
@@ -118,6 +126,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 		txfObs = new JTextField();
 		txfObs.setBounds(15, 280, 350, 25);
+		txfObs.setToolTipText("Digite uma observação");
 		getContentPane().add(txfObs);
 
 		// coluna da direita, cmpos e escrita
@@ -128,6 +137,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 		txfEnder = new JTextField();
 		txfEnder.setBounds(450, 30, 200, 25);
+		txfEnder.setToolTipText("Digite o endereço");
 		getContentPane().add(txfEnder);
 		
 							labes = new JLabel("Número:");
@@ -136,6 +146,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 					
 							txfNum = new JTextField();
 							txfNum.setBounds(675, 30, 75, 25);
+							txfNum.setToolTipText("Digite o número");
 							getContentPane().add(txfNum);
 
 		labes = new JLabel("Complemento:");
@@ -144,6 +155,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 
 		txfComplemen = new JTextField();
 		txfComplemen.setBounds(450, 80, 300, 25);
+		txfComplemen.setToolTipText("Digite o complemento");
 		getContentPane().add(txfComplemen);
 
 							labes = new JLabel("Bairro:");
@@ -152,6 +164,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 					
 							txfBairro = new JTextField();
 							txfBairro.setBounds(570, 130, 180, 25);
+							txfBairro.setToolTipText("Digite o bairro");
 							getContentPane().add(txfBairro);
 
 		labes = new JLabel("Cidade (Outra tela):");
@@ -162,6 +175,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		cbxCidade.addItem("-Selecione-");
 		cbxCidade.addItem("Vem da outra tela");
 		cbxCidade.setBounds(450, 180, 200, 25);
+		cbxCidade.setToolTipText("Informe a cidade");
 		getContentPane().add(cbxCidade);
 
 		labes = new JLabel("UF (Outra tela):");
@@ -172,6 +186,7 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		cbxUf.addItem("-Selecione-");
 		cbxUf.addItem("Vem da outra tela");
 		cbxUf.setBounds(450, 230, 200, 25);
+		cbxUf.setToolTipText("Informe o UF");
 		getContentPane().add(cbxUf);
 
 		labes = new JLabel("País (Outra tela):");
@@ -182,10 +197,12 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		cbxPais.addItem("-Selecione-");
 		cbxPais.addItem("Vem da outra tela");
 		cbxPais.setBounds(450, 280, 200, 25);
+		cbxPais.setToolTipText("Informe o país");
 		getContentPane().add(cbxPais);
 		
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(15, 320, 95, 25);
+		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
 		btnLimpar.addActionListener(new ActionListener() {
 			

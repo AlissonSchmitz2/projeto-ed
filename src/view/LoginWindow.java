@@ -27,20 +27,22 @@ public class LoginWindow extends JDialog {
 
 	public void criarComponentes() {
 
-		Descricao = new JLabel("Informe seu login: ");
+		Descricao = new JLabel("Login: ");
 		Descricao.setBounds(10, 10, 200, 25);
 		getContentPane().add(Descricao);
 
 		txfNome = new JTextField();
 		txfNome.setBounds(10, 30, 200, 25);
+		txfNome.setToolTipText("Informe seu login");
 		getContentPane().add(txfNome);
 
-		Descricao = new JLabel("Informe sua senha: ");
+		Descricao = new JLabel("Senha: ");
 		Descricao.setBounds(10, 65, 200, 25);
 		getContentPane().add(Descricao);
 
 		txfSenha = new JPasswordField();
 		txfSenha.setBounds(10, 85, 200, 25);
+		txfSenha.setToolTipText("Informe sua senha");
 		getContentPane().add(txfSenha);
 
 		btnAcessar = new JButton(new AbstractAction("Acessar") {
