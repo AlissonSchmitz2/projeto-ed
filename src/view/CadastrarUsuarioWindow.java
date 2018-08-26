@@ -53,7 +53,7 @@ public class CadastrarUsuarioWindow extends WindowFrame {
 		getContentPane().add(saida);
 
 		txfPerfil = new JComboBox<String>();
-		txfPerfil.addItem("Selecione");
+		txfPerfil.addItem("-Selecione-");
 		txfPerfil.addItem(Usuario.ADMINISTRADOR);
 		txfPerfil.addItem(Usuario.CONVIDADO);
 		txfPerfil.setBounds(15, 130, 200, 25);

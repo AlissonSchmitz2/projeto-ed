@@ -256,7 +256,6 @@ public class CadastrarAlunosWindow extends WindowFrame {
 		txfFone.setText("");
 		txfCel.setText("");
 		txfCep.setText("");
-		
 	}
 
 }
