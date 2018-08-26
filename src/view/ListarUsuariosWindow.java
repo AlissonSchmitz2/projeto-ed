@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-public class ListarUsuariosWindow extends WindowFrame {
+public class ListarUsuariosWindow extends AbstractWindowFrame {
 	private static final long serialVersionUID = 6347451344224720236L;
 	
 	private static final int HEADER_HEIGHT = 22; //Diferença do topo a ser considerada
@@ -33,7 +33,6 @@ public class ListarUsuariosWindow extends WindowFrame {
 			
 			gbc = new GridBagConstraints();
 		}
-
 		
 		gbc.weightx = 1;
 		gbc.weighty = 1;

@@ -3,6 +3,8 @@ package view;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 
 import javax.swing.JDesktopPane;
@@ -10,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
 import model.Usuario;
@@ -82,13 +83,13 @@ public class Window extends JFrame {
 		
 		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 		
-		menuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				CadastrarAlunosWindow frame = new CadastrarAlunosWindow();
 				abrirFrame(frame);
 			}
 		});
-			
+
 		return menuItem;
 	}
 	
@@ -97,9 +98,12 @@ public class Window extends JFrame {
 		menuItem.setText("Listar");
 		menuItem.setFont(getDefaultFont());
 		
-		menuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
-				System.out.println("TODO: Listar Alunos");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarAlunosWindow frame = new ListarAlunosWindow(desktop, usuarioLogado);
+				abrirFrame(frame);
+				//Garante que a grid se encaixe na tela depois que a tela é criada
+				frame.redimensionarGrid(frame.getGridContent());
 			}
 		});
 		
@@ -125,8 +129,8 @@ public class Window extends JFrame {
 		
 		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 		
-		menuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				CadastrarCidadeWindow frame = new CadastrarCidadeWindow();
 				abrirFrame(frame);
 			}
@@ -140,8 +144,8 @@ public class Window extends JFrame {
 		menuItem.setText("Listar");
 		menuItem.setFont(getDefaultFont());
 		
-		menuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				System.out.println("TODO: Listar Cidades");
 			}
 		});
@@ -170,8 +174,8 @@ public class Window extends JFrame {
 		
 		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 		
-		menuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				CadastrarUsuarioWindow frame = new CadastrarUsuarioWindow();
 				abrirFrame(frame);
 			}
@@ -185,8 +189,8 @@ public class Window extends JFrame {
 		menuItem.setText("Alterar Minha Senha");
 		menuItem.setFont(getDefaultFont());
 		
-		menuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				//TODO: abrir a página para alterar a senha
 			}
 		});
@@ -201,10 +205,11 @@ public class Window extends JFrame {
 		
 		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 		
-		menuItem.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent e) {
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				ListarUsuariosWindow frame = new ListarUsuariosWindow();
 				abrirFrame(frame);
+				
 				//Necessário chamar este método para dimensionar a grid em tela cheia
 				frame.redimensionarGrid(frame.getGrid());
 			}
@@ -224,14 +229,13 @@ public class Window extends JFrame {
 		}
 	}
 	
-	private void abrirFrame(WindowFrame frame) {
+	private void abrirFrame(AbstractWindowFrame frame) {
 	    desktop.add(frame);
+	    
 	    try {
 	    	frame.setMaximum(true);
 	        frame.setSelected(true);
-	    } catch (PropertyVetoException e) {
-	    	//TODO
-	    }
+	    } catch (PropertyVetoException e) {}
 	}
 
 	private Font getDefaultFont() {

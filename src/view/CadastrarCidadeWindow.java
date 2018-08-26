@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 import lib.ManipularArquivo;
 
-public class CadastrarCidadeWindow extends WindowFrame {
+public class CadastrarCidadeWindow extends AbstractWindowFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JTextField txfCidade;
