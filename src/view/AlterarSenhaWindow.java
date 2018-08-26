@@ -93,6 +93,7 @@ public class AlterarSenhaWindow extends WindowFrame{
 					usuarioLogado.setSenha(novaSenha.getText());
 					senhaAtual = novaSenha.getText();					
 					
+					limparFormulario();
 					JOptionPane.showMessageDialog(null,"Senha alterada com sucesso");
 					btnLimpar.doClick();
 				} else {
@@ -110,7 +111,6 @@ public class AlterarSenhaWindow extends WindowFrame{
 		
 		}
 
-	
 }
 
 
