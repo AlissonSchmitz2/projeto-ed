@@ -99,7 +99,13 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				System.out.println("TODO: Listar Alunos");
+				if("Convidado".equals(usuarioLogado.getPerfil())) {
+					ListarAlunosConvidadoWindow frame = new ListarAlunosConvidadoWindow();
+					abrirFrame(frame);
+				} else {
+					System.out.println("Listar com JTable para alterar informações");
+				}
+				
 			}
 		});
 		
@@ -188,6 +194,8 @@ public class Window extends JFrame {
 		menuItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				//TODO: abrir a página para alterar a senha
+				AlterarSenhaWindow frame = new AlterarSenhaWindow(usuarioLogado);
+				abrirFrame(frame);
 			}
 		});
 		

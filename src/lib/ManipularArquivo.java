@@ -5,11 +5,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import model.Aluno;
 import model.Cidade;
@@ -112,6 +114,77 @@ public class ManipularArquivo {
 		}
 		
 		return null;
+	}
+	
+	//Recupera dados de um TXT de acordo com o índice e o id da informação desejada.
+	//Observação: * Para recuperar informações de uma única linha, passar o id da respectiva linha.
+	//            * Para recuperar informações de todas as linhas, passar o id como '-1'. 
+	public ArrayList<String> recuperarDados(int indicesInformacao[], String txtAlvo, String id) {
+		try {			
+			FileReader arq = new FileReader(getDestinoArquivo(txtAlvo));
+			lerArq = new BufferedReader(arq);
+			String linha = lerArq.readLine();
+			ArrayList<String> dadosRecuperados = new ArrayList<>();
+			
+			//Recupera as informações de todas as linhas.
+			if ("-1".equals(id)) {
+				while (linha != null) {
+					String[] verificaLinha = linha.split(",");
+					for (int i : indicesInformacao) {
+					dadosRecuperados.add(verificaLinha[i]);
+					}
+					linha = lerArq.readLine();
+			  }
+			} 
+			//Recupera as informações de uma linha específica.
+			else {
+				while (linha != null) {
+					String[] verificaLinha = linha.split(",");
+					for (int i : indicesInformacao) {
+						if(verificaLinha[0].equals(id)) {
+					       dadosRecuperados.add(verificaLinha[i]);
+						}
+					}
+					linha = lerArq.readLine();
+			  }
+			}			 
+			 
+			 return dadosRecuperados;
+		} catch (IOException e) {
+			System.err.printf("Erro na leitura do arquivo: %s.\n", e.getMessage());
+		}
+		return null;
+	}
+	
+	//Método para a substituição de informações em qualquer TXT.
+	public void substituirInformacao(String txtAlvo, String textoAntigo, String textoNovo) {
+		try {
+	        BufferedReader arquivo = new BufferedReader(new FileReader(getDestinoArquivo(txtAlvo)));
+	        String linha;
+	        StringBuffer inputBuffer = new StringBuffer();
+	        
+	        //Alimenta o Buffer 'inputBuffer' com os dados do arquivo original.
+	        while ((linha = arquivo.readLine()) != null) {
+	            inputBuffer.append(linha);
+	            inputBuffer.append('\n');
+	        }
+	        
+	        //Transforma o conteúdo do Buffer em uma String.
+	        String inputStr = inputBuffer.toString();
+
+	        arquivo.close();	        
+	        
+	        //Substitui a informação.
+	        inputStr = inputStr.replace(textoAntigo, textoNovo);
+	        
+	        //Grava o inputStr com a nova informação sobre o arquivo original.
+	        FileOutputStream fileOut = new FileOutputStream(getDestinoArquivo(txtAlvo));
+	        fileOut.write(inputStr.getBytes());
+	        fileOut.close();
+	        
+		} catch(Exception e) {
+	        System.err.println("Problema na leitura do arquivo.");
+	    }
 	}
 	
 	//Pega a quantidade de linhas no arquivo (código de terceiros)
