@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +18,7 @@ import javax.swing.text.MaskFormatter;
 
 import lib.ManipularArquivo;
 import model.Aluno;
+import model.Cidade;
 
 public class CadastrarAlunosWindow extends AbstractWindowFrame {
 	private static final long serialVersionUID = -4479891238469664919L;
@@ -62,17 +66,17 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		txfNome.setToolTipText("Digite o nome completo");
 		getContentPane().add(txfNome);
 
-						labes = new JLabel("Sexo:");
-						labes.setBounds(175, 110, 250, 25);
-						getContentPane().add(labes);
-				
-						cbxGenero = new JComboBox<String>();
-						cbxGenero.addItem("-Selecione-");
-						cbxGenero.addItem("Masculino");
-						cbxGenero.addItem("Feminino");
-						cbxGenero.setBounds(175, 130, 190, 25);
-						cbxGenero.setToolTipText("Informe o sexo");
-						getContentPane().add(cbxGenero);
+		labes = new JLabel("Sexo:");
+		labes.setBounds(175, 110, 250, 25);
+		getContentPane().add(labes);
+
+		cbxGenero = new JComboBox<String>();
+		cbxGenero.addItem("-Selecione-");
+		cbxGenero.addItem("Masculino");
+		cbxGenero.addItem("Feminino");
+		cbxGenero.setBounds(175, 130, 190, 25);
+		cbxGenero.setToolTipText("Informe o sexo");
+		getContentPane().add(cbxGenero);
 
 		labes = new JLabel("Data de Nascimento:");
 		labes.setBounds(15, 110, 230, 25);
@@ -97,14 +101,14 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 			txfFone.setToolTipText("Digite o telefone");
 			getContentPane().add(txfFone);
 
-						labes = new JLabel("Celular:");//
-						labes.setBounds(175, 160, 190, 25);
-						getContentPane().add(labes);
-			
-						txfCel = new JFormattedTextField(maskFone);
-						txfCel.setBounds(175, 180, 190, 25);
-						txfCel.setToolTipText("Digite o celular");
-						getContentPane().add(txfCel);
+			labes = new JLabel("Celular:");//
+			labes.setBounds(175, 160, 190, 25);
+			getContentPane().add(labes);
+	
+			txfCel = new JFormattedTextField(maskFone);
+			txfCel.setBounds(175, 180, 190, 25);
+			txfCel.setToolTipText("Digite o celular");
+			getContentPane().add(txfCel);
 
 			labes = new JLabel("CEP:");
 			labes.setBounds(450, 110, 100, 25);
@@ -148,14 +152,14 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		txfEnder.setToolTipText("Digite o endereço");
 		getContentPane().add(txfEnder);
 		
-							labes = new JLabel("Número:");
-							labes.setBounds(675, 10, 50, 25);
-							getContentPane().add(labes);
-					
-							txfNum = new JTextField();
-							txfNum.setBounds(675, 30, 75, 25);
-							txfNum.setToolTipText("Digite o número");
-							getContentPane().add(txfNum);
+		labes = new JLabel("Número:");
+		labes.setBounds(675, 10, 50, 25);
+		getContentPane().add(labes);
+
+		txfNum = new JTextField();
+		txfNum.setBounds(675, 30, 75, 25);
+		txfNum.setToolTipText("Digite o número");
+		getContentPane().add(txfNum);
 
 		labes = new JLabel("Complemento:");
 		labes.setBounds(450, 60, 250, 25);
@@ -166,47 +170,91 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		txfComplemen.setToolTipText("Digite o complemento");
 		getContentPane().add(txfComplemen);
 
-							labes = new JLabel("Bairro:");
-							labes.setBounds(570, 110, 250, 25);
-							getContentPane().add(labes);
-					
-							txfBairro = new JTextField();
-							txfBairro.setBounds(570, 130, 180, 25);
-							txfBairro.setToolTipText("Digite o bairro");
-							getContentPane().add(txfBairro);
+		labes = new JLabel("Bairro:");
+		labes.setBounds(570, 110, 250, 25);
+		getContentPane().add(labes);
 
-		labes = new JLabel("Cidade (Outra tela):");
+		txfBairro = new JTextField();
+		txfBairro.setBounds(570, 130, 180, 25);
+		txfBairro.setToolTipText("Digite o bairro");
+		getContentPane().add(txfBairro);
+		
+		//Recupera lista de cidades
+		List<Cidade> cidades = aM.pegarCidades();
+
+		//País
+		labes = new JLabel("País (Outra tela):");
 		labes.setBounds(450, 160, 250, 25);
 		getContentPane().add(labes);
 
-		cbxCidade = new JComboBox<String>();
-		cbxCidade.addItem("-Selecione-");
-		cbxCidade.addItem("Vem da outra tela");
-		cbxCidade.setBounds(450, 180, 200, 25);
-		cbxCidade.setToolTipText("Informe a cidade");
-		getContentPane().add(cbxCidade);
-
-		labes = new JLabel("UF (Outra tela):");
+		cbxPais = new JComboBox<String>();
+		cbxPais.addItem("-Selecione-");
+		//Opções países
+		opcoesPaises(cidades).forEach(pais -> cbxPais.addItem(pais));
+		
+		cbxPais.setBounds(450, 180, 200, 25);
+		cbxPais.setToolTipText("Informe o país");
+		getContentPane().add(cbxPais);
+		
+		//Estado
+		labes = new JLabel("UF:");
 		labes.setBounds(450, 210, 250, 25);
 		getContentPane().add(labes);
 
 		cbxUf = new JComboBox<String>();
 		cbxUf.addItem("-Selecione-");
-		cbxUf.addItem("Vem da outra tela");
 		cbxUf.setBounds(450, 230, 200, 25);
 		cbxUf.setToolTipText("Informe o UF");
 		getContentPane().add(cbxUf);
 
-		labes = new JLabel("País (Outra tela):");
+		//Cidade
+		labes = new JLabel("Cidade (Outra tela):");
 		labes.setBounds(450, 260, 250, 25);
 		getContentPane().add(labes);
 
-		cbxPais = new JComboBox<String>();
-		cbxPais.addItem("-Selecione-");
-		cbxPais.addItem("Vem da outra tela");
-		cbxPais.setBounds(450, 280, 200, 25);
-		cbxPais.setToolTipText("Informe o país");
-		getContentPane().add(cbxPais);
+		cbxCidade = new JComboBox<String>();
+		cbxCidade.addItem("-Selecione-");
+		cbxCidade.setBounds(450, 280, 200, 25);
+		cbxCidade.setToolTipText("Informe a cidade");
+		getContentPane().add(cbxCidade);
+		
+		//Listeners troca comboboxes
+		cbxPais.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String paisSelecionado = (String) cbxPais.getSelectedItem();
+                
+                //Reseta estados e cidades
+                cbxUf.removeAllItems();
+                cbxUf.addItem("-Selecione-");
+                cbxCidade.removeAllItems();
+                cbxCidade.addItem("-Selecione-");
+                
+                if (paisSelecionado == null) {
+                	return;
+                }
+                
+                //Adiciona opções estados
+        		opcoesEstados(cidades, paisSelecionado).forEach(estado -> cbxUf.addItem(estado));
+            }
+		});
+		
+		cbxUf.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	String paisSelecionado = (String) cbxPais.getSelectedItem();
+            	String estadoSelecionado = (String) cbxUf.getSelectedItem();
+                
+                //Reseta estados e cidades
+                cbxCidade.removeAllItems();
+                cbxCidade.addItem("-Selecione-");
+                
+                if (paisSelecionado == null || estadoSelecionado == null) {
+                	return;
+                }
+                
+                //Adiciona opções estados
+        		opcoesCidades(cidades, paisSelecionado, estadoSelecionado).forEach(cidade -> cbxCidade.addItem(cidade));
+            }
+		});
 		
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(15, 320, 95, 25);
@@ -278,6 +326,30 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		txfFone.setText("");
 		txfCel.setText("");
 		txfCep.setText("");
+	}
+	
+	private List<String> opcoesPaises(List<Cidade> cidades) {
+		return cidades.stream()
+			.map(cidade -> cidade.getPais())
+			.distinct()
+			.collect(Collectors.toList());
+	}
+	
+	private List<String> opcoesEstados(List<Cidade> cidades, String pais) {
+		return cidades.stream()
+			.filter(cidade -> pais.equals(cidade.getPais()))
+			.map(cidade -> cidade.getUf())
+			.distinct()
+			.collect(Collectors.toList());
+	}
+	
+	private List<String> opcoesCidades(List<Cidade> cidades, String pais, String estado) {
+		return cidades.stream()
+			.filter(cidade -> pais.equals(cidade.getPais()))
+			.filter(cidade -> estado.equals(cidade.getUf()))
+			.map(cidade -> cidade.getCidade())
+			.distinct()
+			.collect(Collectors.toList());
 	}
 	
 	private void setarValores(Aluno aluno) {

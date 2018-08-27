@@ -1,11 +1,9 @@
 package view;
 
-import model.Aluno;
 import model.Usuario;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;

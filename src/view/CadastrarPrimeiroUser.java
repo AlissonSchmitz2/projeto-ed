@@ -62,7 +62,6 @@ public class CadastrarPrimeiroUser extends JDialog {
 				usuario.setPerfil("Administrador");
 
 				try {
-					System.out.println("entrou");
 					mA.inserirDado(usuario);
 					setVisible(false);
 				} catch (Exception e1) {

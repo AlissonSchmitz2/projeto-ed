@@ -1,20 +1,15 @@
 package lib;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Model;
 import model.Aluno;
 import model.Cidade;
 import model.Usuario;
@@ -98,13 +93,13 @@ public class ManipularArquivo {
 				linha = lerArq.readLine();
 			}
 		} catch (IOException e) {
-			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+			throw new Exception("Arquivo não existente");
 		}
 		
 		return null;
 	}
 	
-	public List<Usuario> pegarUsuarios() throws Exception {
+	public List<Usuario> pegarUsuarios() {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
 		try {
@@ -186,7 +181,7 @@ public class ManipularArquivo {
 		return null;
 	}
 	
-	public List<Aluno> pegarAlunos() throws Exception {
+	public List<Aluno> pegarAlunos() {
 		List<Aluno> alunos = new ArrayList<Aluno>();
 
 		try {
@@ -286,7 +281,7 @@ public class ManipularArquivo {
 		return null;
 	}
 
-	public List<Cidade> pegarCidades() throws Exception {
+	public List<Cidade> pegarCidades() {
 		List<Cidade> cidades = new ArrayList<Cidade>();
 
 		try {

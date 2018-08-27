@@ -2,6 +2,8 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -114,6 +116,15 @@ public class ListarCidadesWindow extends AbstractGridWindow {
 				
 				if (jTableCidades.getSelectedRow() != -1) {
 					idSelecionado = jTableCidades.getValueAt(jTableCidades.getSelectedRow(), 0).toString();
+				}
+			}
+		});
+		
+		//Double Click na linha
+		jTableCidades.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					//TODO: Abrir tela para visualização do cadastro
 				}
 			}
 		});
