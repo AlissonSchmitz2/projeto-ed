@@ -19,16 +19,11 @@ public class AlterarSenhaWindow extends AbstractWindowFrame {
 	private JButton btnLimpar;
 	private JButton btnConfirma;
 	private JLabel descricaoCampo;
-	private Integer idAtual;
-	private String loginAtual;
-	private String senhaAtual;
 	private Usuario usuarioLogado;
+	private ManipularArquivo aM = new ManipularArquivo();
 	
 	public AlterarSenhaWindow(Usuario usuarioLogado) {		
 		super("Alterar Senha");
-		this.idAtual = usuarioLogado.getId();
-		this.loginAtual = usuarioLogado.getLogin();
-		this.senhaAtual = usuarioLogado.getSenha();
 		this.usuarioLogado = usuarioLogado;
 		criarComponentes();
 	}
@@ -69,7 +64,9 @@ public class AlterarSenhaWindow extends AbstractWindowFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				limparFormulario();
+				novaSenha.setText("");
+				confirmaSenha.setText("");
+				senhaAntiga.setText("");
 			}
 		});
 		
@@ -79,29 +76,20 @@ public class AlterarSenhaWindow extends AbstractWindowFrame {
 		btnConfirma.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (novaSenha.getText().equals(confirmaSenha.getText()) && senhaAntiga.getText().equals(senhaAtual)) {
-					ManipularArquivo aM = new ManipularArquivo();
-
-					//Atualiza as informações do usuário após a alteração da senha.
-					usuarioLogado.setSenha(novaSenha.getText()); //Todo: getText parece estar depreciado
-					senhaAtual = novaSenha.getText(); //Todo: getText parece estar depreciado
+				if ("".equals(novaSenha.getText()) == false && novaSenha.getText().equals(confirmaSenha.getText()) && senhaAntiga.getText().equals(usuarioLogado.getSenha())) {
 					
+					//Atualiza a senha do usuário para depois atualiza-lá no TXT.
+					usuarioLogado.setSenha(novaSenha.getText()); 
+					
+					//Atualiza a senha no TXT.
 					aM.editarDado(usuarioLogado);
 					
-					limparFormulario();
 					JOptionPane.showMessageDialog(null,"Senha alterada com sucesso");
 					btnLimpar.doClick();
 				} else {
 					JOptionPane.showMessageDialog(null,"Informações incorretas!");
 				}
 			}
-		});
-		
-	}
-	
-	public void limparFormulario() {
-		senhaAntiga.setText("");
-		novaSenha.setText("");
-		confirmaSenha.setText("");
+		});		
 	}
 }
