@@ -17,11 +17,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import lib.ManipularArquivo;
+import model.Aluno;
 import model.Cidade;
 import model.Usuario;
+import observer.Observer;
+import observer.ObserverCidade;
 import table.model.CidadeTableModel;
 
-public class ListarCidadesWindow extends AbstractGridWindow {
+public class ListarCidadesWindow extends AbstractGridWindow implements ObserverCidade{
 	private static final long serialVersionUID = 5436871882222628866L;
 	
 	ManipularArquivo aM = new ManipularArquivo();
@@ -57,9 +60,11 @@ public class ListarCidadesWindow extends AbstractGridWindow {
 				Cidade cidade = aM.pegarCidadePorId(Integer.parseInt(idSelecionado));
 				
 				if (cidade instanceof Cidade) {
-					CadastrarCidadeWindow frame = new CadastrarCidadeWindow(cidade);
+					ListarCidadesWindow lC = new ListarCidadesWindow(desktop,usuarioLogado);
+					setVisible(false);
+					CadastrarCidadeWindow frame = new CadastrarCidadeWindow(cidade,"editar");
+					frame.addObserver(lC);
 					abrirFrame(frame);
-					//TODO: Implementar um Observer para atualizar a lista após a edição
 				}
 			}
 		});
@@ -162,4 +167,16 @@ public class ListarCidadesWindow extends AbstractGridWindow {
 			redimensionarGrid(grid);
 		}
 	}
+
+	@Override
+	public void update(Cidade cidade) {
+		aM.editarDado(cidade);
+		ListarCidadesWindow lC = new ListarCidadesWindow(desktop,usuarioLogado);
+		desktop.add(lC);
+		
+	}
+
+	
+
+	
 }

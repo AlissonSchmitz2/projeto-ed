@@ -19,11 +19,12 @@ import javax.swing.event.ListSelectionListener;
 import lib.ManipularArquivo;
 import model.Aluno;
 import model.Usuario;
+import observer.Observer;
 import table.model.AlunoTableModel;
 
-public class ListarAlunosWindow extends AbstractGridWindow {
+public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 	private static final long serialVersionUID = 5436871882222628866L;
-
+	
 	ManipularArquivo aM = new ManipularArquivo();
 
 	private JButton botaoExcluir;
@@ -35,17 +36,16 @@ public class ListarAlunosWindow extends AbstractGridWindow {
 	private AlunoTableModel model;
 	private List<Aluno> listaAlunos = new ArrayList<Aluno>();
 	private JDesktopPane desktop;
-
+	
 	public ListarAlunosWindow(JDesktopPane desktop, Usuario usuarioLogado) {
 		super("Lista de Alunos");
 
 		this.desktop = desktop;
 		this.usuarioLogado = usuarioLogado;
-
 		criarComponentes();
 		carregarGrid();
 	}
-
+	
 	private void criarComponentes() {
 		// Botão de ação Editar
 		botaoEditar = new JButton("Editar");
@@ -55,11 +55,13 @@ public class ListarAlunosWindow extends AbstractGridWindow {
 		botaoEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Aluno aluno = aM.pegarAlunoPorId(Integer.parseInt(idSelecionado));
-
+				
 				if (aluno instanceof Aluno) {
-					CadastrarAlunosWindow frame = new CadastrarAlunosWindow(aluno);
+					ListarAlunosWindow lA = new ListarAlunosWindow(desktop,usuarioLogado);
+					setVisible(false);
+					CadastrarAlunosWindow frame = new CadastrarAlunosWindow(aluno,"editar");
+					frame.addObserver(lA);
 					abrirFrame(frame);
-					// TODO: Implementar um Observer para atualizar a lista após a edição
 				}
 			}
 		});
@@ -162,4 +164,12 @@ public class ListarAlunosWindow extends AbstractGridWindow {
 			redimensionarGrid(grid);
 		}
 	}
+
+	@Override
+	public void update(Aluno aluno) {
+		aM.editarDado(aluno);
+		ListarAlunosWindow lA = new ListarAlunosWindow(desktop,usuarioLogado);
+		desktop.add(lA);
+	}
+	
 }

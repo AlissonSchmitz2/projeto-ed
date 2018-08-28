@@ -2,10 +2,15 @@ package view;
 
 import model.Aluno;
 import model.Cidade;
+import observer.Observer;
+import observer.ObserverCidade;
+import observer.SubjectCidade;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -16,14 +21,16 @@ import javax.swing.JTextField;
 
 import lib.ManipularArquivo;
 
-public class CadastrarCidadeWindow extends AbstractWindowFrame {
+public class CadastrarCidadeWindow extends AbstractWindowFrame implements SubjectCidade{
 	private static final long serialVersionUID = 1L;
 
+	private ArrayList<ObserverCidade> observers = new ArrayList<ObserverCidade>();
 	private JTextField txfCidade;
 	private JComboBox<String> txfUf;
 	private JTextField txfPais;
 	private JLabel saida;
 	private JButton btnCadastra, btnLimpar;
+	String  typeAction="";
 	
 	private Cidade cidade;
 
@@ -33,8 +40,9 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame {
 		criarComponentes();
 	}
 	
-	public CadastrarCidadeWindow(Cidade cidade) {
-		super("Cadastrar Cidade");
+	public CadastrarCidadeWindow(Cidade cidade,String typeAction){
+		super("Editar Cidade");
+		this.typeAction = typeAction;
 		this.cidade = cidade;
 		criarComponentes();
 		setarValores(cidade);
@@ -115,17 +123,22 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				Cidade cidade = new Cidade();
-
-				String _cidade = txfCidade.getText();
-				cidade.setCidade(_cidade);
-
-				String uf = txfUf.getSelectedItem().toString();
-				cidade.setUf(uf);
-
-				String pais = txfPais.getText();
-				cidade.setPais(pais);
-
+				
+			
+				cidade.setCidade(txfCidade.getText());
+				cidade.setUf(txfUf.getSelectedItem().toString());
+				cidade.setPais(txfPais.getText());
+				
+				boolean cadastrar = true;
+				
+				if(typeAction == "editar") {
+					notifyObservers(cidade);
+					JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
+					cadastrar = false;
+					setVisible(false);
+				}
+				
+				if(cadastrar) {
 				try {
 					ManipularArquivo aM = new ManipularArquivo();
 					aM.inserirDado(cidade);
@@ -134,7 +147,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-			}
+			}}
 		});
 		
 		btnCadastra.setBounds(120, 170, 95, 25);
@@ -144,5 +157,26 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame {
 	private void setarValores(Cidade cidade) {
 		//TODO: setar valores iniciais para edição
 		txfCidade.setText(cidade.getCidade());
+	}
+
+	@Override
+	public void addObserver(ObserverCidade o) {
+		observers.add(o);
+		
+	}
+
+	@Override
+	public void removeObserver(ObserverCidade o) {
+		observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers(Cidade cidade) {
+		Iterator it = observers.iterator();
+		while(it.hasNext()) {
+			ObserverCidade observer = (ObserverCidade) it.next();
+			observer.update(cidade);
+		}
+		
 	}
 }
