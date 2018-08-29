@@ -160,8 +160,8 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 
 	private void setarValores(Cidade cidade) {
 		txfPais.setText(cidade.getPais());
+		txfUf.setSelectedItem(cidade.getUf());
 		txfCidade.setText(cidade.getCidade());
-		txfUf.setSelectedIndex(0);
 	}
 
 	@Override
