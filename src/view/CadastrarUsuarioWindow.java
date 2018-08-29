@@ -41,7 +41,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	}
 
 	public CadastrarUsuarioWindow(Usuario usuario) {
-		super("Editar Cidade");
+		super("Editar Usuario");
 		this.usuario = usuario;
 		criarComponentes();
 		setarValores(usuario);
@@ -138,7 +138,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	}
 
 	private void setarValores(Usuario usuario) {
-		// TODO: setar valores iniciais para edição
+		txfPerfil.setSelectedIndex(0);
 		txfCodAluno.setText(usuario.getLogin());
 	}
 
