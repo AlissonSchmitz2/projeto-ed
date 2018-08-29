@@ -28,6 +28,7 @@ public class CadastrarPrimeiroUser extends JDialog {
 		setTitle("Cadastro Administrador");
 		setLayout(null);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		criarComponentes();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
