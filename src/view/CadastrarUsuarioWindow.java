@@ -132,6 +132,8 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		txfCodAluno.setText("");
 		txfSenha.setText("");
 		txfPerfil.setSelectedIndex(0);
+		
+		usuario = new Usuario();
 
 	}
 
