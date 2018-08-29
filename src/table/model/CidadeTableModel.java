@@ -2,7 +2,6 @@ package table.model;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.Aluno;
 import model.Cidade;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,7 @@ public class CidadeTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = -3586211638575736174L;
 
 	private List<Cidade> cidades;
-	private String[] colunas = new String[] { "ID", "Cidade", "UF" };
+	private String[] colunas = new String[] { "ID", "Cidade", "UF", "País" };
 
 	public CidadeTableModel(List<Cidade> cidades) {
 		this.cidades = cidades;
@@ -43,10 +42,12 @@ public class CidadeTableModel extends AbstractTableModel {
 		cidade.setId(aValue.getId());
 		cidade.setCidade(aValue.getCidade());
 		cidade.setUf(aValue.getUf());
+		cidade.setPais(aValue.getPais());
 
 		fireTableCellUpdated(rowIndex, 0);
 		fireTableCellUpdated(rowIndex, 1);
 		fireTableCellUpdated(rowIndex, 2);
+		fireTableCellUpdated(rowIndex, 3);
 	}
 
 	@Override
@@ -60,6 +61,8 @@ public class CidadeTableModel extends AbstractTableModel {
 			cidade.setCidade(aValue.toString());
 		case 2:
 			cidade.setUf(aValue.toString());
+		case 3: 
+			cidade.setPais(aValue.toString());
 
 		default:
 			System.err.println("Índice da coluna inválido");
@@ -79,6 +82,9 @@ public class CidadeTableModel extends AbstractTableModel {
 			break;
 		case 2:
 			valueObject = cidadeSelecionada.getUf();
+			break;
+		case 3:
+			valueObject = cidadeSelecionada.getPais();
 			break;
 		default:
 			System.err.println("Índice inválido para propriedade do bean Cidade.class");
@@ -114,16 +120,6 @@ public class CidadeTableModel extends AbstractTableModel {
 		int tamanhoAntigo = getRowCount();
 		cidades.addAll(novasCidades);
 		fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);
-	}
-	
-	//Adiciona a lista de cidades a partir do valor buscado.
-	public void addListaDeCidades(List<Cidade> novasCidades, String dadosDacidade, String valorBusca, int indiceLinhaTable) {
-		int tamanhoAntigo = getRowCount();		
-			
-		if (dadosDacidade.toLowerCase().contains(valorBusca.toLowerCase())) {
-			cidades.add(novasCidades.get(indiceLinhaTable));
-			fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);
-		}		
 	}
 
 	public void limpar() {

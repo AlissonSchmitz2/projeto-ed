@@ -124,6 +124,33 @@ public class ManipularArquivo {
 		return usuarios;
 	}
 	
+	public List<Usuario> pegarUsuarios(String valorBusca) {
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				
+				if (linha.toLowerCase().contains(valorBusca.toLowerCase())) {					
+				
+				String[] atributo = linha.split(SEPARATOR);
+				
+				usuarios.add(criarUsuarioApartirAtributos(atributo));
+				}
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return usuarios;
+	}
+	
 	private Usuario criarUsuarioApartirAtributos(String[] atributo) {
 		Usuario novoUsuario = new Usuario();
 		
@@ -135,7 +162,7 @@ public class ManipularArquivo {
 		return novoUsuario;
 	}
 	
-	public String criarStringDadosApartirUsuario(Usuario usuario) {
+	private String criarStringDadosApartirUsuario(Usuario usuario) {
 		return usuario.getId() + SEPARATOR + usuario.getLogin() + SEPARATOR + usuario.getSenha() + SEPARATOR + usuario.getPerfil();
 	}
 	
@@ -205,6 +232,33 @@ public class ManipularArquivo {
 		
 		return alunos;
 	}
+	
+	public List<Aluno> pegarAlunos(String valorBusca) {
+		List<Aluno> alunos = new ArrayList<Aluno>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("alunos"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				
+				if (linha.toLowerCase().contains(valorBusca.toLowerCase())) {
+				
+					String[] atributo = linha.split(SEPARATOR);
+					alunos.add(criarAlunoApartirAtributos(atributo));
+				}
+				
+				linha = lerArq.readLine();				
+			}
+			
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return alunos;
+	}
 
 	private Aluno criarAlunoApartirAtributos(String[] atributo) {
 		Aluno novoAluno = new Aluno();
@@ -230,7 +284,7 @@ public class ManipularArquivo {
 		return novoAluno;
 	}
 	
-	public String criarStringDadosApartirAluno(Aluno aluno) {
+	private String criarStringDadosApartirAluno(Aluno aluno) {
 		return aluno.getId() + SEPARATOR + aluno.getCodAluno() + SEPARATOR + aluno.getNomeAluno() + SEPARATOR + aluno.getSexo() + SEPARATOR
 				+ aluno.getDataNascimento() + SEPARATOR + aluno.getTelefone() + SEPARATOR + aluno.getCelular() + SEPARATOR
 				+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
@@ -305,6 +359,33 @@ public class ManipularArquivo {
 		return cidades;
 	}
 	
+	public List<Cidade> pegarCidades(String valorBusca) {
+		List<Cidade> cidades = new ArrayList<Cidade>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("cidades"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				
+				if(linha.toLowerCase().contains(valorBusca.toLowerCase())) {
+									
+				String[] atributo = linha.split(SEPARATOR);
+				
+				cidades.add(criarCidadeApartirAtributos(atributo));
+				}
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return cidades;
+	}
+	
 	private Cidade criarCidadeApartirAtributos(String[] atributo) {
 		Cidade novaCidade = new Cidade();
 		
@@ -316,7 +397,7 @@ public class ManipularArquivo {
 		return novaCidade;
 	}
 	
-	public String criarStringDadosApartirCidade(Cidade cidade) {
+	private String criarStringDadosApartirCidade(Cidade cidade) {
 		return cidade.getId() + SEPARATOR + cidade.getCidade() + SEPARATOR + cidade.getUf() + SEPARATOR + cidade.getPais();
 	}
 	

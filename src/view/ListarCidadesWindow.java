@@ -19,10 +19,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import lib.ManipularArquivo;
-import model.Aluno;
 import model.Cidade;
 import model.Usuario;
-import observer.Observer;
 import observer.ObserverCidade;
 import table.model.CidadeTableModel;
 
@@ -126,12 +124,8 @@ public class ListarCidadesWindow extends AbstractGridWindow implements ObserverC
 				model.limpar();
 				
 				//Lista oque estiver relacionado com a busca.
-				for (int i = 0; i < listaCidades.size(); i++) {
-				String dadosDaCidade = aM.criarStringDadosApartirCidade(listaCidades.get(i));
-				String valorBuscar = txfBuscar.getText();
-				model.addListaDeCidades(listaCidades, dadosDaCidade, valorBuscar, i);
-				}
-				
+				listaCidades = aM.pegarCidades(txfBuscar.getText());
+				model.addListaDeCidades(listaCidades);
 			}
 		});
 		

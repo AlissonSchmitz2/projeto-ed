@@ -121,15 +121,11 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
 				//Limpa a lista.
-				model.limpar();
+				model.limpar();				
 				
 				//Lista oque estiver relacionado com a busca.
-				for (int i = 0; i < listaAlunos.size(); i++) {
-				String dadosDoAluno = aM.criarStringDadosApartirAluno(listaAlunos.get(i));
-				String valorBuscar = txfBuscar.getText();
-				model.addListaDeAlunos(listaAlunos, dadosDoAluno, valorBuscar, i);
-				}
-				
+				listaAlunos = aM.pegarAlunos(txfBuscar.getText());
+				model.addListaDeAlunos(listaAlunos);				
 			}
 		});
 		
