@@ -32,6 +32,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	private JButton btnSalvar, btnLimpar;
 	private JLabel labes;
 	private JFormattedTextField txfData, txfFone, txfCel, txfCep, txfNum;
+	private List<Cidade> cidades;
 
 	private Aluno aluno;
 	private ManipularArquivo aM = new ManipularArquivo();
@@ -39,12 +40,14 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	public CadastrarAlunosWindow() {
 		super("Cadastrar Aluno");
 		this.aluno = new Aluno();
+		cidades = aM.pegarCidades();
 		criarComponentes();
 	}
 
 	public CadastrarAlunosWindow(Aluno aluno) {
 		super("Editar Aluno");
 		this.aluno = aluno;
+		cidades = aM.pegarCidades();
 		criarComponentes();
 		setarValores(aluno);
 	}
@@ -182,9 +185,6 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfBairro.setBounds(570, 130, 180, 25);
 		txfBairro.setToolTipText("Digite o bairro");
 		getContentPane().add(txfBairro);
-
-		// Recupera lista de cidades
-		List<Cidade> cidades = aM.pegarCidades();
 
 		// País
 		labes = new JLabel("País (Outra tela):");
@@ -368,14 +368,15 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfComplemen.setText(aluno.getComplemento());
 		txfBairro.setText(aluno.getBairro());
 		cbxGenero.setSelectedItem(aluno.getSexo());
-		cbxCidade.setSelectedItem(aluno.getCidade());
-		cbxUf.setSelectedItem(aluno.getUf());
-		cbxPais.setSelectedItem(aluno.getPais());
 		txfData.setValue(aluno.getDataNascimento());
 		txfFone.setValue(aluno.getTelefone());
 		txfCel.setValue(aluno.getCelular());
 		txfCep.setValue(aluno.getCep());
 		txfNum.setValue(aluno.getNumero());
+		
+		cbxPais.setSelectedItem(aluno.getPais());
+		cbxUf.setSelectedItem(aluno.getUf());
+		cbxCidade.setSelectedItem(aluno.getCidade());
 	}
 
 	@Override

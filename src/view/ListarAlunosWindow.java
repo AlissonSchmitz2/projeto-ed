@@ -66,11 +66,7 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 				Aluno aluno = aM.pegarAlunoPorId(Integer.parseInt(idSelecionado));
 				
 				if (aluno instanceof Aluno) {
-					ListarAlunosWindow lA = new ListarAlunosWindow(desktop,usuarioLogado);
-					setVisible(false);
-					CadastrarAlunosWindow frame = new CadastrarAlunosWindow(aluno);
-					frame.addObserver(lA);
-					abrirFrame(frame);
+					abrirEdicaoAluno(aluno);
 				}
 			}
 		});
@@ -89,7 +85,8 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 					aM.removerDado(aluno);
 
 					// Percorre a lista de alunos e remove o Aluno com ID selecionado
-					listaAlunos = listaAlunos.stream().filter(it -> !it.getId().equals(aluno.getId()))
+					listaAlunos = listaAlunos.stream()
+							.filter(it -> !it.getId().equals(aluno.getId()))
 							.collect(Collectors.toList());
 
 					// Reseta a lista e atualiza JTable novamente
@@ -129,7 +126,6 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 				String valorBuscar = txfBuscar.getText();
 				model.addListaDeAlunos(listaAlunos, dadosDoAluno, valorBuscar, i);
 				}
-				
 			}
 		});
 		
@@ -149,7 +145,6 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 				}
 			}
 		});
-	
 	}
 
 	private void abrirFrame(AbstractWindowFrame frame) {
@@ -180,10 +175,15 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 		jTableAlunos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					//TODO: Abrir tela para visualização do cadastro
-					if ("Convidado".equals(usuarioLogado.getPerfil())) {	
-					InformacoesAlunosWindow frame = new InformacoesAlunosWindow(idSelecionado);
-					abrirFrame(frame);					
+					Aluno aluno = aM.pegarAlunoPorId(Integer.parseInt(idSelecionado));
+					
+					if (aluno instanceof Aluno) {
+						if (usuarioLogado.possuiPerfilConvidado()) {
+							InformacoesAlunosWindow frame = new InformacoesAlunosWindow(aluno);
+							abrirFrame(frame);					
+						} else {
+							abrirEdicaoAluno(aluno);
+						}
 					}
 				}
 			}
@@ -203,7 +203,13 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 
 		add(grid);
 	}
-		
+	
+	private void abrirEdicaoAluno(Aluno aluno) {
+		CadastrarAlunosWindow frame = new CadastrarAlunosWindow(aluno);
+		frame.addObserver(this);
+		abrirFrame(frame);
+	}
+	
 	private void habilitarBotoesDeAcoes() {
 		// Somente usuário administrador pode manipular dados
 		if (Usuario.ADMINISTRADOR.equals(this.usuarioLogado.getPerfil())) {
@@ -226,8 +232,11 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 	@Override
 	public void update(Aluno aluno) {
 		aM.editarDado(aluno);
-		ListarAlunosWindow lA = new ListarAlunosWindow(desktop,usuarioLogado);
-		desktop.add(lA);
+		
+		//txfBuscar.getText()
+		model.limpar();
+		listaAlunos = aM.pegarAlunos();
+		model.addListaDeAlunos(listaAlunos);
 	}
 	
 }

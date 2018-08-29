@@ -4,7 +4,6 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import lib.ManipularArquivo;
 import model.Aluno;
 
 public class InformacoesAlunosWindow extends AbstractWindowFrame{	
@@ -30,11 +29,10 @@ public class InformacoesAlunosWindow extends AbstractWindowFrame{
 	private JLabel labes;
 	
 	private Aluno alunoSelecionado;
-	private ManipularArquivo mA = new ManipularArquivo();
 
-	public InformacoesAlunosWindow(String idSelecionado) {
+	public InformacoesAlunosWindow(Aluno alunoSelecionado) {
 		super("Informações do Aluno");
-		alunoSelecionado = mA.pegarAlunoPorId(Integer.parseInt(idSelecionado));
+		this.alunoSelecionado = alunoSelecionado;
 		criarComponentes();		
 	}
 	
