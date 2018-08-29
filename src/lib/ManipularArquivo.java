@@ -133,7 +133,7 @@ public class ManipularArquivo {
 		return novoUsuario;
 	}
 	
-	private String criarStringDadosApartirUsuario(Usuario usuario) {
+	public String criarStringDadosApartirUsuario(Usuario usuario) {
 		return usuario.getId() + SEPARATOR + usuario.getLogin() + SEPARATOR + usuario.getSenha() + SEPARATOR + usuario.getPerfil();
 	}
 	
@@ -228,7 +228,7 @@ public class ManipularArquivo {
 		return novoAluno;
 	}
 	
-	private String criarStringDadosApartirAluno(Aluno aluno) {
+	public String criarStringDadosApartirAluno(Aluno aluno) {
 		return aluno.getId() + SEPARATOR + aluno.getCodAluno() + SEPARATOR + aluno.getNomeAluno() + SEPARATOR + aluno.getSexo() + SEPARATOR
 				+ aluno.getDataNascimento() + SEPARATOR + aluno.getTelefone() + SEPARATOR + aluno.getCelular() + SEPARATOR
 				+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
@@ -315,7 +315,7 @@ public class ManipularArquivo {
 		return novaCidade;
 	}
 	
-	private String criarStringDadosApartirCidade(Cidade cidade) {
+	public String criarStringDadosApartirCidade(Cidade cidade) {
 		return cidade.getId() + SEPARATOR + cidade.getCidade() + SEPARATOR + cidade.getUf() + SEPARATOR + cidade.getPais();
 	}
 	

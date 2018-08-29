@@ -10,8 +10,10 @@ import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -29,6 +31,12 @@ public class ListarUsuariosWindow extends AbstractGridWindow {
 	private JButton botaoEditar;
 	private Usuario usuarioLogado;
 	private String idSelecionado;
+	
+	//Componentes Para Busca
+	private JTextField txfBuscar;
+	private JButton btnBuscar;
+	private JButton btnLimparBusca;
+	private JLabel labelInformacao;
 	
 	private JTable jTableUsuarios;
 	private UsuarioTableModel model;
@@ -90,6 +98,50 @@ public class ListarUsuariosWindow extends AbstractGridWindow {
 					
 					//Desabilita botão de ações (uma vez que a linha selecionada anteriormente não existe, desabilita botões de ação
 					desabilitarBotoesDeAcoes();
+				}
+			}
+		});
+		
+		//Componentes Para Busca
+		labelInformacao = new JLabel("Busca:");
+		labelInformacao.setBounds(280, 30, 100, 25);
+		getContentPane().add(labelInformacao);	    
+				
+		txfBuscar = new JTextField();
+		txfBuscar.setBounds(330, 30, 200, 25);
+		getContentPane().add(txfBuscar);
+				
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(550, 30, 100, 25);
+		getContentPane().add(btnBuscar);
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				//Limpa a lista.
+				model.limpar();
+				
+				//Lista oque estiver relacionado com a busca.
+				for (int i = 0; i < listaUsuarios.size(); i++) {
+				String dadosDoUsuario = aM.criarStringDadosApartirUsuario(listaUsuarios.get(i));
+				String valorBuscar = txfBuscar.getText();
+				model.addListaDeUsuarios(listaUsuarios, dadosDoUsuario, valorBuscar, i);
+				}
+				
+			}
+		});
+		
+		btnLimparBusca = new JButton("Limpar Busca");
+		btnLimparBusca.setBounds(670, 30, 140, 25);
+		getContentPane().add(btnLimparBusca);
+		btnLimparBusca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Limpa o campo de busca e mostra a lista inteira novamente.
+				txfBuscar.setText("");
+				model.limpar();
+				try {
+					listaUsuarios = aM.pegarUsuarios();
+					model.addListaDeUsuarios(listaUsuarios);
+				} catch (Exception e2) {
+					System.err.printf("Erro ao iniciar lista de usuarios: %s.\n", e2.getMessage());
 				}
 			}
 		});

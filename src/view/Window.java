@@ -208,8 +208,6 @@ public class Window extends JFrame {
 		menuItem.setText("Listar");
 		menuItem.setFont(getDefaultFont());
 		
-		protegerMenuItemBaseadoPerfilUsuario(menuItem);
-		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListarUsuariosWindow frame = new ListarUsuariosWindow(desktop, usuarioLogado);

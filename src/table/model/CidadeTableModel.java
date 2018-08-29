@@ -1,6 +1,8 @@
 package table.model;
 
 import javax.swing.table.AbstractTableModel;
+
+import model.Aluno;
 import model.Cidade;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +114,16 @@ public class CidadeTableModel extends AbstractTableModel {
 		int tamanhoAntigo = getRowCount();
 		cidades.addAll(novasCidades);
 		fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);
+	}
+	
+	//Adiciona a lista de cidades a partir do valor buscado.
+	public void addListaDeCidades(List<Cidade> novasCidades, String dadosDacidade, String valorBusca, int indiceLinhaTable) {
+		int tamanhoAntigo = getRowCount();		
+			
+		if (dadosDacidade.toLowerCase().contains(valorBusca.toLowerCase())) {
+			cidades.add(novasCidades.get(indiceLinhaTable));
+			fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);
+		}		
 	}
 
 	public void limpar() {
