@@ -29,9 +29,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 	private JComboBox<String> txfUf;
 	private JTextField txfPais;
 	private JLabel saida;
-	private JButton btnCadastra, btnLimpar;
-	String  typeAction="";
-	
+	private JButton btnCadastra, btnLimpar;	
 	private Cidade cidade;
 
 	public CadastrarCidadeWindow() {
@@ -40,9 +38,8 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		criarComponentes();
 	}
 	
-	public CadastrarCidadeWindow(Cidade cidade,String typeAction){
+	public CadastrarCidadeWindow(Cidade cidade){
 		super("Editar Cidade");
-		this.typeAction = typeAction;
 		this.cidade = cidade;
 		criarComponentes();
 		setarValores(cidade);
@@ -131,7 +128,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 				
 				boolean cadastrar = true;
 				
-				if(typeAction == "editar") {
+				if(cidade.getId() != null) {
 					notifyObservers(cidade);
 					JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
 					cadastrar = false;

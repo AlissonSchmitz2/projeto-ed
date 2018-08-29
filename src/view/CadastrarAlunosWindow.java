@@ -32,7 +32,6 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	private JButton btnSalvar, btnLimpar;
 	private JLabel labes;
 	private JFormattedTextField txfData, txfFone, txfCel, txfCep;
-	String typeAction = "";
 
 	private Aluno aluno;
 	private ManipularArquivo aM = new ManipularArquivo();
@@ -43,9 +42,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		criarComponentes();
 	}
 
-	public CadastrarAlunosWindow(Aluno aluno, String typeAction) {
+	public CadastrarAlunosWindow(Aluno aluno) {
 		super("Editar Aluno");
-		this.typeAction = typeAction;
 		this.aluno = aluno;
 		criarComponentes();
 		setarValores(aluno);
@@ -300,7 +298,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 				aluno.setPais(cbxPais.getSelectedItem().toString());
 
 				boolean cadastrar = true;
-				if (typeAction == "editar") {
+				if (aluno.getId() != null) {
 					notifyObservers(aluno);
 					JOptionPane.showMessageDialog(null, "Aluno editado com sucesso!");
 					cadastrar = false;

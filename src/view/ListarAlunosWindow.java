@@ -59,7 +59,7 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 				if (aluno instanceof Aluno) {
 					ListarAlunosWindow lA = new ListarAlunosWindow(desktop,usuarioLogado);
 					setVisible(false);
-					CadastrarAlunosWindow frame = new CadastrarAlunosWindow(aluno,"editar");
+					CadastrarAlunosWindow frame = new CadastrarAlunosWindow(aluno);
 					frame.addObserver(lA);
 					abrirFrame(frame);
 				}

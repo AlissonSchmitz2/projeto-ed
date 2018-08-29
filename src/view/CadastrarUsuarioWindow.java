@@ -31,7 +31,6 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	private JButton btnCadastra;
 	private JButton btnLimpar;
 	private JLabel saida;
-	String  typeAction="";
 	
 	private Usuario usuario;
 
@@ -41,9 +40,8 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		criarComponentes();
 	}
 	
-	public CadastrarUsuarioWindow(Usuario usuario,String typeAction){
+	public CadastrarUsuarioWindow(Usuario usuario){
 		super("Editar Cidade");
-		this.typeAction = typeAction;
 		this.usuario = usuario;
 		criarComponentes();
 		setarValores(usuario);
@@ -104,7 +102,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 				
 				boolean cadastrar = true;
 				
-				if(typeAction == "editar") {
+				if(usuario.getId() != null) {
 					notifyObservers(usuario);
 					JOptionPane.showMessageDialog(null, "Usuario editado com sucesso!");
 					cadastrar = false;
