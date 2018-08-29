@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 
 import lib.ManipularArquivo;
 
-public class CadastrarCidadeWindow extends AbstractWindowFrame implements SubjectCidade{
+public class CadastrarCidadeWindow extends AbstractWindowFrame implements SubjectCidade {
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<ObserverCidade> observers = new ArrayList<ObserverCidade>();
@@ -29,7 +29,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 	private JComboBox<String> txfUf;
 	private JTextField txfPais;
 	private JLabel saida;
-	private JButton btnCadastra, btnLimpar;	
+	private JButton btnCadastra, btnLimpar;
 	private Cidade cidade;
 
 	public CadastrarCidadeWindow() {
@@ -37,8 +37,8 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		this.cidade = new Cidade();
 		criarComponentes();
 	}
-	
-	public CadastrarCidadeWindow(Cidade cidade){
+
+	public CadastrarCidadeWindow(Cidade cidade) {
 		super("Editar Cidade");
 		this.cidade = cidade;
 		criarComponentes();
@@ -102,64 +102,74 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		txfCidade.setBounds(15, 130, 200, 25);
 		txfCidade.setToolTipText("Digite a cidade");
 		getContentPane().add(txfCidade);
-		
+
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(15, 170, 95, 25);
 		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
 		btnLimpar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//limparFormulario();
+				if (cidade.getId() != null) {
+					setarValores(cidade);
+				} else {
+					limparFormulario();
+				}
 			}
 		});
-		
-				
+
 		btnCadastra = new JButton(new AbstractAction("Cadastrar") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				
-			
+
 				cidade.setCidade(txfCidade.getText());
 				cidade.setUf(txfUf.getSelectedItem().toString());
 				cidade.setPais(txfPais.getText());
-				
+
 				boolean cadastrar = true;
-				
-				if(cidade.getId() != null) {
+
+				if (cidade.getId() != null) {
 					notifyObservers(cidade);
 					JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
 					cadastrar = false;
 					setVisible(false);
 				}
-				
-				if(cadastrar) {
-				try {
-					ManipularArquivo aM = new ManipularArquivo();
-					aM.inserirDado(cidade);
-					// TODO: Limpar o formulário
-					JOptionPane.showMessageDialog(null,"Cidade salva com sucesso!");
-				} catch (IOException e1) {
-					e1.printStackTrace();
+
+				if (cadastrar) {
+					try {
+						ManipularArquivo aM = new ManipularArquivo();
+						aM.inserirDado(cidade);
+						// TODO: Limpar o formulário
+						JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
-			}}
+			}
 		});
-		
+
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
 	}
-	
+
+	private void limparFormulario() {
+		txfCidade.setText("");
+		txfPais.setText("");
+		txfUf.setSelectedIndex(0);
+	}
+
 	private void setarValores(Cidade cidade) {
-		//TODO: setar valores iniciais para edição
+		txfPais.setText(cidade.getPais());
 		txfCidade.setText(cidade.getCidade());
+		txfUf.setSelectedIndex(0);
 	}
 
 	@Override
 	public void addObserver(ObserverCidade o) {
 		observers.add(o);
-		
+
 	}
 
 	@Override
@@ -170,10 +180,10 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 	@Override
 	public void notifyObservers(Cidade cidade) {
 		Iterator it = observers.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			ObserverCidade observer = (ObserverCidade) it.next();
 			observer.update(cidade);
 		}
-		
+
 	}
 }

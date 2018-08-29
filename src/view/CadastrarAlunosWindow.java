@@ -268,7 +268,11 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				limparFormulario();
+				if (aluno.getId() != null) {
+					setarValores(aluno);
+				} else {
+					limparFormulario();
+				}
 			}
 		});
 

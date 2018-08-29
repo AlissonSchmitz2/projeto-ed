@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 
 import lib.ManipularArquivo;
 
-public class CadastrarUsuarioWindow extends AbstractWindowFrame implements SubjectUsuario{
+public class CadastrarUsuarioWindow extends AbstractWindowFrame implements SubjectUsuario {
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<ObserverUsuario> observers = new ArrayList<ObserverUsuario>();
@@ -31,7 +31,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	private JButton btnCadastra;
 	private JButton btnLimpar;
 	private JLabel saida;
-	
+
 	private Usuario usuario;
 
 	public CadastrarUsuarioWindow() {
@@ -39,8 +39,8 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		this.usuario = new Usuario();
 		criarComponentes();
 	}
-	
-	public CadastrarUsuarioWindow(Usuario usuario){
+
+	public CadastrarUsuarioWindow(Usuario usuario) {
 		super("Editar Cidade");
 		this.usuario = usuario;
 		criarComponentes();
@@ -82,7 +82,11 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				limparFormulario();
+				if (usuario.getId() != null) {
+					setarValores(usuario);
+				} else {
+					limparFormulario();
+				}
 			}
 		});
 
@@ -94,32 +98,33 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-			
+
 				usuario.setLogin(txfCodAluno.getText());
 				String senhaUsuario = new String(txfSenha.getPassword());
 				usuario.setSenha(senhaUsuario);
 				usuario.setPerfil(txfPerfil.getSelectedItem().toString());
-				
+
 				boolean cadastrar = true;
-				
-				if(usuario.getId() != null) {
+
+				if (usuario.getId() != null) {
 					notifyObservers(usuario);
 					JOptionPane.showMessageDialog(null, "Usuario editado com sucesso!");
 					cadastrar = false;
 					setVisible(false);
 				}
-				
-				if(cadastrar) {
 
-				try {
-					ManipularArquivo aM = new ManipularArquivo();
-					aM.inserirDado(usuario);
-					limparFormulario();
-					JOptionPane.showMessageDialog(null,"Usuario cadastrado com sucesso!");
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				if (cadastrar) {
+
+					try {
+						ManipularArquivo aM = new ManipularArquivo();
+						aM.inserirDado(usuario);
+						limparFormulario();
+						JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso!");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
 				}
-			}}
+			}
 		});
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
@@ -129,18 +134,18 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		txfCodAluno.setText("");
 		txfSenha.setText("");
 		txfPerfil.setSelectedIndex(0);
-		
+
 	}
-	
+
 	private void setarValores(Usuario usuario) {
-		//TODO: setar valores iniciais para edição
+		// TODO: setar valores iniciais para edição
 		txfCodAluno.setText(usuario.getLogin());
 	}
 
 	@Override
 	public void addObserver(ObserverUsuario o) {
 		observers.add(o);
-		
+
 	}
 
 	@Override
@@ -151,10 +156,10 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	@Override
 	public void notifyObservers(Usuario usuario) {
 		Iterator it = observers.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			ObserverUsuario observer = (ObserverUsuario) it.next();
 			observer.update(usuario);
 		}
-		
+
 	}
 }
