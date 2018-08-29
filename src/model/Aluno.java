@@ -3,8 +3,8 @@ package model;
 public class Aluno implements Model {
 	private Integer     id;
 	private String  codAluno;
-	private int     numero;
-	private char    sexo;
+	private String     numero;
+	private String    sexo;
 	private String  senhaAluno;
 	private String  dataNascimento;
 	private String  telefone;
@@ -58,10 +58,10 @@ public class Aluno implements Model {
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	public char getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
-	public void setSexo(char sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 	public String getTelefone() {
@@ -88,10 +88,10 @@ public class Aluno implements Model {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 	public String getComplemento() {

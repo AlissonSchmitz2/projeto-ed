@@ -212,7 +212,7 @@ public class ManipularArquivo {
 		novoAluno.setId(Integer.parseInt(atributo[0]));
 		novoAluno.setCodAluno(atributo[1]);
 		novoAluno.setNomeAluno(atributo[2]);
-		novoAluno.setSexo(atributo[3].charAt(0));
+		novoAluno.setSexo(atributo[3]);
 		novoAluno.setDataNascimento(atributo[4]);
 		novoAluno.setTelefone(atributo[5]);
 		novoAluno.setCelular(atributo[6]);
@@ -222,10 +222,10 @@ public class ManipularArquivo {
 		novoAluno.setEndereco(atributo[9]);
 		novoAluno.setComplemento(atributo[10]);
 		novoAluno.setBairro(atributo[12]);
-		novoAluno.setNumero(0); //TODO: não está sendo carregado no arquivo (Posição 16)
 		novoAluno.setCidade(atributo[13]);
 		novoAluno.setUf(atributo[14]);
 		novoAluno.setPais(atributo[15]);
+		novoAluno.setNumero(atributo[16]);
 		
 		return novoAluno;
 	}
@@ -235,8 +235,7 @@ public class ManipularArquivo {
 				+ aluno.getDataNascimento() + SEPARATOR + aluno.getTelefone() + SEPARATOR + aluno.getCelular() + SEPARATOR
 				+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
 				+ aluno.getComplemento() + SEPARATOR + aluno.getCep() + SEPARATOR + aluno.getBairro() + SEPARATOR + aluno.getCidade()
-				+ SEPARATOR + aluno.getUf() + SEPARATOR + aluno.getPais();
-		//TODO: falta salvar Número do endereço
+				+ SEPARATOR + aluno.getUf() + SEPARATOR + aluno.getPais() + SEPARATOR + aluno.getNumero();
 	}
 	
 	/*

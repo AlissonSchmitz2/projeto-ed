@@ -27,11 +27,11 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	private static final long serialVersionUID = -4479891238469664919L;
 
 	private ArrayList<Observer> observers = new ArrayList<Observer>();
-	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfNum, txfComplemen, txfBairro;
+	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfComplemen, txfBairro;
 	private JComboBox<String> cbxGenero, cbxCidade, cbxUf, cbxPais;
 	private JButton btnSalvar, btnLimpar;
 	private JLabel labes;
-	private JFormattedTextField txfData, txfFone, txfCel, txfCep;
+	private JFormattedTextField txfData, txfFone, txfCel, txfCep, txfNum;
 
 	private Aluno aluno;
 	private ManipularArquivo aM = new ManipularArquivo();
@@ -160,7 +160,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		labes.setBounds(675, 10, 50, 25);
 		getContentPane().add(labes);
 
-		txfNum = new JTextField();
+		txfNum = new JFormattedTextField();
 		txfNum.setBounds(675, 30, 75, 25);
 		txfNum.setToolTipText("Digite o número");
 		getContentPane().add(txfNum);
@@ -285,8 +285,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 				aluno.setCodAluno(txfCod.getText());
 				aluno.setNomeAluno(txfNome.getText());
 				String auxSexo = cbxGenero.getSelectedItem().toString();
-				char sexo = auxSexo.charAt(0);
-				aluno.setSexo(sexo);
+				aluno.setSexo(auxSexo);
 				aluno.setDataNascimento(txfData.getText());
 				aluno.setTelefone(txfFone.getText());
 				aluno.setCelular(txfCel.getText());
@@ -296,7 +295,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 				aluno.setEndereco(txfEnder.getText());
 				aluno.setComplemento(txfComplemen.getText());
 				aluno.setBairro(txfBairro.getText());
-				aluno.setNumero(Integer.parseInt(txfNum.getText()));
+				aluno.setNumero(txfNum.getText());
 				aluno.setCidade(cbxCidade.getSelectedItem().toString());
 				aluno.setUf(cbxUf.getSelectedItem().toString());
 				aluno.setPais(cbxPais.getSelectedItem().toString());
@@ -376,6 +375,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfFone.setValue(aluno.getTelefone());
 		txfCel.setValue(aluno.getCelular());
 		txfCep.setValue(aluno.getCep());
+		txfNum.setValue(aluno.getNumero());
 	}
 
 	@Override
