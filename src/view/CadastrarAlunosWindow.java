@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,16 +20,19 @@ import javax.swing.text.MaskFormatter;
 import lib.ManipularArquivo;
 import model.Aluno;
 import model.Cidade;
+import observer.Observer;
+import observer.Subject;
 
-public class CadastrarAlunosWindow extends AbstractWindowFrame {
+public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subject {
 	private static final long serialVersionUID = -4479891238469664919L;
 
+	private ArrayList<Observer> observers = new ArrayList<Observer>();
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfNum, txfComplemen, txfBairro;
 	private JComboBox<String> cbxGenero, cbxCidade, cbxUf, cbxPais;
-	private JButton btnSalvar,btnLimpar;
+	private JButton btnSalvar, btnLimpar;
 	private JLabel labes;
 	private JFormattedTextField txfData, txfFone, txfCel, txfCep;
-	
+
 	private Aluno aluno;
 	private ManipularArquivo aM = new ManipularArquivo();
 
@@ -37,9 +41,9 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		this.aluno = new Aluno();
 		criarComponentes();
 	}
-	
+
 	public CadastrarAlunosWindow(Aluno aluno) {
-		super("Cadastrar Aluno");
+		super("Editar Aluno");
 		this.aluno = aluno;
 		criarComponentes();
 		setarValores(aluno);
@@ -104,7 +108,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 			labes = new JLabel("Celular:");//
 			labes.setBounds(175, 160, 190, 25);
 			getContentPane().add(labes);
-	
+
 			txfCel = new JFormattedTextField(maskFone);
 			txfCel.setBounds(175, 180, 190, 25);
 			txfCel.setToolTipText("Digite o celular");
@@ -151,7 +155,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		txfEnder.setBounds(450, 30, 200, 25);
 		txfEnder.setToolTipText("Digite o endereço");
 		getContentPane().add(txfEnder);
-		
+
 		labes = new JLabel("Número:");
 		labes.setBounds(675, 10, 50, 25);
 		getContentPane().add(labes);
@@ -178,25 +182,25 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		txfBairro.setBounds(570, 130, 180, 25);
 		txfBairro.setToolTipText("Digite o bairro");
 		getContentPane().add(txfBairro);
-		
-		//Recupera lista de cidades
+
+		// Recupera lista de cidades
 		List<Cidade> cidades = aM.pegarCidades();
 
-		//País
+		// País
 		labes = new JLabel("País (Outra tela):");
 		labes.setBounds(450, 160, 250, 25);
 		getContentPane().add(labes);
 
 		cbxPais = new JComboBox<String>();
 		cbxPais.addItem("-Selecione-");
-		//Opções países
+		// Opções países
 		opcoesPaises(cidades).forEach(pais -> cbxPais.addItem(pais));
-		
+
 		cbxPais.setBounds(450, 180, 200, 25);
 		cbxPais.setToolTipText("Informe o país");
 		getContentPane().add(cbxPais);
-		
-		//Estado
+
+		// Estado
 		labes = new JLabel("UF:");
 		labes.setBounds(450, 210, 250, 25);
 		getContentPane().add(labes);
@@ -207,7 +211,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		cbxUf.setToolTipText("Informe o UF");
 		getContentPane().add(cbxUf);
 
-		//Cidade
+		// Cidade
 		labes = new JLabel("Cidade (Outra tela):");
 		labes.setBounds(450, 260, 250, 25);
 		getContentPane().add(labes);
@@ -217,67 +221,70 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		cbxCidade.setBounds(450, 280, 200, 25);
 		cbxCidade.setToolTipText("Informe a cidade");
 		getContentPane().add(cbxCidade);
-		
-		//Listeners troca comboboxes
+
+		// Listeners troca comboboxes
 		cbxPais.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String paisSelecionado = (String) cbxPais.getSelectedItem();
-                
-                //Reseta estados e cidades
-                cbxUf.removeAllItems();
-                cbxUf.addItem("-Selecione-");
-                cbxCidade.removeAllItems();
-                cbxCidade.addItem("-Selecione-");
-                
-                if (paisSelecionado == null) {
-                	return;
-                }
-                
-                //Adiciona opções estados
-        		opcoesEstados(cidades, paisSelecionado).forEach(estado -> cbxUf.addItem(estado));
-            }
+			public void actionPerformed(ActionEvent e) {
+				String paisSelecionado = (String) cbxPais.getSelectedItem();
+
+				// Reseta estados e cidades
+				cbxUf.removeAllItems();
+				cbxUf.addItem("-Selecione-");
+				cbxCidade.removeAllItems();
+				cbxCidade.addItem("-Selecione-");
+
+				if (paisSelecionado == null) {
+					return;
+				}
+
+				// Adiciona opções estados
+				opcoesEstados(cidades, paisSelecionado).forEach(estado -> cbxUf.addItem(estado));
+			}
 		});
-		
+
 		cbxUf.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	String paisSelecionado = (String) cbxPais.getSelectedItem();
-            	String estadoSelecionado = (String) cbxUf.getSelectedItem();
-                
-                //Reseta estados e cidades
-                cbxCidade.removeAllItems();
-                cbxCidade.addItem("-Selecione-");
-                
-                if (paisSelecionado == null || estadoSelecionado == null) {
-                	return;
-                }
-                
-                //Adiciona opções estados
-        		opcoesCidades(cidades, paisSelecionado, estadoSelecionado).forEach(cidade -> cbxCidade.addItem(cidade));
-            }
+			public void actionPerformed(ActionEvent e) {
+				String paisSelecionado = (String) cbxPais.getSelectedItem();
+				String estadoSelecionado = (String) cbxUf.getSelectedItem();
+
+				// Reseta estados e cidades
+				cbxCidade.removeAllItems();
+				cbxCidade.addItem("-Selecione-");
+
+				if (paisSelecionado == null || estadoSelecionado == null) {
+					return;
+				}
+
+				// Adiciona opções estados
+				opcoesCidades(cidades, paisSelecionado, estadoSelecionado).forEach(cidade -> cbxCidade.addItem(cidade));
+			}
 		});
-		
+
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(15, 320, 95, 25);
 		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
 		btnLimpar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				limparFormulario();
+				if (aluno.getId() != null) {
+					setarValores(aluno);
+				} else {
+					limparFormulario();
+				}
 			}
 		});
-		
+
 		btnSalvar = new JButton("Salvar");
 		btnSalvar.setBounds(120, 320, 95, 25);
 		getContentPane().add(btnSalvar);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				aluno.setCodAluno(txfCod.getText());
 				aluno.setNomeAluno(txfNome.getText());
 				String auxSexo = cbxGenero.getSelectedItem().toString();
-				
 				char sexo = auxSexo.charAt(0);
 				aluno.setSexo(sexo);
 				aluno.setDataNascimento(txfData.getText());
@@ -293,23 +300,32 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 				aluno.setCidade(cbxCidade.getSelectedItem().toString());
 				aluno.setUf(cbxUf.getSelectedItem().toString());
 				aluno.setPais(cbxPais.getSelectedItem().toString());
-				
-				try {
-					aM.inserirDado(aluno);
-					limparFormulario();
-					JOptionPane.showMessageDialog(null,"Aluno cadastrado com sucesso!");
-				} catch (IOException e1) {
-					e1.printStackTrace();
+
+				boolean cadastrar = true;
+				if (aluno.getId() != null) {
+					notifyObservers(aluno);
+					JOptionPane.showMessageDialog(null, "Aluno editado com sucesso!");
+					cadastrar = false;
+					setVisible(false);
 				}
-				
-				setVisible(false);
+
+				if (cadastrar) {
+					try {
+						aM.inserirDado(aluno);
+						limparFormulario();
+						JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+
 			}
 		});
 
 	}
-	
+
 	public void limparFormulario() {
-		
+
 		txfNome.setText("");
 		txfCod.setText("");
 		txfEmail.setText("");
@@ -327,33 +343,59 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame {
 		txfCel.setText("");
 		txfCep.setText("");
 	}
-	
+
 	private List<String> opcoesPaises(List<Cidade> cidades) {
-		return cidades.stream()
-			.map(cidade -> cidade.getPais())
-			.distinct()
-			.collect(Collectors.toList());
+		return cidades.stream().map(cidade -> cidade.getPais()).distinct().collect(Collectors.toList());
 	}
-	
+
 	private List<String> opcoesEstados(List<Cidade> cidades, String pais) {
-		return cidades.stream()
-			.filter(cidade -> pais.equals(cidade.getPais()))
-			.map(cidade -> cidade.getUf())
-			.distinct()
-			.collect(Collectors.toList());
+		return cidades.stream().filter(cidade -> pais.equals(cidade.getPais())).map(cidade -> cidade.getUf()).distinct()
+				.collect(Collectors.toList());
 	}
-	
+
 	private List<String> opcoesCidades(List<Cidade> cidades, String pais, String estado) {
-		return cidades.stream()
-			.filter(cidade -> pais.equals(cidade.getPais()))
-			.filter(cidade -> estado.equals(cidade.getUf()))
-			.map(cidade -> cidade.getCidade())
-			.distinct()
-			.collect(Collectors.toList());
+		return cidades.stream().filter(cidade -> pais.equals(cidade.getPais()))
+				.filter(cidade -> estado.equals(cidade.getUf())).map(cidade -> cidade.getCidade()).distinct()
+				.collect(Collectors.toList());
 	}
-	
+
 	private void setarValores(Aluno aluno) {
-		//TODO: setar valores iniciais para edição
+		// TODO: setar valores iniciais para edição
 		txfNome.setText(aluno.getNomeAluno());
+		txfCod.setText(aluno.getCodAluno());
+		txfEmail.setText(aluno.getEmail());
+		txfObs.setText(aluno.getObservacao());
+		txfEnder.setText(aluno.getEndereco());
+		txfComplemen.setText(aluno.getComplemento());
+		txfBairro.setText(aluno.getBairro());
+		cbxGenero.setSelectedItem(aluno.getSexo());
+		cbxCidade.setSelectedItem(aluno.getCidade());
+		cbxUf.setSelectedItem(aluno.getUf());
+		cbxPais.setSelectedItem(aluno.getPais());
+		txfData.setValue(aluno.getDataNascimento());
+		txfFone.setValue(aluno.getTelefone());
+		txfCel.setValue(aluno.getCelular());
+		txfCep.setValue(aluno.getCep());
 	}
+
+	@Override
+	public void addObserver(Observer o) {
+		observers.add(o);
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers(Aluno aluno) {
+		Iterator it = observers.iterator();
+		while (it.hasNext()) {
+			Observer observer = (Observer) it.next();
+			observer.update(aluno);
+
+		}
+	}
+
 }

@@ -22,6 +22,7 @@ public class LoginWindow extends JDialog {
 		setLayout(null);
 		setResizable(false);
 		criarComponentes();
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 

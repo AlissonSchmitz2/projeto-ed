@@ -20,9 +20,10 @@ import javax.swing.event.ListSelectionListener;
 
 import lib.ManipularArquivo;
 import model.Usuario;
+import observer.ObserverUsuario;
 import table.model.UsuarioTableModel;
 
-public class ListarUsuariosWindow extends AbstractGridWindow {
+public class ListarUsuariosWindow extends AbstractGridWindow implements ObserverUsuario{
 	private static final long serialVersionUID = 5436871882222628866L;
 	
 	ManipularArquivo aM = new ManipularArquivo();
@@ -64,9 +65,11 @@ public class ListarUsuariosWindow extends AbstractGridWindow {
 				Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
 				
 				if (usuario instanceof Usuario) {
+					ListarUsuariosWindow lU = new ListarUsuariosWindow(desktop,usuarioLogado);
+					setVisible(false);
 					CadastrarUsuarioWindow frame = new CadastrarUsuarioWindow(usuario);
+					frame.addObserver(lU);
 					abrirFrame(frame);
-					//TODO: Implementar um Observer para atualizar a lista após a edição
 				}
 			}
 		});
@@ -212,5 +215,12 @@ public class ListarUsuariosWindow extends AbstractGridWindow {
 		if (grid != null) {
 			redimensionarGrid(grid);
 		}
+	}
+
+	@Override
+	public void update(Usuario cidade) {
+		aM.editarDado(cidade);
+		ListarUsuariosWindow lC = new ListarUsuariosWindow(desktop,usuarioLogado);
+		desktop.add(lC);
 	}
 }
