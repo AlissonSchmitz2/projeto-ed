@@ -341,6 +341,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfFone.setText("");
 		txfCel.setText("");
 		txfCep.setText("");
+		
+		aluno = new Aluno();
 	}
 
 	private List<String> opcoesPaises(List<Cidade> cidades) {
