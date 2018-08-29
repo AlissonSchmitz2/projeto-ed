@@ -121,17 +121,6 @@ public class AlunoTableModel extends AbstractTableModel {
 		alunos.addAll(novosAlunos);
 		fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);
 	}
-	
-	//Adiciona a lista de alunos a partir do valor buscado.
-	public void addListaDeAlunos(List<Aluno> novosAlunos, String dadosDoAluno, String valorBusca, int indiceLinhaTable) {
-
-		int tamanhoAntigo = getRowCount();		
-		
-		if (dadosDoAluno.toLowerCase().contains(valorBusca.toLowerCase())) {
-				alunos.add(novosAlunos.get(indiceLinhaTable));
-				fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);
-		}		
-	}
 
 	public void limpar() {
 		alunos.clear();

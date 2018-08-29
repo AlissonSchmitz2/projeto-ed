@@ -1,8 +1,6 @@
 package view;
 
-import model.Aluno;
 import model.Cidade;
-import observer.Observer;
 import observer.ObserverCidade;
 import observer.SubjectCidade;
 

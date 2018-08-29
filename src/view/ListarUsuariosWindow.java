@@ -123,12 +123,8 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 				model.limpar();
 				
 				//Lista oque estiver relacionado com a busca.
-				for (int i = 0; i < listaUsuarios.size(); i++) {
-				String dadosDoUsuario = aM.criarStringDadosApartirUsuario(listaUsuarios.get(i));
-				String valorBuscar = txfBuscar.getText();
-				model.addListaDeUsuarios(listaUsuarios, dadosDoUsuario, valorBuscar, i);
-				}
-				
+				listaUsuarios = aM.pegarUsuarios(txfBuscar.getText());
+				model.addListaDeUsuarios(listaUsuarios);				
 			}
 		});
 		

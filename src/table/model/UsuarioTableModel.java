@@ -2,7 +2,6 @@ package table.model;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.Aluno;
 import model.Usuario;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,17 +114,6 @@ public class UsuarioTableModel extends AbstractTableModel {
 		int tamanhoAntigo = getRowCount();
 		usuarios.addAll(novosUsuarios);
 		fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);
-	}
-	
-	//Adiciona a lista de usuários a partir do valor buscado.
-	public void addListaDeUsuarios(List<Usuario> novosUsuarios, String dadosDoUsuario, String valorBusca, int indiceLinhaTable) {
-
-		int tamanhoAntigo = getRowCount();		
-			
-		if (dadosDoUsuario.toLowerCase().contains(valorBusca.toLowerCase())) {
-				usuarios.add(novosUsuarios.get(indiceLinhaTable));
-				fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);
-		}		
 	}
 
 	public void limpar() {
