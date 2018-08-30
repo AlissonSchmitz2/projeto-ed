@@ -20,13 +20,13 @@ import javax.swing.text.MaskFormatter;
 import lib.ManipularArquivo;
 import model.Aluno;
 import model.Cidade;
-import observer.Observer;
-import observer.Subject;
+import observer.ObserverAluno;
+import observer.SubjectAluno;
 
-public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subject {
+public class CadastrarAlunosWindow extends AbstractWindowFrame implements SubjectAluno {
 	private static final long serialVersionUID = -4479891238469664919L;
 
-	private ArrayList<Observer> observers = new ArrayList<Observer>();
+	private ArrayList<ObserverAluno> observers = new ArrayList<ObserverAluno>();
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfComplemen, txfBairro;
 	private JComboBox<String> cbxGenero, cbxCidade, cbxUf, cbxPais;
 	private JButton btnSalvar, btnLimpar;
@@ -382,12 +382,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	}
 
 	@Override
-	public void addObserver(Observer o) {
+	public void addObserver(ObserverAluno o) {
 		observers.add(o);
 	}
 
 	@Override
-	public void removeObserver(Observer o) {
+	public void removeObserver(ObserverAluno o) {
 		observers.remove(o);
 	}
 
@@ -395,7 +395,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	public void notifyObservers(Aluno aluno) {
 		Iterator it = observers.iterator();
 		while (it.hasNext()) {
-			Observer observer = (Observer) it.next();
+			ObserverAluno observer = (ObserverAluno) it.next();
 			observer.update(aluno);
 
 		}
