@@ -46,7 +46,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	}
 
 	private void criarComponentes() {
-		saida = new JLabel("Código: ");
+		saida = new JLabel("Login: ");
 		saida.setBounds(15, 10, 200, 25);
 		getContentPane().add(saida);
 
@@ -97,6 +97,11 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 
 			public void actionPerformed(ActionEvent e) {
 
+				if(camposPreenchidos()) {
+					JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
+					return;
+				}
+				
 				usuario.setLogin(txfCodAluno.getText());
 				String senhaUsuario = new String(txfSenha.getPassword());
 				usuario.setSenha(senhaUsuario);
@@ -127,6 +132,18 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
 	}
+	
+	public boolean camposPreenchidos() {
+			
+			if( "-Selecione-".equals(txfPerfil.getSelectedItem()) ||
+				txfCodAluno.getText().isEmpty() ||
+				txfSenha.getText().isEmpty()
+				) {
+				return true;
+			}
+		
+			return false;
+		}
 
 	public void limparFormulario() {
 		txfCodAluno.setText("");
