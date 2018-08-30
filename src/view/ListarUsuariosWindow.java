@@ -63,13 +63,9 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 		botaoEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
-				
+
 				if (usuario instanceof Usuario) {
-					ListarUsuariosWindow lU = new ListarUsuariosWindow(desktop,usuarioLogado);
-					setVisible(false);
-					CadastrarUsuarioWindow frame = new CadastrarUsuarioWindow(usuario);
-					frame.addObserver(lU);
-					abrirFrame(frame);
+					abrirEdicaoUsuario(usuario);
 				}
 			}
 		});
@@ -174,7 +170,13 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 		jTableUsuarios.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					//TODO: Abrir tela para visualização do cadastro
+					if (usuarioLogado.possuiPerfilAdministrador()) {
+						Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
+						
+						if (usuario instanceof Usuario) {
+							abrirEdicaoUsuario(usuario);
+						}
+					}
 				}
 			}
 		});
@@ -194,9 +196,15 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 		add(grid);
 	}
 	
+	private void abrirEdicaoUsuario(Usuario usuario) {
+		CadastrarUsuarioWindow frame = new CadastrarUsuarioWindow(usuario);
+		frame.addObserver(this);
+		abrirFrame(frame);
+	}
+	
 	private void habilitarBotoesDeAcoes() {
 		//Somente usuário administrador pode manipular dados
-		if (Usuario.ADMINISTRADOR.equals(this.usuarioLogado.getPerfil())) {
+		if (usuarioLogado.possuiPerfilAdministrador()) {
 			botaoEditar.setEnabled(true);
 			botaoExcluir.setEnabled(true);
 		}
@@ -214,9 +222,11 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 	}
 
 	@Override
-	public void update(Usuario cidade) {
-		aM.editarDado(cidade);
-		ListarUsuariosWindow lC = new ListarUsuariosWindow(desktop,usuarioLogado);
-		desktop.add(lC);
+	public void update(Usuario usuario) {
+		aM.editarDado(usuario);
+		
+		model.limpar();
+		listaUsuarios = aM.pegarUsuarios(txfBuscar.getText());
+		model.addListaDeUsuarios(listaUsuarios);
 	}
 }

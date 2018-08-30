@@ -207,7 +207,7 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 	
 	private void habilitarBotoesDeAcoes() {
 		// Somente usuário administrador pode manipular dados
-		if (Usuario.ADMINISTRADOR.equals(this.usuarioLogado.getPerfil())) {
+		if (usuarioLogado.possuiPerfilAdministrador()) {
 			botaoEditar.setEnabled(true);
 			botaoExcluir.setEnabled(true);
 		}
@@ -228,10 +228,8 @@ public class ListarAlunosWindow extends AbstractGridWindow implements Observer{
 	public void update(Aluno aluno) {
 		aM.editarDado(aluno);
 		
-		//txfBuscar.getText()
 		model.limpar();
-		listaAlunos = aM.pegarAlunos();
+		listaAlunos = aM.pegarAlunos(txfBuscar.getText());
 		model.addListaDeAlunos(listaAlunos);
 	}
-	
 }

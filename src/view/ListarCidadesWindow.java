@@ -19,6 +19,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import lib.ManipularArquivo;
+import model.Aluno;
 import model.Cidade;
 import model.Usuario;
 import observer.ObserverCidade;
@@ -66,11 +67,7 @@ public class ListarCidadesWindow extends AbstractGridWindow implements ObserverC
 				Cidade cidade = aM.pegarCidadePorId(Integer.parseInt(idSelecionado));
 				
 				if (cidade instanceof Cidade) {
-					ListarCidadesWindow lC = new ListarCidadesWindow(desktop,usuarioLogado);
-					setVisible(false);
-					CadastrarCidadeWindow frame = new CadastrarCidadeWindow(cidade);
-					frame.addObserver(lC);
-					abrirFrame(frame);
+					abrirEdicaoCidade(cidade);
 				}
 			}
 		});
@@ -175,7 +172,13 @@ public class ListarCidadesWindow extends AbstractGridWindow implements ObserverC
 		jTableCidades.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					//TODO: Abrir tela para visualização do cadastro
+					if (usuarioLogado.possuiPerfilAdministrador()) {
+						Cidade cidade = aM.pegarCidadePorId(Integer.parseInt(idSelecionado));
+						
+						if (cidade instanceof Cidade) {
+							abrirEdicaoCidade(cidade);
+						}
+					}
 				}
 			}
 		});
@@ -195,9 +198,15 @@ public class ListarCidadesWindow extends AbstractGridWindow implements ObserverC
 		add(grid);
 	}
 	
+	private void abrirEdicaoCidade(Cidade cidade) {
+		CadastrarCidadeWindow frame = new CadastrarCidadeWindow(cidade);
+		frame.addObserver(this);
+		abrirFrame(frame);
+	}
+	
 	private void habilitarBotoesDeAcoes() {
 		//Somente usuário administrador pode manipular dados
-		if (Usuario.ADMINISTRADOR.equals(this.usuarioLogado.getPerfil())) {
+		if (usuarioLogado.possuiPerfilAdministrador()) {
 			botaoEditar.setEnabled(true);
 			botaoExcluir.setEnabled(true);
 		}
@@ -217,12 +226,9 @@ public class ListarCidadesWindow extends AbstractGridWindow implements ObserverC
 	@Override
 	public void update(Cidade cidade) {
 		aM.editarDado(cidade);
-		ListarCidadesWindow lC = new ListarCidadesWindow(desktop,usuarioLogado);
-		desktop.add(lC);
-		
+
+		model.limpar();
+		listaCidades = aM.pegarCidades(txfBuscar.getText());
+		model.addListaDeCidades(listaCidades);
 	}
-
-	
-
-	
 }
