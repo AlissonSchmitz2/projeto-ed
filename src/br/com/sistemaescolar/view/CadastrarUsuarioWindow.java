@@ -96,7 +96,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 
 			public void actionPerformed(ActionEvent e) {
 
-				if(camposPreenchidos()) {
+				if(validarCamposObrigatorios()) {
 					JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
 					return;
 				}
@@ -116,7 +116,6 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 				}
 
 				if (cadastrar) {
-
 					try {
 						ManipularArquivo aM = new ManipularArquivo();
 						aM.inserirDado(usuario);
@@ -132,8 +131,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		getContentPane().add(btnCadastra);
 	}
 	
-	public boolean camposPreenchidos() {
-			
+	public boolean validarCamposObrigatorios() {
 			if( "-Selecione-".equals(txfPerfil.getSelectedItem()) ||
 				txfCodAluno.getText().isEmpty() ||
 				txfSenha.getText().isEmpty()
@@ -150,7 +148,6 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		txfPerfil.setSelectedIndex(0);
 		
 		usuario = new Usuario();
-
 	}
 
 	private void setarValores(Usuario usuario) {
@@ -162,7 +159,6 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	@Override
 	public void addObserver(ObserverUsuario o) {
 		observers.add(o);
-
 	}
 
 	@Override

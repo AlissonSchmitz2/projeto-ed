@@ -120,8 +120,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-
-				if(camposPreenchidos()) {
+				if(validarCamposObrigatorios()) {
 					JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
 					return;
 				}
@@ -156,8 +155,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(btnCadastra);
 	}
 	
-	public boolean camposPreenchidos() {
-		
+	public boolean validarCamposObrigatorios() {
 		if( "-Selecione-".equals(txfUf.getSelectedItem()) ||
 			txfCidade.getText().isEmpty() ||
 			txfPais.getText().isEmpty()
