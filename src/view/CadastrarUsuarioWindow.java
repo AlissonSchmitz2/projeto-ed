@@ -92,7 +92,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
 
-		btnCadastra = new JButton(new AbstractAction("Cadastrar") {
+		btnCadastra = new JButton(new AbstractAction("Salvar") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

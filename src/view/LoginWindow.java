@@ -77,10 +77,10 @@ public class LoginWindow extends JDialog {
 	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	new LoginWindow().setVisible(true);
+            	//new LoginWindow().setVisible(true);
         		
         		//Modo debug. Pula a tela de login ;)
-        		//new Window(new Usuario(1, "Teste", "teste", Usuario.ADMINISTRADOR)).setVisible(true);
+        		new Window(new Usuario(1, "Teste", "teste", Usuario.ADMINISTRADOR)).setVisible(true);
             }
         });
 	}

@@ -245,7 +245,6 @@ public class ManipularArquivo {
 			while (linha != null) {
 				
 				if (linha.toLowerCase().contains(valorBusca.toLowerCase())) {
-				
 					String[] atributo = linha.split(SEPARATOR);
 					alunos.add(criarAlunoApartirAtributos(atributo));
 				}
