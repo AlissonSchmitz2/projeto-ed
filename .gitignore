@@ -4,6 +4,6 @@
 /bin
 .classpath
 .project
-src/data/cidades.txt
-src/data/alunos.txt
-src/data/usuarios.txt
+src/br/com/sistemaescolar/data/cidades.txt
+src/br/com/sistemaescolar/data/alunos.txt
+src/br/com/sistemaescolar/data/usuarios.txt
