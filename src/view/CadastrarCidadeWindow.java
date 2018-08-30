@@ -122,6 +122,11 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 
 			public void actionPerformed(ActionEvent e) {
 
+				if(camposPreenchidos()) {
+					JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
+					return;
+				}
+				
 				cidade.setCidade(txfCidade.getText());
 				cidade.setUf(txfUf.getSelectedItem().toString());
 				cidade.setPais(txfPais.getText());
@@ -150,6 +155,18 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
+	}
+	
+	public boolean camposPreenchidos() {
+		
+		if( "-Selecione-".equals(txfUf.getSelectedItem()) ||
+			txfCidade.getText().isEmpty() ||
+			txfPais.getText().isEmpty()
+			) {
+			return true;
+		}
+	
+		return false;
 	}
 
 	private void limparFormulario() {
