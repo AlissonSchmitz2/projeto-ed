@@ -187,7 +187,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(txfBairro);
 
 		// País
-		labes = new JLabel("País (Outra tela):");
+		labes = new JLabel("País:");
 		labes.setBounds(450, 160, 250, 25);
 		getContentPane().add(labes);
 
@@ -212,7 +212,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(cbxUf);
 
 		// Cidade
-		labes = new JLabel("Cidade (Outra tela):");
+		labes = new JLabel("Cidade:");
 		labes.setBounds(450, 260, 250, 25);
 		getContentPane().add(labes);
 
