@@ -24,7 +24,7 @@ import model.Usuario;
 import observer.ObserverAluno;
 import table.model.AlunoTableModel;
 
-public class ListarAlunosWindow extends AbstractGridWindow implements ObserverAluno{
+public class ListarAlunosWindow extends AbstractGridWindow implements ObserverAluno {
 	private static final long serialVersionUID = 5436871882222628866L;
 	
 	ManipularArquivo aM = new ManipularArquivo();
