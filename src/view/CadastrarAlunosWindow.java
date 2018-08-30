@@ -281,7 +281,14 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(btnSalvar);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				
+				
+				if(camposPreenchidos()) {
+					JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
+					return;
+				}
+				
+				
 				aluno.setCodAluno(txfCod.getText());
 				aluno.setNomeAluno(txfNome.getText());
 				String auxSexo = cbxGenero.getSelectedItem().toString();
@@ -323,6 +330,31 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 
 	}
 
+	public boolean camposPreenchidos() {
+			
+			if(txfNome.getText().isEmpty() ||
+				txfCod.getText().isEmpty() ||
+				txfEmail.getText().isEmpty() ||
+				txfObs.getText().isEmpty() ||
+				txfEnder.getText().isEmpty() ||
+				txfComplemen.getText().isEmpty() ||
+				txfBairro.getText().isEmpty() ||
+				"-Selecione-".equals(cbxGenero.getSelectedItem()) ||
+				"-Selecione-".equals(cbxUf.getSelectedItem()) ||
+				"-Selecione-".equals(cbxPais.getSelectedItem()) ||
+				"-Selecione-".equals(cbxCidade.getSelectedItem()) ||
+				txfData.getText().isEmpty() ||
+				txfFone.getText().isEmpty() ||
+				txfCel.getText().isEmpty() ||
+				txfCep.getText().isEmpty()
+				) {
+				return true;
+			}
+		
+			return false;
+		}
+	
+	
 	public void limparFormulario() {
 
 		txfNome.setText("");
