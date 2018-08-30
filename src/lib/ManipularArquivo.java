@@ -35,13 +35,13 @@ public class ManipularArquivo {
 	public void inserirDado(Usuario usuario) throws IOException {
 		usuario.setId(pegarProximoId("usuarios"));
 		
-		String novosDados = criarStringDadosApartirUsuario(usuario);
+		String novosDados = criarStringDados(usuario);
 
 		inserirDadosNoArquivo("usuarios", novosDados);
 	}
 	
 	public void editarDado(Usuario usuario) {
-		String novosDados = criarStringDadosApartirUsuario(usuario);
+		String novosDados = criarStringDados(usuario);
 		
 		editarDadosNoArquivo("usuarios", usuario.getId().toString(), novosDados);
 	}
@@ -162,7 +162,7 @@ public class ManipularArquivo {
 		return novoUsuario;
 	}
 	
-	private String criarStringDadosApartirUsuario(Usuario usuario) {
+	private String criarStringDados(Usuario usuario) {
 		return usuario.getId() + SEPARATOR + usuario.getLogin() + SEPARATOR + usuario.getSenha() + SEPARATOR + usuario.getPerfil();
 	}
 	
@@ -172,13 +172,13 @@ public class ManipularArquivo {
 	public void inserirDado(Aluno aluno) throws IOException {
 		aluno.setId(pegarProximoId("alunos"));
 		
-		String novosDados = criarStringDadosApartirAluno(aluno);
+		String novosDados = criarStringDados(aluno);
 
 		inserirDadosNoArquivo("alunos", novosDados);
 	}
 	
 	public void editarDado(Aluno aluno) {
-		String novosDados = criarStringDadosApartirAluno(aluno);
+		String novosDados = criarStringDados(aluno);
 		
 		editarDadosNoArquivo("alunos", aluno.getId().toString(), novosDados);
 	}
@@ -283,7 +283,7 @@ public class ManipularArquivo {
 		return novoAluno;
 	}
 	
-	private String criarStringDadosApartirAluno(Aluno aluno) {
+	private String criarStringDados(Aluno aluno) {
 		return aluno.getId() + SEPARATOR + aluno.getCodAluno() + SEPARATOR + aluno.getNomeAluno() + SEPARATOR + aluno.getSexo() + SEPARATOR
 				+ aluno.getDataNascimento() + SEPARATOR + aluno.getTelefone() + SEPARATOR + aluno.getCelular() + SEPARATOR
 				+ aluno.getEmail() + SEPARATOR + aluno.getObservacao() + SEPARATOR + aluno.getEndereco() + SEPARATOR
@@ -297,13 +297,13 @@ public class ManipularArquivo {
 	public void inserirDado(Cidade cidade) throws IOException {
 		cidade.setId(pegarProximoId("cidades"));
 		
-		String novosDados = criarStringDadosApartirCidade(cidade);
+		String novosDados = criarStringDados(cidade);
 		
 		inserirDadosNoArquivo("cidades", novosDados);
 	}
 	
 	public void editarDado(Cidade cidade) {
-		String novosDados = criarStringDadosApartirCidade(cidade);
+		String novosDados = criarStringDados(cidade);
 		
 		editarDadosNoArquivo("cidades", cidade.getId().toString(), novosDados);
 	}
@@ -396,7 +396,7 @@ public class ManipularArquivo {
 		return novaCidade;
 	}
 	
-	private String criarStringDadosApartirCidade(Cidade cidade) {
+	private String criarStringDados(Cidade cidade) {
 		return cidade.getId() + SEPARATOR + cidade.getCidade() + SEPARATOR + cidade.getUf() + SEPARATOR + cidade.getPais();
 	}
 	
