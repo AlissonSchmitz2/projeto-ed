@@ -19,7 +19,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import lib.ManipularArquivo;
-import model.Aluno;
 import model.Cidade;
 import model.Usuario;
 import observer.ObserverCidade;

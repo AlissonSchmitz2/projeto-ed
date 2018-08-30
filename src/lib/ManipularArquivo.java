@@ -10,8 +10,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import model.Aluno;
 import model.Cidade;
 import model.Usuario;
@@ -22,7 +20,7 @@ public class ManipularArquivo {
 	private static String CIDADES_PATH = ".\\src\\data\\cidades.txt";
 	private static String ALUNOS_PATH = ".\\src\\data\\alunos.txt";
 	
-	private static String SEPARATOR = ",";
+	private static String SEPARATOR = ";;;";
 	
 	private BufferedReader lerArq;
 
