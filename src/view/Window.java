@@ -189,7 +189,7 @@ public class Window extends JFrame {
 
 	private JMenuItem getMenuItemAlterarSenhaUsuario() {
 		JMenuItem menuItem = new JMenuItem();
-		menuItem.setText("Alterar Minha Senha");
+		menuItem.setText("Alterar senha");
 		menuItem.setFont(getDefaultFont());
 		
 		menuItem.addActionListener(new ActionListener() {

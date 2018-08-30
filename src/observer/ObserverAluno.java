@@ -2,6 +2,6 @@ package observer;
 
 import model.Aluno;
 
-public interface Observer {
+public interface ObserverAluno {
 	public void update(Aluno aluno);
 }
