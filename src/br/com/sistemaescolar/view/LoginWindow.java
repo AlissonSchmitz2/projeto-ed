@@ -1,15 +1,18 @@
 package br.com.sistemaescolar.view;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 
 import javax.swing.*;
+
+import com.sun.glass.events.KeyEvent;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Usuario;
 
 public class LoginWindow extends JDialog {
 	private static final long serialVersionUID = 1L;
-	
+
 	private ManipularArquivo aM = new ManipularArquivo();
 	private JTextField txfNome;
 	private JPasswordField txfSenha;
@@ -47,42 +50,72 @@ public class LoginWindow extends JDialog {
 		txfSenha.setToolTipText("Informe sua senha");
 		getContentPane().add(txfSenha);
 
-		btnAcessar = new JButton(new AbstractAction("Acessar") {
-			private static final long serialVersionUID = 1L;
+		txfNome.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					login = txfNome.getText();
+					senha = new String(txfSenha.getPassword());
 
-			public void actionPerformed(ActionEvent e) {
-				login = txfNome.getText();
-				senha = new String(txfSenha.getPassword());
-				
-				try {
-					Usuario usuarioLogado = aM.pegarUsuarioPorLoginSenha(login, senha);
-					if (usuarioLogado instanceof Usuario) {
-						setVisible(false);
-						Window tela = new Window(usuarioLogado);
-						tela.setVisible(true);
-					} else {
-						JOptionPane.showMessageDialog(null, "Login e/ou senha incorretos!");
-					}
-				} catch (Exception message) {
-					//Cadastra administrador caso Exception seja lançada
-					new CadastrarPrimeiroUser().setVisible(true);
+					autenticaUsuario(login, senha);
 				}
 			}
 		});
+
+		txfSenha.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					login = txfNome.getText();
+					senha = new String(txfSenha.getPassword());
+
+					autenticaUsuario(login, senha);
+				}
+			}
+		});
+
+		btnAcessar = new JButton("Acessar");
 		btnAcessar.setBounds(10, 115, 100, 25);
-
 		getContentPane().add(btnAcessar);
+		btnAcessar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(java.awt.event.KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					login = txfNome.getText();
+					senha = new String(txfSenha.getPassword());
 
+					autenticaUsuario(login, senha);
+				}
+			}
+		});
+		
+	}
+
+	public void autenticaUsuario(String login, String senha) {
+		try {
+			Usuario usuarioLogado = aM.pegarUsuarioPorLoginSenha(login, senha);
+			if (usuarioLogado instanceof Usuario) {
+				setVisible(false);
+				Window tela = new Window(usuarioLogado);
+				tela.setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(null, "Login e/ou senha incorretos!");
+			}
+		} catch (Exception message) {
+			// Cadastra administrador caso Exception seja lançada
+			new CadastrarPrimeiroUser().setVisible(true);
+		}
 	}
 
 	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	new LoginWindow().setVisible(true);
-        		
-        		//Modo debug. Pula a tela de login ;)
-        		//new Window(new Usuario(1, "Teste", "teste", Usuario.ADMINISTRADOR)).setVisible(true);
-            }
-        });
+			public void run() {
+				new LoginWindow().setVisible(true);
+
+				// Modo debug. Pula a tela de login ;)
+				// new Window(new Usuario(1, "Teste", "teste",
+				// Usuario.ADMINISTRADOR)).setVisible(true);
+			}
+		});
 	}
 }
