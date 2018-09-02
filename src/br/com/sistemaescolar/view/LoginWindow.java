@@ -74,7 +74,18 @@ public class LoginWindow extends JDialog {
 			}
 		});
 
-		btnAcessar = new JButton("Acessar");
+
+		btnAcessar = new JButton(new AbstractAction("Acessar") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				login = txfNome.getText();
+				senha = new String(txfSenha.getPassword());
+				
+				autenticaUsuario(login,senha);
+			}
+		});
+		
 		btnAcessar.setBounds(10, 115, 100, 25);
 		getContentPane().add(btnAcessar);
 		btnAcessar.addKeyListener(new KeyAdapter() {
@@ -88,7 +99,7 @@ public class LoginWindow extends JDialog {
 				}
 			}
 		});
-		
+
 	}
 
 	public void autenticaUsuario(String login, String senha) {
