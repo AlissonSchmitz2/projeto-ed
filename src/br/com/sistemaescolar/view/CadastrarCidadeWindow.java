@@ -23,7 +23,7 @@ import br.com.sistemaescolar.observer.SubjectCidade;
 
 public class CadastrarCidadeWindow extends AbstractWindowFrame implements SubjectCidade {
 	private static final long serialVersionUID = 1L;
-	
+
 	KeyAdapter acao = new KeyAdapter() {
 		@Override
 		public void keyPressed(java.awt.event.KeyEvent e) {
@@ -31,8 +31,8 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 				cadastraCidade();
 			}
 		}
-		};
-		
+	};
+
 	private ArrayList<ObserverCidade> observers = new ArrayList<ObserverCidade>();
 	private JTextField txfCidade;
 	private JComboBox<String> txfUf;
@@ -65,7 +65,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		txfPais.setToolTipText("Digite o país");
 		getContentPane().add(txfPais);
 		txfPais.addKeyListener(acao);
-		
+
 		saida = new JLabel("UF");
 		saida.setBounds(15, 60, 200, 25);
 		getContentPane().add(saida);
@@ -103,7 +103,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		txfUf.setToolTipText("Informe o UF");
 		getContentPane().add(txfUf);
 		txfUf.addKeyListener(acao);
-		
+
 		saida = new JLabel("Cidade:");
 		saida.setBounds(15, 10, 200, 25);
 		saida.setBounds(15, 110, 200, 25);
@@ -135,23 +135,24 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
-		
+
 		btnCadastra.addKeyListener(acao);
 
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
 	}
-	
+
 	public void cadastraCidade() {
-		
-		if(validarCamposObrigatorios()) {
-			JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
+
+		if (validarCamposObrigatorios()) {
+			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
+					JOptionPane.ERROR_MESSAGE, null);
 			return;
 		}
-		
+
 		cidade.setCidade(txfCidade.getText());
 		cidade.setUf(txfUf.getSelectedItem().toString());
 		cidade.setPais(txfPais.getText());
@@ -175,17 +176,15 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 				e1.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	public boolean validarCamposObrigatorios() {
-		if( "-Selecione-".equals(txfUf.getSelectedItem()) ||
-			txfCidade.getText().isEmpty() ||
-			txfPais.getText().isEmpty()
-			) {
+		if ("-Selecione-".equals(txfUf.getSelectedItem()) || txfCidade.getText().isEmpty()
+				|| txfPais.getText().isEmpty()) {
 			return true;
 		}
-	
+
 		return false;
 	}
 
@@ -193,7 +192,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		txfCidade.setText("");
 		txfPais.setText("");
 		txfUf.setSelectedIndex(0);
-		
+
 		cidade = new Cidade();
 	}
 

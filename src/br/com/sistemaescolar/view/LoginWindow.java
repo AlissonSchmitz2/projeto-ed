@@ -110,7 +110,7 @@ public class LoginWindow extends JDialog {
 				Window tela = new Window(usuarioLogado);
 				tela.setVisible(true);
 			} else {
-				JOptionPane.showMessageDialog(null, "Login e/ou senha incorretos!");
+				JOptionPane.showMessageDialog(rootPane, "Login e/ou senha incorretos!", "", JOptionPane.ERROR_MESSAGE, null);
 			}
 		} catch (Exception message) {
 			// Cadastra administrador caso Exception seja lançada

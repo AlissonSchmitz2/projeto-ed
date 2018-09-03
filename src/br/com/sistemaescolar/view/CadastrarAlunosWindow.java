@@ -320,7 +320,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	
 	public void cadastraAluno() {
 				if(validarCamposObrigatorios()) {
-					JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
+					JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
+							JOptionPane.ERROR_MESSAGE, null);
 					return;
 				}
 				
