@@ -2,6 +2,8 @@ package br.com.sistemaescolar.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -17,6 +19,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import com.sun.corba.se.spi.orbutil.fsm.Action;
+import com.sun.glass.events.KeyEvent;
+
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Aluno;
 import br.com.sistemaescolar.model.Cidade;
@@ -26,6 +31,15 @@ import br.com.sistemaescolar.observer.SubjectAluno;
 public class CadastrarAlunosWindow extends AbstractWindowFrame implements SubjectAluno {
 	private static final long serialVersionUID = -4479891238469664919L;
 
+	KeyAdapter acao = new KeyAdapter() {
+		@Override
+		public void keyPressed(java.awt.event.KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				cadastraAluno();
+			}
+		}
+		};
+		
 	private ArrayList<ObserverAluno> observers = new ArrayList<ObserverAluno>();
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfComplemen, txfBairro;
 	private JComboBox<String> cbxGenero, cbxCidade, cbxUf, cbxPais;
@@ -63,7 +77,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfCod.setBounds(15, 30, 125, 25);
 		txfCod.setToolTipText("Digite o código do aluno");
 		getContentPane().add(txfCod);
-
+		txfCod.addKeyListener((KeyListener) acao);
+		
 		labes = new JLabel("Nome:");
 		labes.setBounds(15, 60, 350, 25);
 		getContentPane().add(labes);
@@ -72,7 +87,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfNome.setBounds(15, 80, 350, 25);
 		txfNome.setToolTipText("Digite o nome completo");
 		getContentPane().add(txfNome);
-
+		txfNome.addKeyListener((KeyListener) acao);
+		
 		labes = new JLabel("Sexo:");
 		labes.setBounds(175, 110, 250, 25);
 		getContentPane().add(labes);
@@ -84,7 +100,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		cbxGenero.setBounds(175, 130, 190, 25);
 		cbxGenero.setToolTipText("Informe o sexo");
 		getContentPane().add(cbxGenero);
-
+		cbxGenero.addKeyListener((KeyListener) acao);
+		
 		labes = new JLabel("Data de Nascimento:");
 		labes.setBounds(15, 110, 230, 25);
 		getContentPane().add(labes);
@@ -98,7 +115,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			txfData.setBounds(15, 130, 125, 25);
 			txfData.setToolTipText("Digite a data de nascimento");
 			getContentPane().add(txfData);
-
+			txfData.addKeyListener((KeyListener) acao);
+			
 			labes = new JLabel("Telefone:");//
 			labes.setBounds(15, 160, 125, 25);
 			getContentPane().add(labes);
@@ -107,7 +125,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			txfFone.setBounds(15, 180, 125, 25);
 			txfFone.setToolTipText("Digite o telefone");
 			getContentPane().add(txfFone);
-
+			txfFone.addKeyListener((KeyListener) acao);
+			
 			labes = new JLabel("Celular:");//
 			labes.setBounds(175, 160, 190, 25);
 			getContentPane().add(labes);
@@ -116,7 +135,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			txfCel.setBounds(175, 180, 190, 25);
 			txfCel.setToolTipText("Digite o celular");
 			getContentPane().add(txfCel);
-
+			txfCel.addKeyListener((KeyListener) acao);
+			
 			labes = new JLabel("CEP:");
 			labes.setBounds(450, 110, 100, 25);
 			getContentPane().add(labes);
@@ -125,6 +145,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			txfCep.setBounds(450, 130, 100, 25);
 			txfCep.setToolTipText("Digite o CEP");
 			getContentPane().add(txfCep);
+			txfCep.addKeyListener((KeyListener) acao);
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -138,7 +159,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfEmail.setBounds(15, 230, 350, 25);
 		txfEmail.setToolTipText("Digite o email");
 		getContentPane().add(txfEmail);
-
+		txfEmail.addKeyListener((KeyListener) acao);
+		
 		labes = new JLabel("Observação:");
 		labes.setBounds(15, 260, 350, 25);
 		getContentPane().add(labes);
@@ -147,6 +169,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfObs.setBounds(15, 280, 350, 25);
 		txfObs.setToolTipText("Digite uma observação");
 		getContentPane().add(txfObs);
+		txfObs.addKeyListener((KeyListener) acao);
 
 		// coluna da direita, cmpos e escrita
 
@@ -158,6 +181,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfEnder.setBounds(450, 30, 200, 25);
 		txfEnder.setToolTipText("Digite o endereço");
 		getContentPane().add(txfEnder);
+		txfEnder.addKeyListener((KeyListener) acao);
 
 		labes = new JLabel("Número:");
 		labes.setBounds(675, 10, 50, 25);
@@ -167,6 +191,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfNum.setBounds(675, 30, 75, 25);
 		txfNum.setToolTipText("Digite o número");
 		getContentPane().add(txfNum);
+		txfNum.addKeyListener((KeyListener) acao);
 
 		labes = new JLabel("Complemento:");
 		labes.setBounds(450, 60, 250, 25);
@@ -176,7 +201,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfComplemen.setBounds(450, 80, 300, 25);
 		txfComplemen.setToolTipText("Digite o complemento");
 		getContentPane().add(txfComplemen);
-
+		txfComplemen.addKeyListener((KeyListener) acao);
+		
 		labes = new JLabel("Bairro:");
 		labes.setBounds(570, 110, 250, 25);
 		getContentPane().add(labes);
@@ -185,7 +211,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfBairro.setBounds(570, 130, 180, 25);
 		txfBairro.setToolTipText("Digite o bairro");
 		getContentPane().add(txfBairro);
-
+		txfBairro.addKeyListener((KeyListener) acao);
+		
 		// País
 		labes = new JLabel("País:");
 		labes.setBounds(450, 160, 250, 25);
@@ -195,11 +222,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		cbxPais.addItem("-Selecione-");
 		// Opções países
 		opcoesPaises(cidades).forEach(pais -> cbxPais.addItem(pais));
-
+		
 		cbxPais.setBounds(450, 180, 200, 25);
 		cbxPais.setToolTipText("Informe o país");
 		getContentPane().add(cbxPais);
-
+		cbxPais.addKeyListener((KeyListener) acao);
+		
 		// Estado
 		labes = new JLabel("UF:");
 		labes.setBounds(450, 210, 250, 25);
@@ -210,7 +238,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		cbxUf.setBounds(450, 230, 200, 25);
 		cbxUf.setToolTipText("Informe o UF");
 		getContentPane().add(cbxUf);
-
+		cbxUf.addKeyListener((KeyListener) acao);
+		
 		// Cidade
 		labes = new JLabel("Cidade:");
 		labes.setBounds(450, 260, 250, 25);
@@ -221,7 +250,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		cbxCidade.setBounds(450, 280, 200, 25);
 		cbxCidade.setToolTipText("Informe a cidade");
 		getContentPane().add(cbxCidade);
-
+		cbxCidade.addKeyListener((KeyListener) acao);
+		
 		// Listeners troca comboboxes
 		cbxPais.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -281,6 +311,15 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(btnSalvar);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cadastraAluno();
+			}
+		});
+		
+		btnSalvar.addKeyListener((KeyListener) acao);
+		
+	}
+	
+	public void cadastraAluno() {
 				if(validarCamposObrigatorios()) {
 					JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
 					return;
@@ -323,9 +362,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 				}
 
 			}
-		});
-
-	}
+	
 
 	public boolean validarCamposObrigatorios() {
 			
@@ -426,6 +463,6 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			observer.update(aluno);
 
 		}
-	}
+	}}
 
-}
+
