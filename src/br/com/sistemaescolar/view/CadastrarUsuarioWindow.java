@@ -122,7 +122,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	public boolean validarCamposObrigatorios() {
 			if( "-Selecione-".equals(txfPerfil.getSelectedItem()) ||
 				txfCodAluno.getText().isEmpty() ||
-				txfSenha.getText().isEmpty()
+				(new String(txfSenha.getPassword())).isEmpty()
 				) {
 				return true;
 			}

@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-import com.sun.corba.se.spi.orbutil.fsm.Action;
 import com.sun.glass.events.KeyEvent;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;

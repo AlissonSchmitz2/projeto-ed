@@ -99,11 +99,12 @@ public class AlterarSenhaWindow extends AbstractWindowFrame {
 	}
 
 	public void alterarSenha() {
-		if ("".equals(novaSenha.getText()) == false && novaSenha.getText().equals(confirmaSenha.getText())
-				&& senhaAntiga.getText().equals(usuarioLogado.getSenha())) {
+		if ("".equals(new String(novaSenha.getPassword())) == false
+				&& new String (novaSenha.getPassword()).equals(new String(confirmaSenha.getPassword()))
+				&& usuarioLogado.getSenha().equals(new String(senhaAntiga.getPassword()))) {
 
 			// Atualiza a senha do usuário para depois atualiza-lá no TXT.
-			usuarioLogado.setSenha(novaSenha.getText());
+			usuarioLogado.setSenha(new String(novaSenha.getPassword()));
 
 			// Atualiza a senha no TXT.
 			aM.editarDado(usuarioLogado);
