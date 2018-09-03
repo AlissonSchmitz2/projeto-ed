@@ -2,6 +2,7 @@ package br.com.sistemaescolar.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.sun.glass.events.KeyEvent;
+
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Aluno;
 import br.com.sistemaescolar.model.Usuario;
@@ -29,6 +32,14 @@ public class ListarAlunosWindow extends AbstractGridWindow implements ObserverAl
 	
 	ManipularArquivo aM = new ManipularArquivo();
 	
+	KeyAdapter acao = new KeyAdapter() {
+		@Override
+		public void keyPressed(java.awt.event.KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				buscarAluno();
+			}
+		}
+		};
 
 	private JButton botaoExcluir;
 	private JButton botaoEditar;
@@ -111,18 +122,18 @@ public class ListarAlunosWindow extends AbstractGridWindow implements ObserverAl
 		txfBuscar = new JTextField();
 		txfBuscar.setBounds(330, 30, 200, 25);
 		getContentPane().add(txfBuscar);
+		txfBuscar.addKeyListener(acao);
 		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setBounds(550, 30, 100, 25);
 		getContentPane().add(btnBuscar);
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
-				//Limpa a lista.
-				model.limpar();				
-				listaAlunos = aM.pegarAlunos(txfBuscar.getText());
-				model.addListaDeAlunos(listaAlunos);				
+					buscarAluno();	
 			}
 		});
+		
+		btnBuscar.addKeyListener(acao);
 		
 		btnLimparBusca = new JButton("Limpar Busca");
 		btnLimparBusca.setBounds(670, 30, 140, 25);
@@ -140,8 +151,32 @@ public class ListarAlunosWindow extends AbstractGridWindow implements ObserverAl
 				}
 			}
 		});
+		
+		//Enter para limpar
+		btnLimparBusca.addKeyListener(new KeyAdapter() {
+			public void keyPressed(java.awt.event.KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					//Limpa o campo de busca e mostra a lista inteira novamente.
+					txfBuscar.setText("");
+					model.limpar();
+					try {
+						listaAlunos = aM.pegarAlunos();
+						model.addListaDeAlunos(listaAlunos);
+					} catch (Exception e2) {
+						System.err.printf("Erro ao iniciar lista de alunos: %s.\n", e2.getMessage());
+					}
+				}
+			}
+		});
 	}
 
+	public void buscarAluno() {
+		//Limpa a lista.
+		model.limpar();				
+		listaAlunos = aM.pegarAlunos(txfBuscar.getText());
+		model.addListaDeAlunos(listaAlunos);
+	}
+	
 	private void abrirFrame(AbstractWindowFrame frame) {
 		desktop.add(frame);
 

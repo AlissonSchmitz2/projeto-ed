@@ -2,6 +2,7 @@ package br.com.sistemaescolar.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import com.sun.glass.events.KeyEvent;
+
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Cidade;
 import br.com.sistemaescolar.observer.ObserverCidade;
@@ -20,7 +23,16 @@ import br.com.sistemaescolar.observer.SubjectCidade;
 
 public class CadastrarCidadeWindow extends AbstractWindowFrame implements SubjectCidade {
 	private static final long serialVersionUID = 1L;
-
+	
+	KeyAdapter acao = new KeyAdapter() {
+		@Override
+		public void keyPressed(java.awt.event.KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				cadastraCidade();
+			}
+		}
+		};
+		
 	private ArrayList<ObserverCidade> observers = new ArrayList<ObserverCidade>();
 	private JTextField txfCidade;
 	private JComboBox<String> txfUf;
@@ -52,7 +64,8 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		txfPais.setBounds(15, 30, 200, 25);
 		txfPais.setToolTipText("Digite o país");
 		getContentPane().add(txfPais);
-
+		txfPais.addKeyListener(acao);
+		
 		saida = new JLabel("UF");
 		saida.setBounds(15, 60, 200, 25);
 		getContentPane().add(saida);
@@ -89,7 +102,8 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		txfUf.setBounds(15, 80, 200, 25);
 		txfUf.setToolTipText("Informe o UF");
 		getContentPane().add(txfUf);
-
+		txfUf.addKeyListener(acao);
+		
 		saida = new JLabel("Cidade:");
 		saida.setBounds(15, 10, 200, 25);
 		saida.setBounds(15, 110, 200, 25);
@@ -99,6 +113,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		txfCidade.setBounds(15, 130, 200, 25);
 		txfCidade.setToolTipText("Digite a cidade");
 		getContentPane().add(txfCidade);
+		txfCidade.addKeyListener(acao);
 
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(15, 170, 95, 25);
@@ -120,39 +135,47 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				if(validarCamposObrigatorios()) {
-					JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
-					return;
-				}
 				
-				cidade.setCidade(txfCidade.getText());
-				cidade.setUf(txfUf.getSelectedItem().toString());
-				cidade.setPais(txfPais.getText());
-
-				boolean cadastrar = true;
-
-				if (cidade.getId() != null) {
-					notifyObservers(cidade);
-					JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
-					cadastrar = false;
-					setVisible(false);
-				}
-
-				if (cadastrar) {
-					try {
-						ManipularArquivo aM = new ManipularArquivo();
-						aM.inserirDado(cidade);
-						limparFormulario();
-						JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
 			}
 		});
+		
+		btnCadastra.addKeyListener(acao);
 
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
+	}
+	
+	public void cadastraCidade() {
+		
+		if(validarCamposObrigatorios()) {
+			JOptionPane.showMessageDialog(null, "Informe todos os campos para cadastrar!");
+			return;
+		}
+		
+		cidade.setCidade(txfCidade.getText());
+		cidade.setUf(txfUf.getSelectedItem().toString());
+		cidade.setPais(txfPais.getText());
+
+		boolean cadastrar = true;
+
+		if (cidade.getId() != null) {
+			notifyObservers(cidade);
+			JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
+			cadastrar = false;
+			setVisible(false);
+		}
+
+		if (cadastrar) {
+			try {
+				ManipularArquivo aM = new ManipularArquivo();
+				aM.inserirDado(cidade);
+				limparFormulario();
+				JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
 	}
 	
 	public boolean validarCamposObrigatorios() {
