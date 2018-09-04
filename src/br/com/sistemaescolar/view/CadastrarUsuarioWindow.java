@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -23,7 +24,7 @@ import br.com.sistemaescolar.observer.SubjectUsuario;
 
 public class CadastrarUsuarioWindow extends AbstractWindowFrame implements SubjectUsuario {
 	private static final long serialVersionUID = 1L;
-	
+
 	KeyAdapter acao = new KeyAdapter() {
 		@Override
 		public void keyPressed(java.awt.event.KeyEvent e) {
@@ -31,8 +32,10 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 				cadastraUsuario();
 			}
 		}
-		};
-		
+	};
+
+	ManipularArquivo aM = new ManipularArquivo();
+
 	private ArrayList<ObserverUsuario> observers = new ArrayList<ObserverUsuario>();
 	private JPasswordField txfSenha;
 	private JTextField txfCodAluno;
@@ -66,7 +69,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		txfCodAluno.setToolTipText("Digite o código");
 		getContentPane().add(txfCodAluno);
 		txfCodAluno.addKeyListener(acao);
-		
+
 		saida = new JLabel("Senha:");
 		saida.setBounds(15, 60, 200, 25);
 		getContentPane().add(saida);
@@ -76,7 +79,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		txfSenha.setToolTipText("Digite uma senha");
 		getContentPane().add(txfSenha);
 		txfSenha.addKeyListener(acao);
-		
+
 		saida = new JLabel("Perfil:");
 		saida.setBounds(15, 110, 200, 25);
 		getContentPane().add(saida);
@@ -89,7 +92,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		txfPerfil.setToolTipText("Informe o perfil");
 		getContentPane().add(txfPerfil);
 		txfPerfil.addKeyListener(acao);
-		
+
 		btnLimpar = new JButton(new AbstractAction("Limpar") {
 			private static final long serialVersionUID = 1L;
 
@@ -113,29 +116,40 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 				cadastraUsuario();
 			}
 		});
-		
+
 		btnCadastra.addKeyListener(acao);
 		btnCadastra.setBounds(120, 170, 95, 25);
 		getContentPane().add(btnCadastra);
 	}
-	
+
 	public boolean validarCamposObrigatorios() {
-			if( "-Selecione-".equals(txfPerfil.getSelectedItem()) ||
-				txfCodAluno.getText().isEmpty() ||
-				(new String(txfSenha.getPassword())).isEmpty()
-				) {
-				return true;
-			}
-		
-			return false;
+		if ("-Selecione-".equals(txfPerfil.getSelectedItem()) || txfCodAluno.getText().isEmpty()
+				|| (new String(txfSenha.getPassword())).isEmpty()) {
+			return true;
 		}
 
+		return false;
+	}
+
 	public void cadastraUsuario() {
-		
-		if(validarCamposObrigatorios()) {
+
+		if (validarCamposObrigatorios()) {
 			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
 					JOptionPane.ERROR_MESSAGE, null);
 			return;
+		}
+
+		Usuario verificaUsuario;
+		try {
+			verificaUsuario = aM.pegarUsuarioPorLogin(txfCodAluno.getText());
+			if (verificaUsuario != null) {
+				JOptionPane.showMessageDialog(rootPane, "Usuario já cadastrado, por gentiliza"
+						+ " digite um novo login", "",JOptionPane.ERROR_MESSAGE, null);
+				limparFormulario();
+				return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		usuario.setLogin(txfCodAluno.getText());
@@ -162,14 +176,14 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 				e1.printStackTrace();
 			}
 		}
-		
+
 	}
-	
+
 	public void limparFormulario() {
 		txfCodAluno.setText("");
 		txfSenha.setText("");
 		txfPerfil.setSelectedIndex(0);
-		
+
 		usuario = new Usuario();
 	}
 

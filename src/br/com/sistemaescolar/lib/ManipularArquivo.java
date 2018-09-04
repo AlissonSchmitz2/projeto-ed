@@ -71,6 +71,30 @@ public class ManipularArquivo {
 		return null;
 	}
 	
+	public Usuario pegarUsuarioPorLogin(String login) throws Exception{
+		
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				String[] verificaLinha = linha.split(SEPARATOR);
+				
+				if (login.equals(verificaLinha[1])) {
+					return new Usuario(Integer.parseInt(verificaLinha[0]), verificaLinha[1], verificaLinha[2], verificaLinha[3]);
+				}
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			throw new Exception("Arquivo não existente");
+		}
+		
+		return null;
+	}
+	
 	public Usuario pegarUsuarioPorLoginSenha(String login, String senha) throws Exception {
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
@@ -124,7 +148,7 @@ public class ManipularArquivo {
 	
 	public List<Usuario> pegarUsuarios(String valorBusca) {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
-
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
 			lerArq = new BufferedReader(arq);
