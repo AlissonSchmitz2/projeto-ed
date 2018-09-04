@@ -135,7 +135,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-
+				cadastraCidade();
 			}
 		});
 
