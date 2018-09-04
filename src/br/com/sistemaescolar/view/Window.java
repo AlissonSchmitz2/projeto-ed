@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import br.com.sistemaescolar.model.Usuario;
@@ -25,7 +26,8 @@ public class Window extends JFrame {
 	private JMenu menuAlunos;
 	private JMenu menuCidades;
 	private JMenu menuUsuarios;
-
+	private JMenu menuOpcao;
+	
 	private JDesktopPane desktop;
 	
 	public Window(Usuario usuarioLogado) {
@@ -60,7 +62,7 @@ public class Window extends JFrame {
 		menuBar.add(getMenuAlunos());
 		menuBar.add(getMenuCidades());
 		menuBar.add(getMenuUsuarios());
-		
+		menuBar.add(getMenuOpcao());
 		return menuBar;
 	}
 	
@@ -220,6 +222,49 @@ public class Window extends JFrame {
 		return menuItem;
 	}
 	
+	//Menu opções
+	
+	private JMenu getMenuOpcao() {
+		menuOpcao = new JMenu();
+		menuOpcao.setText("Opções");
+		menuOpcao.setFont(getDefaultFont());
+		
+		menuOpcao.add(getMenuItemSobre());
+		menuOpcao.add(getMenuItemSair());
+
+		return menuOpcao;
+	}
+	
+	private JMenuItem getMenuItemSobre() {
+		JMenuItem menuItem = new JMenuItem();
+		menuItem.setText("Sobre");
+		menuItem.setFont(getDefaultFont());
+		
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null,"Sistema desenvolvido por:\n\nAlisson Schmitz\n"
+						+ "Edvaldo da Rosa\nGiovane Santiago\nVinnicius Mazzuchetti\nVictor Cechinel\n"
+						+ "Wilian Hendler");
+			}
+		});
+			
+		return menuItem;
+	}
+	
+	private JMenuItem getMenuItemSair() {
+		JMenuItem menuItem = new JMenuItem();
+		menuItem.setText("Sair");
+		menuItem.setFont(getDefaultFont());
+		
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new LoginWindow().setVisible(true);
+				setVisible(false);
+			}
+		});
+			
+		return menuItem;
+	}
 	
 	/*
 	 * HELPERS
