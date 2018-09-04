@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -19,7 +20,7 @@ public class CadastrarPrimeiroUser extends JDialog {
 
 	private static final long serialVersionUID = -111508881355118807L;
 	private ManipularArquivo mA = new ManipularArquivo();
-	
+
 	KeyAdapter acao = new KeyAdapter() {
 		@Override
 		public void keyPressed(java.awt.event.KeyEvent e) {
@@ -27,8 +28,7 @@ public class CadastrarPrimeiroUser extends JDialog {
 				cadastrarPrimeiroUser();
 			}
 		}
-		};
-		
+	};
 
 	private JTextField txfNome;
 	private JPasswordField txfSenha;
@@ -54,6 +54,7 @@ public class CadastrarPrimeiroUser extends JDialog {
 		txfNome = new JTextField();
 		txfNome.setBounds(10, 30, 200, 25);
 		getContentPane().add(txfNome);
+		txfNome.addKeyListener(acao);
 
 		Descricao = new JLabel("Informe sua senha: ");
 		Descricao.setBounds(10, 65, 200, 25);
@@ -62,6 +63,7 @@ public class CadastrarPrimeiroUser extends JDialog {
 		txfSenha = new JPasswordField();
 		txfSenha.setBounds(10, 85, 200, 25);
 		getContentPane().add(txfSenha);
+		txfSenha.addKeyListener(acao);
 
 		btnAcessar = new JButton(new AbstractAction("Cadastrar") {
 			private static final long serialVersionUID = 1L;
@@ -70,27 +72,41 @@ public class CadastrarPrimeiroUser extends JDialog {
 				cadastrarPrimeiroUser();
 			}
 		});
-		
+
 		btnAcessar.addKeyListener(acao);
 		btnAcessar.setBounds(10, 115, 100, 25);
 		getContentPane().add(btnAcessar);
 
 	}
-	
+
+	public boolean validarCamposObrigatorios() {
+		if ((new String(txfSenha.getPassword()).equals("")) || txfNome.getText().equals("")) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public void cadastrarPrimeiroUser() {
-		login = txfNome.getText();
-		senha = new String(txfSenha.getPassword());
-		Usuario usuario = new Usuario();
+		if (validarCamposObrigatorios()) {
+			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
+					JOptionPane.ERROR_MESSAGE, null);
+		} else {
 
-		usuario.setLogin(login);
-		usuario.setSenha(senha);
-		usuario.setPerfil("Administrador");
+			login = txfNome.getText();
+			senha = new String(txfSenha.getPassword());
+			Usuario usuario = new Usuario();
 
-		try {
-			mA.inserirDado(usuario);
-			setVisible(false);
-		} catch (Exception e1) {
-			e1.printStackTrace();
+			usuario.setLogin(login);
+			usuario.setSenha(senha);
+			usuario.setPerfil("Administrador");
+
+			try {
+				mA.inserirDado(usuario);
+				setVisible(false);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 }
