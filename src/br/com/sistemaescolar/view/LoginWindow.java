@@ -2,10 +2,9 @@ package br.com.sistemaescolar.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
-
-import com.sun.glass.events.KeyEvent;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Usuario;
@@ -31,7 +30,6 @@ public class LoginWindow extends JDialog {
 	}
 
 	public void criarComponentes() {
-
 		Descricao = new JLabel("Login: ");
 		Descricao.setBounds(10, 10, 200, 25);
 		getContentPane().add(Descricao);
