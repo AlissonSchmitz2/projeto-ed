@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -88,6 +89,11 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 		add(botaoExcluir);
 		botaoExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (Integer.parseInt(idSelecionado) == usuarioLogado.getId()) {
+					JOptionPane.showMessageDialog(null, "Você não pode excluir seu próprio usuário!");
+					return;
+				}
+				
 				Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
 
 				if (usuario instanceof Usuario) {
