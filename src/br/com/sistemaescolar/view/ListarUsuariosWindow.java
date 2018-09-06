@@ -260,8 +260,6 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 
 	@Override
 	public void update(Usuario usuario) {
-		aM.editarDado(usuario);
-
 		model.limpar();
 		listaUsuarios = aM.pegarUsuarios(txfBuscar.getText());
 		model.addListaDeUsuarios(listaUsuarios);

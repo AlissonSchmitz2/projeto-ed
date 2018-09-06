@@ -36,7 +36,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 				cadastraAluno();
 			}
 		}
-		};
+	};
 		
 	private ArrayList<ObserverAluno> observers = new ArrayList<ObserverAluno>();
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfComplemen, txfBairro;
@@ -76,6 +76,10 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfCod.setToolTipText("Digite o código do aluno");
 		getContentPane().add(txfCod);
 		txfCod.addKeyListener((KeyListener) acao);
+		
+		if (aluno.getId() != null) {
+			txfCod.setEditable(false);
+		}
 		
 		labes = new JLabel("Nome:");
 		labes.setBounds(15, 60, 350, 25);
@@ -318,72 +322,74 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	}
 	
 	public void cadastraAluno() {
-				if(validarCamposObrigatorios()) {
-					JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
-							JOptionPane.ERROR_MESSAGE, null);
-					return;
-				}
-				
-				aluno.setCodAluno(txfCod.getText());
-				aluno.setNomeAluno(txfNome.getText());
-				String auxSexo = cbxGenero.getSelectedItem().toString();
-				aluno.setSexo(auxSexo);
-				aluno.setDataNascimento(txfData.getText());
-				aluno.setTelefone(txfFone.getText());
-				aluno.setCelular(txfCel.getText());
-				aluno.setCep(txfCep.getText());
-				aluno.setEmail(txfEmail.getText());
-				aluno.setObservacao(txfObs.getText());
-				aluno.setEndereco(txfEnder.getText());
-				aluno.setComplemento(txfComplemen.getText());
-				aluno.setBairro(txfBairro.getText());
-				aluno.setNumero(txfNum.getText());
-				aluno.setCidade(cbxCidade.getSelectedItem().toString());
-				aluno.setUf(cbxUf.getSelectedItem().toString());
-				aluno.setPais(cbxPais.getSelectedItem().toString());
-
-				boolean cadastrar = true;
-				if (aluno.getId() != null) {
-					notifyObservers(aluno);
-					JOptionPane.showMessageDialog(null, "Aluno editado com sucesso!");
-					cadastrar = false;
-					setVisible(false);
-				}
-
-				if (cadastrar) {
-					try {
-						aM.inserirDado(aluno);
-						limparFormulario();
-						JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-
+		if(validarCamposObrigatorios()) {
+			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "", JOptionPane.ERROR_MESSAGE, null);
+			return;
+		}
+		
+		if (aluno.getId() == null) {
+			Aluno alunoCodigo = aM.pegarAlunoPorCodigo(txfCod.getText());
+			
+			if (alunoCodigo != null) {
+				JOptionPane.showMessageDialog(rootPane, "Código já usado por outro aluno!", "", JOptionPane.ERROR_MESSAGE, null);
+				return;
 			}
+		}
+		
+		aluno.setCodAluno(txfCod.getText());
+		aluno.setNomeAluno(txfNome.getText());
+		String auxSexo = cbxGenero.getSelectedItem().toString();
+		aluno.setSexo(auxSexo);
+		aluno.setDataNascimento(txfData.getText());
+		aluno.setTelefone(txfFone.getText());
+		aluno.setCelular(txfCel.getText());
+		aluno.setCep(txfCep.getText());
+		aluno.setEmail(txfEmail.getText());
+		aluno.setObservacao(txfObs.getText());
+		aluno.setEndereco(txfEnder.getText());
+		aluno.setComplemento(txfComplemen.getText());
+		aluno.setBairro(txfBairro.getText());
+		aluno.setNumero(txfNum.getText());
+		aluno.setCidade(cbxCidade.getSelectedItem().toString());
+		aluno.setUf(cbxUf.getSelectedItem().toString());
+		aluno.setPais(cbxPais.getSelectedItem().toString());
+
+		if (aluno.getId() == null) {
+			aM.inserirDado(aluno);
+			limparFormulario();
+			JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
+		}
+		
+		if (aluno.getId() != null) {
+			aM.editarDado(aluno);
+			
+			notifyObservers(aluno);
+			JOptionPane.showMessageDialog(null, "Aluno editado com sucesso!");
+			setVisible(false);
+		}
+	}
 	
 
 	public boolean validarCamposObrigatorios() {
-			
-			if(txfNome.getText().isEmpty() ||
-				txfCod.getText().isEmpty() ||
-				txfEmail.getText().isEmpty() ||
-				txfEnder.getText().isEmpty() ||
-				txfBairro.getText().isEmpty() ||
-				"-Selecione-".equals(cbxGenero.getSelectedItem()) ||
-				"-Selecione-".equals(cbxUf.getSelectedItem()) ||
-				"-Selecione-".equals(cbxPais.getSelectedItem()) ||
-				"-Selecione-".equals(cbxCidade.getSelectedItem()) ||
-				txfData.getText().isEmpty() ||
-				txfFone.getText().isEmpty() ||
-				txfCel.getText().isEmpty() ||
-				txfCep.getText().isEmpty()
-				) {
-				return true;
-			}
-		
-			return false;
+		if(txfNome.getText().isEmpty() ||
+			txfCod.getText().isEmpty() ||
+			txfEmail.getText().isEmpty() ||
+			txfEnder.getText().isEmpty() ||
+			txfBairro.getText().isEmpty() ||
+			"-Selecione-".equals(cbxGenero.getSelectedItem()) ||
+			"-Selecione-".equals(cbxUf.getSelectedItem()) ||
+			"-Selecione-".equals(cbxPais.getSelectedItem()) ||
+			"-Selecione-".equals(cbxCidade.getSelectedItem()) ||
+			txfData.getText().isEmpty() ||
+			txfFone.getText().isEmpty() ||
+			txfCel.getText().isEmpty() ||
+			txfCep.getText().isEmpty()
+			) {
+			return true;
 		}
+	
+		return false;
+	}
 	
 	
 	public void limparFormulario() {
@@ -460,7 +466,6 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		while (it.hasNext()) {
 			ObserverAluno observer = (ObserverAluno) it.next();
 			observer.update(aluno);
-
 		}
 	}}
 

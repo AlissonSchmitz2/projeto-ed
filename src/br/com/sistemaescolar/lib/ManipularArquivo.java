@@ -39,7 +39,7 @@ public class ManipularArquivo {
 	/*
 	 * USUÁRIOS
 	 */
-	public void inserirDado(Usuario usuario) throws IOException {
+	public void inserirDado(Usuario usuario) {
 		usuario.setId(pegarProximoId("usuarios"));
 		
 		String novosDados = criarStringDados(usuario);
@@ -80,7 +80,7 @@ public class ManipularArquivo {
 		return null;
 	}
 	
-	public Usuario pegarUsuarioPorLogin(String login) throws Exception{
+	public Usuario pegarUsuarioPorLogin(String login) {
 		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
@@ -98,7 +98,7 @@ public class ManipularArquivo {
 				linha = lerArq.readLine();
 			}
 		} catch (IOException e) {
-			throw new Exception("Arquivo não existente");
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
 		
 		return null;
@@ -126,7 +126,7 @@ public class ManipularArquivo {
 				linha = lerArq.readLine();
 			}
 		} catch (IOException e) {
-			throw new Exception("Arquivo não existente");
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
 		
 		return null;
@@ -200,7 +200,7 @@ public class ManipularArquivo {
 	/*
 	 * ALUNOS
 	 */
-	public void inserirDado(Aluno aluno) throws IOException {
+	public void inserirDado(Aluno aluno) {
 		aluno.setId(pegarProximoId("alunos"));
 		
 		String novosDados = criarStringDados(aluno);
@@ -229,6 +229,29 @@ public class ManipularArquivo {
 				String[] atributo = linha.split(SEPARATOR);
 				
 				if (id.toString().equals(atributo[0])) {
+					return criarAlunoApartirAtributos(atributo);
+				}
+				
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		return null;
+	}
+	
+	public Aluno pegarAlunoPorCodigo(String codigo) {
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("alunos"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+			
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				
+				if (codigo.equals(atributo[1])) {
 					return criarAlunoApartirAtributos(atributo);
 				}
 				
@@ -325,7 +348,7 @@ public class ManipularArquivo {
 	/*
 	 * CIDADES
 	 */
-	public void inserirDado(Cidade cidade) throws IOException {
+	public void inserirDado(Cidade cidade) {
 		cidade.setId(pegarProximoId("cidades"));
 		
 		String novosDados = criarStringDados(cidade);

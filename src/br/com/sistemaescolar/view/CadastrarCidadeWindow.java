@@ -38,8 +38,10 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 	private JTextField txfPais;
 	private JLabel saida;
 	private JButton btnCadastra, btnLimpar;
+	
 	private Cidade cidade;
-
+	private ManipularArquivo aM = new ManipularArquivo();
+	
 	public CadastrarCidadeWindow() {
 		super("Cadastrar Cidade");
 		this.cidade = new Cidade();
@@ -130,7 +132,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 			}
 		});
 
-		btnCadastra = new JButton(new AbstractAction("Cadastrar") {
+		btnCadastra = new JButton(new AbstractAction("Salvar") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -156,26 +158,19 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		cidade.setUf(txfUf.getSelectedItem().toString());
 		cidade.setPais(txfPais.getText());
 
-		boolean cadastrar = true;
+		if (cidade.getId() == null) {
+			aM.inserirDado(cidade);
+			limparFormulario();
+			JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
+		}
 
 		if (cidade.getId() != null) {
+			aM.editarDado(cidade);
+			
 			notifyObservers(cidade);
 			JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
-			cadastrar = false;
 			setVisible(false);
 		}
-
-		if (cadastrar) {
-			try {
-				ManipularArquivo aM = new ManipularArquivo();
-				aM.inserirDado(cidade);
-				limparFormulario();
-				JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-
 	}
 
 	public boolean validarCamposObrigatorios() {

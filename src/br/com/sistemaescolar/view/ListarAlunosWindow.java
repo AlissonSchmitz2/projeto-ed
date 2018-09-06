@@ -260,8 +260,6 @@ public class ListarAlunosWindow extends AbstractGridWindow implements ObserverAl
 
 	@Override
 	public void update(Aluno aluno) {
-		aM.editarDado(aluno);
-		
 		model.limpar();
 		listaAlunos = aM.pegarAlunos(txfBuscar.getText());
 		model.addListaDeAlunos(listaAlunos);

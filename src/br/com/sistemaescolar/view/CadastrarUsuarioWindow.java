@@ -155,26 +155,19 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		usuario.setSenha(senhaUsuario);
 		usuario.setPerfil(txfPerfil.getSelectedItem().toString());
 
-		boolean cadastrar = true;
+		if (usuario.getId() == null) {
+			ManipularArquivo aM = new ManipularArquivo();
+			aM.inserirDado(usuario);
+			limparFormulario();
+			JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso!");
+		}
 
 		if (usuario.getId() != null) {
+			aM.editarDado(usuario);
 			notifyObservers(usuario);
 			JOptionPane.showMessageDialog(null, "Usuario editado com sucesso!");
-			cadastrar = false;
 			setVisible(false);
 		}
-
-		if (cadastrar) {
-			try {
-				ManipularArquivo aM = new ManipularArquivo();
-				aM.inserirDado(usuario);
-				limparFormulario();
-				JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso!");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-
 	}
 
 	public void limparFormulario() {

@@ -253,8 +253,6 @@ public class ListarCidadesWindow extends AbstractGridWindow implements ObserverC
 
 	@Override
 	public void update(Cidade cidade) {
-		aM.editarDado(cidade);
-
 		model.limpar();
 		listaCidades = aM.pegarCidades(txfBuscar.getText());
 		model.addListaDeCidades(listaCidades);
