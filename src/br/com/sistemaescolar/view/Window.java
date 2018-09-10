@@ -277,6 +277,7 @@ public class Window extends JFrame {
 	}
 	
 	private void abrirFrame(AbstractWindowFrame frame) {
+		desktop.removeAll();
 	    desktop.add(frame);
 	    
 	    try {

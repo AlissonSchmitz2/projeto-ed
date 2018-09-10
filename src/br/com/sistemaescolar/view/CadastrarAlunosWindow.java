@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -67,7 +66,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	public void criarComponentes() {
 
 		// Coluna da esquerda, campos e escritas
-		labes = new JLabel("Código do Aluno:");
+		labes = new JLabel("Código do Aluno*:");
 		labes.setBounds(15, 10, 250, 25);
 		getContentPane().add(labes);
 
@@ -81,7 +80,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			txfCod.setEditable(false);
 		}
 		
-		labes = new JLabel("Nome:");
+		labes = new JLabel("Nome*:");
 		labes.setBounds(15, 60, 350, 25);
 		getContentPane().add(labes);
 
@@ -91,7 +90,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(txfNome);
 		txfNome.addKeyListener((KeyListener) acao);
 		
-		labes = new JLabel("Sexo:");
+		labes = new JLabel("Sexo*:");
 		labes.setBounds(175, 110, 250, 25);
 		getContentPane().add(labes);
 
@@ -104,7 +103,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(cbxGenero);
 		cbxGenero.addKeyListener((KeyListener) acao);
 		
-		labes = new JLabel("Data de Nascimento:");
+		labes = new JLabel("Data de Nascimento*:");
 		labes.setBounds(15, 110, 230, 25);
 		getContentPane().add(labes);
 
@@ -119,7 +118,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			getContentPane().add(txfData);
 			txfData.addKeyListener((KeyListener) acao);
 			
-			labes = new JLabel("Telefone:");//
+			labes = new JLabel("Telefone*:");//
 			labes.setBounds(15, 160, 125, 25);
 			getContentPane().add(labes);
 
@@ -129,7 +128,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			getContentPane().add(txfFone);
 			txfFone.addKeyListener((KeyListener) acao);
 			
-			labes = new JLabel("Celular:");//
+			labes = new JLabel("Celular*:");//
 			labes.setBounds(175, 160, 190, 25);
 			getContentPane().add(labes);
 
@@ -139,7 +138,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			getContentPane().add(txfCel);
 			txfCel.addKeyListener((KeyListener) acao);
 			
-			labes = new JLabel("CEP:");
+			labes = new JLabel("CEP*:");
 			labes.setBounds(450, 110, 100, 25);
 			getContentPane().add(labes);
 
@@ -153,7 +152,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			e.printStackTrace();
 		}
 
-		labes = new JLabel("Email:");
+		labes = new JLabel("Email*:");
 		labes.setBounds(15, 210, 350, 25);
 		getContentPane().add(labes);
 
@@ -175,7 +174,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 
 		// coluna da direita, cmpos e escrita
 
-		labes = new JLabel("Endereço:");
+		labes = new JLabel("Endereço*:");
 		labes.setBounds(450, 10, 250, 25);
 		getContentPane().add(labes);
 
@@ -205,7 +204,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(txfComplemen);
 		txfComplemen.addKeyListener((KeyListener) acao);
 		
-		labes = new JLabel("Bairro:");
+		labes = new JLabel("Bairro*:");
 		labes.setBounds(570, 110, 250, 25);
 		getContentPane().add(labes);
 
@@ -216,7 +215,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfBairro.addKeyListener((KeyListener) acao);
 		
 		// País
-		labes = new JLabel("País:");
+		labes = new JLabel("País*:");
 		labes.setBounds(450, 160, 250, 25);
 		getContentPane().add(labes);
 
@@ -231,7 +230,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		cbxPais.addKeyListener((KeyListener) acao);
 		
 		// Estado
-		labes = new JLabel("UF:");
+		labes = new JLabel("UF*:");
 		labes.setBounds(450, 210, 250, 25);
 		getContentPane().add(labes);
 
@@ -243,7 +242,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		cbxUf.addKeyListener((KeyListener) acao);
 		
 		// Cidade
-		labes = new JLabel("Cidade:");
+		labes = new JLabel("Cidade*:");
 		labes.setBounds(450, 260, 250, 25);
 		getContentPane().add(labes);
 
@@ -468,5 +467,3 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			observer.update(aluno);
 		}
 	}}
-
-
