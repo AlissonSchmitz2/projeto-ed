@@ -111,7 +111,7 @@ public class ManipularArquivo {
 
 			String linha = lerArq.readLine();
 			
-			//Se a linha for null, significa que o arquivo de dados está vazio (Uma exeption é retornada)
+			//Se a linha for null, significa que o arquivo de dados está vazio (Uma exception é retornada)
 			if (linha == null) {
 				throw new Exception("Nenhum usuário cadastrado");
 			}
@@ -126,7 +126,7 @@ public class ManipularArquivo {
 				linha = lerArq.readLine();
 			}
 		} catch (IOException e) {
-			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+			throw new Exception(e);
 		}
 		
 		return null;
