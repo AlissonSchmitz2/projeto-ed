@@ -109,7 +109,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 
 		try {
 			MaskFormatter maskDat = new MaskFormatter("##/##/####");
-			MaskFormatter maskFone = new MaskFormatter("(##) #####-####");
+			MaskFormatter maskFone = new MaskFormatter("(##) ####-####");
 			MaskFormatter maskCep = new MaskFormatter("#####-###");
 
 			txfData = new JFormattedTextField(maskDat);
@@ -322,7 +322,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	
 	public void cadastraAluno() {
 		if(validarCamposObrigatorios()) {
-			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "", JOptionPane.ERROR_MESSAGE, null);
+			JOptionPane.showMessageDialog(rootPane, "Campos obrigatórios (*) não preenchidos!", "", JOptionPane.ERROR_MESSAGE, null);
 			return;
 		}
 		
