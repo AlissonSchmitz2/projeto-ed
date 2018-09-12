@@ -131,7 +131,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	public void cadastraUsuario() {
 
 		if (validarCamposObrigatorios()) {
-			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
+			JOptionPane.showMessageDialog(rootPane, "Campos obrigatórios (*) não preenchidos!", "",
 					JOptionPane.ERROR_MESSAGE, null);
 			return;
 		}
