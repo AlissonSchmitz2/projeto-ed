@@ -168,7 +168,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 			aM.editarDado(cidade);
 			
 			notifyObservers(cidade);
-			JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
+			JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
 			setVisible(false);
 		}
 	}

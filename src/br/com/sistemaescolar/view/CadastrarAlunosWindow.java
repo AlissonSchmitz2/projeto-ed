@@ -356,14 +356,14 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		if (aluno.getId() == null) {
 			aM.inserirDado(aluno);
 			limparFormulario();
-			JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Aluno salvo com sucesso!");
 		}
 		
 		if (aluno.getId() != null) {
 			aM.editarDado(aluno);
 			
 			notifyObservers(aluno);
-			JOptionPane.showMessageDialog(null, "Aluno editado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Aluno salvo com sucesso!");
 			setVisible(false);
 		}
 	}

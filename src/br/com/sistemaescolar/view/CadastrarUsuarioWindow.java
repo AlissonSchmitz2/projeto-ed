@@ -159,13 +159,13 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 			ManipularArquivo aM = new ManipularArquivo();
 			aM.inserirDado(usuario);
 			limparFormulario();
-			JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
 		}
 
 		if (usuario.getId() != null) {
 			aM.editarDado(usuario);
 			notifyObservers(usuario);
-			JOptionPane.showMessageDialog(null, "Usuario editado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
 			setVisible(false);
 		}
 	}
