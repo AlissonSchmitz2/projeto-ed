@@ -121,8 +121,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	}
 
 	public boolean validarCamposObrigatorios() {
-		if ("-Selecione-".equals(txfPerfil.getSelectedItem()) || txfCodAluno.getText().isEmpty()
-				|| (new String(txfSenha.getPassword())).isEmpty()) {
+		if ("-Selecione-".equals(txfPerfil.getSelectedItem()) || txfCodAluno.getText().isEmpty() || (new String(txfSenha.getPassword())).isEmpty()) {
 			return true;
 		}
 
@@ -137,19 +136,12 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 			return;
 		}
 
-		Usuario verificaUsuario;
-		try {
-			verificaUsuario = aM.pegarUsuarioPorLogin(txfCodAluno.getText());
-			if (verificaUsuario != null) {
-				JOptionPane.showMessageDialog(rootPane, "Usuario já cadastrado, por gentiliza"
-						+ " digite um novo login", "",JOptionPane.ERROR_MESSAGE, null);
-				limparFormulario();
-				return;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		Usuario verificaUsuario = aM.pegarUsuarioPorLogin(txfCodAluno.getText());
+		if (verificaUsuario != null && verificaUsuario.getId() != usuario.getId()) {
+			JOptionPane.showMessageDialog(rootPane, "Já existe um usuário com login informado, por gentiliza digite um novo login", "",JOptionPane.ERROR_MESSAGE, null);
+			return;
 		}
-		
+
 		usuario.setLogin(txfCodAluno.getText());
 		String senhaUsuario = new String(txfSenha.getPassword());
 		usuario.setSenha(senhaUsuario);
