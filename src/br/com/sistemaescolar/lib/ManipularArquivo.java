@@ -289,6 +289,7 @@ public class ManipularArquivo {
 	
 	public List<Aluno> pegarAlunos(String valorBusca) {
 		List<Aluno> alunos = new ArrayList<Aluno>();
+		int indicesDaBusca[] = {0, 1, 2, 7};
 
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("alunos"));
@@ -298,9 +299,14 @@ public class ManipularArquivo {
 			
 			while (linha != null) {
 				
-				if (linha.toLowerCase().contains(valorBusca.toLowerCase())) {
-					String[] atributo = linha.split(SEPARATOR);
-					alunos.add(criarAlunoApartirAtributos(atributo));
+				String[] atributo = linha.split(SEPARATOR);
+				
+				for(int i = 0; i < 4; i++) {
+					if (atributo[indicesDaBusca[i]].toLowerCase().contains(valorBusca.toLowerCase())) {
+						String[] atributos = linha.split(SEPARATOR);
+						alunos.add(criarAlunoApartirAtributos(atributos));	
+						break;
+					}
 				}
 				
 				linha = lerArq.readLine();				
