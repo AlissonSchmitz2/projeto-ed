@@ -91,7 +91,8 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 		getContentPane().add(txfPerfil);
 		txfPerfil.addKeyListener(acao);
 
-		btnLimpar = new JButton(new AbstractAction("Limpar") {
+		btnLimpar = new JButton(new AbstractAction(usuario.getId().equals(null) ? 
+				"Limpar":"Desfazer") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

@@ -116,7 +116,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(txfCidade);
 		txfCidade.addKeyListener(acao);
 
-		btnLimpar = new JButton("Limpar");
+		btnLimpar = new JButton(cidade.getId().equals(null) ? "Limpar":"Desfazer");
 		btnLimpar.setBounds(15, 170, 95, 25);
 		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
