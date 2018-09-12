@@ -149,7 +149,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 	public void cadastraCidade() {
 
 		if (validarCamposObrigatorios()) {
-			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
+			JOptionPane.showMessageDialog(rootPane, "Campos obrigatórios (*) não preenchidos!", "",
 					JOptionPane.ERROR_MESSAGE, null);
 			return;
 		}
@@ -168,7 +168,7 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 			aM.editarDado(cidade);
 			
 			notifyObservers(cidade);
-			JOptionPane.showMessageDialog(null, "Cidade editada com sucesso!");
+			JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
 			setVisible(false);
 		}
 	}

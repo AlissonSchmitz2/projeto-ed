@@ -131,7 +131,7 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 	public void cadastraUsuario() {
 
 		if (validarCamposObrigatorios()) {
-			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
+			JOptionPane.showMessageDialog(rootPane, "Campos obrigatórios (*) não preenchidos!", "",
 					JOptionPane.ERROR_MESSAGE, null);
 			return;
 		}
@@ -151,13 +151,13 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 			ManipularArquivo aM = new ManipularArquivo();
 			aM.inserirDado(usuario);
 			limparFormulario();
-			JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
 		}
 
 		if (usuario.getId() != null) {
 			aM.editarDado(usuario);
 			notifyObservers(usuario);
-			JOptionPane.showMessageDialog(null, "Usuario editado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
 			setVisible(false);
 		}
 	}
