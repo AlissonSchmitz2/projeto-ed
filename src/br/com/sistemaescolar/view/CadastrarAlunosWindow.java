@@ -1,5 +1,6 @@
 package br.com.sistemaescolar.view;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -66,8 +67,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	public void criarComponentes() {
 
 		// Coluna da esquerda, campos e escritas
-		labes = new JLabel("Código do Aluno*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(15, 10, 250, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("Código do Aluno:");
+		labes.setBounds(21, 10, 250, 25);
 		getContentPane().add(labes);
 
 		txfCod = new JTextField();
@@ -80,8 +85,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			txfCod.setEditable(false);
 		}
 		
-		labes = new JLabel("Nome*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(15, 60, 350, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("Nome:");
+		labes.setBounds(21, 60, 350, 25);
 		getContentPane().add(labes);
 
 		txfNome = new JTextField();
@@ -90,8 +99,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(txfNome);
 		txfNome.addKeyListener((KeyListener) acao);
 		
-		labes = new JLabel("Sexo*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(175, 110, 250, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("Sexo:");
+		labes.setBounds(181, 110, 250, 25);
 		getContentPane().add(labes);
 
 		cbxGenero = new JComboBox<String>();
@@ -103,13 +116,17 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(cbxGenero);
 		cbxGenero.addKeyListener((KeyListener) acao);
 		
-		labes = new JLabel("Data de Nascimento*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(15, 110, 230, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("Data de Nascimento:");
+		labes.setBounds(21, 110, 230, 25);
 		getContentPane().add(labes);
 
 		try {
 			MaskFormatter maskDat = new MaskFormatter("##/##/####");
-			MaskFormatter maskFone = new MaskFormatter("(##) #####-####");
+			MaskFormatter maskFone = new MaskFormatter("(##) ####-####");
 			MaskFormatter maskCep = new MaskFormatter("#####-###");
 
 			txfData = new JFormattedTextField(maskDat);
@@ -118,8 +135,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			getContentPane().add(txfData);
 			txfData.addKeyListener((KeyListener) acao);
 			
-			labes = new JLabel("Telefone*:");//
+			labes = new JLabel("*");
+			labes.setForeground(Color.red);
 			labes.setBounds(15, 160, 125, 25);
+			getContentPane().add(labes);
+			labes = new JLabel("Telefone:");//
+			labes.setBounds(21, 160, 125, 25);
 			getContentPane().add(labes);
 
 			txfFone = new JFormattedTextField(maskFone);
@@ -128,8 +149,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			getContentPane().add(txfFone);
 			txfFone.addKeyListener((KeyListener) acao);
 			
-			labes = new JLabel("Celular*:");//
+			labes = new JLabel("*");
+			labes.setForeground(Color.red);
 			labes.setBounds(175, 160, 190, 25);
+			getContentPane().add(labes);
+			labes = new JLabel("Celular:");//
+			labes.setBounds(181, 160, 190, 25);
 			getContentPane().add(labes);
 
 			txfCel = new JFormattedTextField(maskFone);
@@ -138,8 +163,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			getContentPane().add(txfCel);
 			txfCel.addKeyListener((KeyListener) acao);
 			
-			labes = new JLabel("CEP*:");
+			labes = new JLabel("*");
+			labes.setForeground(Color.red);
 			labes.setBounds(450, 110, 100, 25);
+			getContentPane().add(labes);
+			labes = new JLabel("CEP:");
+			labes.setBounds(456, 110, 100, 25);
 			getContentPane().add(labes);
 
 			txfCep = new JFormattedTextField(maskCep);
@@ -152,8 +181,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			e.printStackTrace();
 		}
 
-		labes = new JLabel("Email*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(15, 210, 350, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("Email:");
+		labes.setBounds(21, 210, 350, 25);
 		getContentPane().add(labes);
 
 		txfEmail = new JTextField();
@@ -174,8 +207,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 
 		// coluna da direita, cmpos e escrita
 
-		labes = new JLabel("Endereço*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(450, 10, 250, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("Endereço:");
+		labes.setBounds(456, 10, 250, 25);
 		getContentPane().add(labes);
 
 		txfEnder = new JTextField();
@@ -204,8 +241,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		getContentPane().add(txfComplemen);
 		txfComplemen.addKeyListener((KeyListener) acao);
 		
-		labes = new JLabel("Bairro*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(570, 110, 250, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("Bairro:");
+		labes.setBounds(576, 110, 250, 25);
 		getContentPane().add(labes);
 
 		txfBairro = new JTextField();
@@ -215,8 +256,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfBairro.addKeyListener((KeyListener) acao);
 		
 		// País
-		labes = new JLabel("País*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(450, 160, 250, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("País:");
+		labes.setBounds(456, 160, 250, 25);
 		getContentPane().add(labes);
 
 		cbxPais = new JComboBox<String>();
@@ -230,8 +275,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		cbxPais.addKeyListener((KeyListener) acao);
 		
 		// Estado
-		labes = new JLabel("UF*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(450, 210, 250, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("UF:");
+		labes.setBounds(456, 210, 250, 25);
 		getContentPane().add(labes);
 
 		cbxUf = new JComboBox<String>();
@@ -242,8 +291,12 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		cbxUf.addKeyListener((KeyListener) acao);
 		
 		// Cidade
-		labes = new JLabel("Cidade*:");
+		labes = new JLabel("*");
+		labes.setForeground(Color.red);
 		labes.setBounds(450, 260, 250, 25);
+		getContentPane().add(labes);
+		labes = new JLabel("Cidade:");
+		labes.setBounds(456, 260, 250, 25);
 		getContentPane().add(labes);
 
 		cbxCidade = new JComboBox<String>();
@@ -291,7 +344,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			}
 		});
 
-		btnLimpar = new JButton("Limpar");
+		btnLimpar = new JButton(aluno.getId().equals(null) ? "Limpar":"Desfazer");
 		btnLimpar.setBounds(15, 320, 95, 25);
 		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
@@ -322,7 +375,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	
 	public void cadastraAluno() {
 		if(validarCamposObrigatorios()) {
-			JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "", JOptionPane.ERROR_MESSAGE, null);
+			JOptionPane.showMessageDialog(rootPane, "Campos obrigatórios (*) não preenchidos!", "", JOptionPane.ERROR_MESSAGE, null);
 			return;
 		}
 		

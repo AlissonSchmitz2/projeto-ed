@@ -6,6 +6,11 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -55,8 +60,16 @@ public class Window extends JFrame {
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 	}
 	
-	private void inicializar() {
-		this.setTitle("Sistema Escolar v0.0.0-1");
+	private String getDateTime() { 
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
+		Date date = new Date(); 
+		return dateFormat.format(date); 
+	}
+	
+	private void inicializar() {		
+		String dataLogin = getDateTime();	
+		this.setTitle("Sistema Escolar v0.0.0-1      " + "Usuário Logado: " + usuarioLogado.getLogin() 
+		+ " (" + usuarioLogado.getPerfil() + ")" + " - Ultimo Login: " + dataLogin);
 		this.setJMenuBar(getWindowMenuBar());
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(new Rectangle(0, 0, 796, 713));
