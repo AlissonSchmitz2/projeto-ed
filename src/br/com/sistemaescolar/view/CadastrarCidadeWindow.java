@@ -169,6 +169,8 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 			
 			notifyObservers(cidade);
 			JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
+			
+			limparFormulario();
 			setVisible(false);
 		}
 	}

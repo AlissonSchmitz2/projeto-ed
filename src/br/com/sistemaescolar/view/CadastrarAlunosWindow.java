@@ -417,6 +417,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			
 			notifyObservers(aluno);
 			JOptionPane.showMessageDialog(null, "Aluno salvo com sucesso!");
+			
+			limparFormulario();
 			setVisible(false);
 		}
 	}
@@ -479,6 +481,19 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		return cidades.stream().filter(cidade -> pais.equals(cidade.getPais()))
 				.filter(cidade -> estado.equals(cidade.getUf())).map(cidade -> cidade.getCidade()).distinct()
 				.collect(Collectors.toList());
+	}
+	
+	private void atualizarCombosCidade() {
+		cidades = aM.pegarCidades();
+		
+		cbxPais.removeAllItems();
+		opcoesPaises(cidades).forEach(pais -> cbxPais.addItem(pais));
+		
+		cbxUf.removeAllItems();
+		opcoesEstados(cidades, (String) cbxPais.getSelectedItem()).forEach(estado -> cbxUf.addItem(estado));
+		
+		cbxCidade.removeAllItems();
+		opcoesCidades(cidades, (String) cbxPais.getSelectedItem(), (String) cbxUf.getSelectedItem()).forEach(cidade -> cbxCidade.addItem(cidade));
 	}
 
 	private void setarValores(Aluno aluno) {
