@@ -344,7 +344,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			}
 		});
 
-		btnLimpar = new JButton("Limpar");
+		btnLimpar = new JButton(aluno.getId().equals(null) ? "Limpar":"Desfazer");
 		btnLimpar.setBounds(15, 320, 95, 25);
 		btnLimpar.setToolTipText("Clique aqui para limpar os campos");
 		getContentPane().add(btnLimpar);
