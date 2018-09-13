@@ -158,6 +158,8 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 			aM.editarDado(usuario);
 			notifyObservers(usuario);
 			JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso!");
+			
+			limparFormulario();
 			setVisible(false);
 		}
 	}

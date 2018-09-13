@@ -9,6 +9,7 @@ import java.beans.PropertyVetoException;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,6 +30,14 @@ public class Window extends JFrame {
 	private JMenu menuOpcao;
 	
 	private JDesktopPane desktop;
+
+	private ListarAlunosWindow frameListarAlunos;
+	private CadastrarAlunosWindow frameCadastrarAlunos;
+	private CadastrarCidadeWindow frameCadastrarCidade;
+	private ListarCidadesWindow frameListarCidades;
+	private CadastrarUsuarioWindow frameCadastrarUsuario;
+	private AlterarSenhaWindow frameAlterarSenha;
+	private ListarUsuariosWindow frameListarUsuarios;
 	
 	public Window(Usuario usuarioLogado) {
 		super();
@@ -87,8 +96,8 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CadastrarAlunosWindow frame = new CadastrarAlunosWindow();
-				abrirFrame(frame);
+				frameCadastrarAlunos = new CadastrarAlunosWindow();
+				abrirFrame(frameCadastrarAlunos);
 			}
 		});
 
@@ -102,10 +111,10 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarAlunosWindow frame = new ListarAlunosWindow(desktop, usuarioLogado);
-				abrirFrame(frame);
+				frameListarAlunos = new ListarAlunosWindow(desktop, usuarioLogado);
+				abrirFrame(frameListarAlunos);
 				//Garante que a grid se encaixe na tela depois que a tela é criada
-				frame.redimensionarGrid(frame.getGridContent());
+				frameListarAlunos.redimensionarGrid(frameListarAlunos.getGridContent());
 			}
 		});
 		
@@ -133,8 +142,8 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CadastrarCidadeWindow frame = new CadastrarCidadeWindow();
-				abrirFrame(frame);
+				frameCadastrarCidade = new CadastrarCidadeWindow();
+				abrirFrame(frameCadastrarCidade);
 			}
 		});
 			
@@ -148,10 +157,10 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarCidadesWindow frame = new ListarCidadesWindow(desktop, usuarioLogado);
-				abrirFrame(frame);
+				frameListarCidades = new ListarCidadesWindow(desktop, usuarioLogado);
+				abrirFrame(frameListarCidades);
 				//Garante que a grid se encaixe na tela depois que a tela é criada
-				frame.redimensionarGrid(frame.getGridContent());
+				frameListarCidades.redimensionarGrid(frameListarCidades.getGridContent());
 			}
 		});
 		
@@ -181,8 +190,8 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CadastrarUsuarioWindow frame = new CadastrarUsuarioWindow();
-				abrirFrame(frame);
+				frameCadastrarUsuario = new CadastrarUsuarioWindow();
+				abrirFrame(frameCadastrarUsuario);
 			}
 		});
 			
@@ -196,9 +205,8 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO: abrir a página para alterar a senha
-				AlterarSenhaWindow frame = new AlterarSenhaWindow(usuarioLogado);
-				abrirFrame(frame);
+				frameAlterarSenha = new AlterarSenhaWindow(usuarioLogado);
+				abrirFrame(frameAlterarSenha);
 			}
 		});
 		
@@ -212,10 +220,10 @@ public class Window extends JFrame {
 		
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarUsuariosWindow frame = new ListarUsuariosWindow(desktop, usuarioLogado);
-				abrirFrame(frame);
+				frameListarUsuarios = new ListarUsuariosWindow(desktop, usuarioLogado);
+				abrirFrame(frameListarUsuarios);
 				//Garante que a grid se encaixe na tela depois que a tela é criada
-				frame.redimensionarGrid(frame.getGridContent());
+				frameListarUsuarios.redimensionarGrid(frameListarUsuarios.getGridContent());
 			}
 		});
 		
@@ -277,13 +285,37 @@ public class Window extends JFrame {
 	}
 	
 	private void abrirFrame(AbstractWindowFrame frame) {
-		desktop.removeAll();
-	    desktop.add(frame);
-	    
-	    try {
-	    	frame.setMaximum(true);
-	        frame.setSelected(true);
-	    } catch (PropertyVetoException e) {}
+		boolean frameJaExiste = false;
+		
+		//Percorre todos os frames adicionados
+		for(JInternalFrame addedFrame : desktop.getAllFrames()){
+			//Se o frame a ser adicionado já estiver
+			if (addedFrame.getTitle().equals(frame.getTitle())) {
+            	//Se for uma tela com grid, remove a existente para forçar a atualização da lista
+            	if (addedFrame instanceof AbstractGridWindow) {
+					desktop.remove(addedFrame);
+				
+				//Do contrário, apenas atribui o frame ao já existente
+				} else {
+					frame = (AbstractWindowFrame) addedFrame;
+	            	frameJaExiste = true;
+				}
+
+            	break;
+            }
+        }
+		
+		try {
+			if (!frameJaExiste) {
+				desktop.add(frame);
+			}
+			
+			frame.setSelected(true);
+			frame.setMaximum(true);
+			frame.setVisible(true);
+	    } catch (PropertyVetoException e) {
+	    	JOptionPane.showMessageDialog(rootPane, "Houve um erro ao abrir a janela", "", JOptionPane.ERROR_MESSAGE, null);
+	    }
 	}
 
 	private Font getDefaultFont() {
