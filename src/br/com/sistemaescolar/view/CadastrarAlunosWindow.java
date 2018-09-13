@@ -12,6 +12,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -41,7 +44,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	private ArrayList<ObserverAluno> observers = new ArrayList<ObserverAluno>();
 	private JTextField txfNome, txfCod, txfEmail, txfObs, txfEnder, txfComplemen, txfBairro;
 	private JComboBox<String> cbxGenero, cbxCidade, cbxUf, cbxPais;
-	private JButton btnSalvar, btnLimpar;
+	private JButton btnSalvar, btnLimpar, btnAtualizar;
 	private JLabel labes;
 	private JFormattedTextField txfData, txfFone, txfCel, txfCep, txfNum;
 	private List<Cidade> cidades;
@@ -371,6 +374,22 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		
 		btnSalvar.addKeyListener((KeyListener) acao);
 		
+		btnAtualizar = new JButton (new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				atualizarCombosCidade();
+				cbxUf.setSelectedIndex(0);
+				cbxPais.setSelectedIndex(0);
+			}
+		});
+		btnAtualizar.setBounds(651, 177, 30, 30);
+		btnAtualizar.setBackground(new Color(235, 223, 253));
+		btnAtualizar.setBorderPainted(false);
+		Icon iconeAtualizar = new ImageIcon(getClass().getResource("/br/com/sistemaescolar/icons/Atualizar.png"));
+		btnAtualizar.setIcon(iconeAtualizar);
+		btnAtualizar.setToolTipText("Atualizar Campos");
+		getContentPane().add(btnAtualizar);
 	}
 	
 	public void cadastraAluno() {

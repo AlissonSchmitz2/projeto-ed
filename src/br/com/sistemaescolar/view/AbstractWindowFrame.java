@@ -1,5 +1,6 @@
 package br.com.sistemaescolar.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -18,6 +19,7 @@ public abstract class AbstractWindowFrame extends JInternalFrame {
 	    setLayout(null);
 	    setVisible(true);
 	    setBorder(null);
+	    setBackground(new Color(235, 223, 253));	    
 	    
 	    //Seta tamanho
 	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
