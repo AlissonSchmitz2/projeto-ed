@@ -129,6 +129,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 
 		try {
 			MaskFormatter maskDat = new MaskFormatter("##/##/####");
+			MaskFormatter maskCel = new MaskFormatter("(##) # ####-####");
 			MaskFormatter maskFone = new MaskFormatter("(##) ####-####");
 			MaskFormatter maskCep = new MaskFormatter("#####-###");
 
@@ -160,7 +161,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			labes.setBounds(181, 160, 190, 25);
 			getContentPane().add(labes);
 
-			txfCel = new JFormattedTextField(maskFone);
+			txfCel = new JFormattedTextField(maskCel);
 			txfCel.setBounds(175, 180, 190, 25);
 			txfCel.setToolTipText("Digite o celular");
 			getContentPane().add(txfCel);
