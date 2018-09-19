@@ -155,7 +155,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			labes.setForeground(Color.red);
 			labes.setBounds(175, 160, 190, 25);
 			getContentPane().add(labes);
-			labes = new JLabel("Celular:");//
+			labes = new JLabel("Celular:");
 			labes.setBounds(181, 160, 190, 25);
 			getContentPane().add(labes);
 
@@ -180,6 +180,16 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			txfCep.setToolTipText("Digite o CEP");
 			getContentPane().add(txfCep);
 			txfCep.addKeyListener((KeyListener) acao);
+			
+			labes = new JLabel("Número:");
+			labes.setBounds(675, 10, 50, 25);
+			getContentPane().add(labes);
+
+			txfNum = new JFormattedTextField(new MaskFormatter("##########"));
+			txfNum.setBounds(675, 30, 75, 25);
+			txfNum.setToolTipText("Digite o número");
+			getContentPane().add(txfNum);
+			txfNum.addKeyListener((KeyListener) acao);
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -224,16 +234,6 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		txfEnder.setToolTipText("Digite o endereço");
 		getContentPane().add(txfEnder);
 		txfEnder.addKeyListener((KeyListener) acao);
-
-		labes = new JLabel("Número:");
-		labes.setBounds(675, 10, 50, 25);
-		getContentPane().add(labes);
-
-		txfNum = new JFormattedTextField();
-		txfNum.setBounds(675, 30, 75, 25);
-		txfNum.setToolTipText("Digite o número");
-		getContentPane().add(txfNum);
-		txfNum.addKeyListener((KeyListener) acao);
 
 		labes = new JLabel("Complemento:");
 		labes.setBounds(450, 60, 250, 25);
