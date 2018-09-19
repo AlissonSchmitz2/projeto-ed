@@ -126,14 +126,11 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		labes = new JLabel("Data de Nascimento:");
 		labes.setBounds(21, 110, 230, 25);
 		getContentPane().add(labes);
-
+		
 		try {
-			MaskFormatter maskDat = new MaskFormatter("##/##/####");
-			MaskFormatter maskCel = new MaskFormatter("(##) # ####-####");
-			MaskFormatter maskFone = new MaskFormatter("(##) ####-####");
-			MaskFormatter maskCep = new MaskFormatter("#####-###");
-
-			txfData = new JFormattedTextField(maskDat);
+			
+			txfData = new JFormattedTextField(new MaskFormatter("##/##/####"));
+			txfData.setFocusLostBehavior(JFormattedTextField.COMMIT);
 			txfData.setBounds(15, 130, 125, 25);
 			txfData.setToolTipText("Digite a data de nascimento");
 			getContentPane().add(txfData);
@@ -147,7 +144,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			labes.setBounds(21, 160, 125, 25);
 			getContentPane().add(labes);
 
-			txfFone = new JFormattedTextField(maskFone);
+			txfFone = new JFormattedTextField(new MaskFormatter("(##) ####-####"));
+			txfFone.setFocusLostBehavior(JFormattedTextField.COMMIT);
 			txfFone.setBounds(15, 180, 125, 25);
 			txfFone.setToolTipText("Digite o telefone");
 			getContentPane().add(txfFone);
@@ -161,7 +159,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			labes.setBounds(181, 160, 190, 25);
 			getContentPane().add(labes);
 
-			txfCel = new JFormattedTextField(maskCel);
+			txfCel = new JFormattedTextField(new MaskFormatter("(##) # ####-####"));
+			txfCel.setFocusLostBehavior(JFormattedTextField.COMMIT);
 			txfCel.setBounds(175, 180, 190, 25);
 			txfCel.setToolTipText("Digite o celular");
 			getContentPane().add(txfCel);
@@ -175,7 +174,8 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 			labes.setBounds(456, 110, 100, 25);
 			getContentPane().add(labes);
 
-			txfCep = new JFormattedTextField(maskCep);
+			txfCep = new JFormattedTextField(new MaskFormatter("#####-###"));
+			txfCep.setFocusLostBehavior(JFormattedTextField.COMMIT);
 			txfCep.setBounds(450, 130, 100, 25);
 			txfCep.setToolTipText("Digite o CEP");
 			getContentPane().add(txfCep);
