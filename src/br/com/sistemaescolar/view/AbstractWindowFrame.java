@@ -19,7 +19,7 @@ public abstract class AbstractWindowFrame extends JInternalFrame {
 	    setLayout(null);
 	    setVisible(true);
 	    setBorder(null);
-	    setBackground(new Color(235, 223, 253));	    
+	    setBackground(new Color(239, 239, 239));    
 	    
 	    //Seta tamanho
 	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
