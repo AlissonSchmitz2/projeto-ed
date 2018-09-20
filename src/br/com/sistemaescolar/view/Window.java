@@ -109,6 +109,7 @@ public class Window extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frameCadastrarAlunos = new CadastrarAlunosWindow();
 				abrirFrame(frameCadastrarAlunos);
+				
 			}
 		});
 
