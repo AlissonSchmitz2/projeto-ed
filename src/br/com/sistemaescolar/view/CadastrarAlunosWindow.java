@@ -388,6 +388,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 		btnAtualizar.setBackground(new Color(235, 223, 253));
 		btnAtualizar.setBorderPainted(false);
 		Icon iconeAtualizar = new ImageIcon(getClass().getResource("/br/com/sistemaescolar/icons/Atualizar.png"));
+		btnAtualizar.setBackground(getBackground());
 		btnAtualizar.setIcon(iconeAtualizar);
 		btnAtualizar.setToolTipText("Atualizar Campos");
 		getContentPane().add(btnAtualizar);
