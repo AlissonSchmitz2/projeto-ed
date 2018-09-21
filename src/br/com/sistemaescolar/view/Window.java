@@ -385,13 +385,29 @@ public class Window extends JFrame {
 
 	private JMenu getMenuOpcao() {
 		menuOpcao = new JMenu();
-		menuOpcao.setText("Opções");
+		menuOpcao.setText("Utilitários");
 		menuOpcao.setFont(getDefaultFont());
 
+		menuOpcao.add(getMenuItemImportar());
 		menuOpcao.add(getMenuItemSobre());
 		menuOpcao.add(getMenuItemSair());
 
 		return menuOpcao;
+	}
+	
+	private JMenuItem getMenuItemImportar() {
+		JMenuItem menuItem = new JMenuItem();
+		menuItem.setText("Importador");
+		menuItem.setFont(getDefaultFont());
+
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ImportarWindow frameImportar = new ImportarWindow();
+				abrirFrame(frameImportar);
+			}
+		});
+
+		return menuItem;
 	}
 
 	private JMenuItem getMenuItemSobre() {
