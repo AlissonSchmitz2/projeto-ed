@@ -39,7 +39,7 @@ public class Window extends JFrame {
 	private JMenu menuOpcao;
 
 	private JDesktopPane desktop;
-
+	
 	private ListarAlunosWindow frameListarAlunos;
 	private CadastrarAlunosWindow frameCadastrarAlunos;
 	private CadastrarCidadeWindow frameCadastrarCidade;
@@ -61,7 +61,7 @@ public class Window extends JFrame {
 		desktop.setVisible(true);
 		setContentPane(desktop);
 		
-		URL url = this.getClass().getResource("/br/com/sistemaescolar/icons/b.png");
+		URL url = this.getClass().getResource("/br/com/sistemaescolar/icons/t.png");
 		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		this.setIconImage(imagemTitulo);
 
@@ -127,6 +127,7 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				frameCadastrarAlunos = new CadastrarAlunosWindow();
 				abrirFrame(frameCadastrarAlunos);
 
