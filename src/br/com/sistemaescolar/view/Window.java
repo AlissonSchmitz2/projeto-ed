@@ -1,6 +1,5 @@
 package br.com.sistemaescolar.view;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Image;
@@ -21,17 +20,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
-import javax.swing.UIManager;
 import javax.swing.WindowConstants;
-import javax.swing.plaf.ColorUIResource;
 
 import br.com.sistemaescolar.model.Usuario;
 
 public class Window extends JFrame {
 	private static final long serialVersionUID = 3283754083146407662L;
 
-	// Guardar aqui o usuário logado
+	// Guardar aqui o usu�rio logado
 	private Usuario usuarioLogado;
 
 	private JMenu menuAlunos;
@@ -85,7 +81,7 @@ public class Window extends JFrame {
 
 	private void inicializar() {
 		String dataLogin = getDateTime();
-		this.setTitle("Sistema Escolar v0.0.0-1      " + "Usuário Logado: " + usuarioLogado.getLogin() + " ("
+		this.setTitle("Sistema Escolar v0.0.0-1      " + "Usu�rio Logado: " + usuarioLogado.getLogin() + " ("
 				+ usuarioLogado.getPerfil() + ")" + " - Ultimo Login: " + dataLogin);
 		this.setJMenuBar(getWindowMenuBar());
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -96,7 +92,7 @@ public class Window extends JFrame {
 	}
 
 	/*
-	 * MENU DE NAVEGAÇÃO
+	 * MENU DE NAVEGA��O
 	 */
 	private JMenuBar getWindowMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
@@ -337,7 +333,7 @@ public class Window extends JFrame {
 	// Menu Usuários
 	private JMenu getMenuUsuarios() {
 		menuUsuarios = new JMenu();
-		menuUsuarios.setText("Usuários");
+		menuUsuarios.setText("Usu�rios");
 		menuUsuarios.setFont(getDefaultFont());
 
 		menuUsuarios.add(getMenuItemCadastrarUsuario());
@@ -396,11 +392,11 @@ public class Window extends JFrame {
 		return menuItem;
 	}
 
-	// Menu opções
+	// Menu op��es
 
 	private JMenu getMenuOpcao() {
 		menuOpcao = new JMenu();
-		menuOpcao.setText("Utilitários");
+		menuOpcao.setText("Utilit�rios");
 		menuOpcao.setFont(getDefaultFont());
 
 		menuOpcao.add(getMenuItemImportar());
