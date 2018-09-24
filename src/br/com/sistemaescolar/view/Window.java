@@ -1,11 +1,15 @@
 package br.com.sistemaescolar.view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +21,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+import javax.swing.plaf.ColorUIResource;
 
 import br.com.sistemaescolar.model.Usuario;
 
@@ -57,11 +64,17 @@ public class Window extends JFrame {
 		desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 		desktop.setVisible(true);
 		setContentPane(desktop);
+		
+		URL url = this.getClass().getResource("/br/com/sistemaescolar/icons/a.png");
+		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+		this.setIconImage(imagemTitulo);
 
 		inicializar();
 
 		// Full screen
 		setExtendedState(Frame.MAXIMIZED_BOTH);
+		
+		
 	}
 
 	private String getDateTime() {
@@ -78,6 +91,8 @@ public class Window extends JFrame {
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(new Rectangle(0, 0, 796, 713));
 		this.setFocusableWindowState(true);
+		
+		
 	}
 
 	/*
