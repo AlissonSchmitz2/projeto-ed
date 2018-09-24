@@ -38,8 +38,9 @@ public class CadastrarDisciplinaWindow extends AbstractWindowFrame{
 
 		cbxFases = new JComboBox<String>();
 		cbxFases.addItem("-Selecione-");
-		cbxFases.addItem("1 FASE");
-		cbxFases.addItem("2 FASE");
+		for(int i=1; i<11; i++) {
+			cbxFases.addItem(i + " FASE");
+		}
 		cbxFases.setBounds(15, 80, 200, 25);
 		cbxFases.setToolTipText("Informe a fase");
 		getContentPane().add(cbxFases);
