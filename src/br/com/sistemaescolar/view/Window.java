@@ -31,7 +31,7 @@ import br.com.sistemaescolar.model.Usuario;
 public class Window extends JFrame {
 	private static final long serialVersionUID = 3283754083146407662L;
 
-	// Guardar aqui o usu·rio logado
+	// Guardar aqui o usu√°rio logado
 	private Usuario usuarioLogado;
 
 	private JMenu menuAlunos;
@@ -65,7 +65,7 @@ public class Window extends JFrame {
 		desktop.setVisible(true);
 		setContentPane(desktop);
 		
-		URL url = this.getClass().getResource("/br/com/sistemaescolar/icons/a.png");
+		URL url = this.getClass().getResource("/br/com/sistemaescolar/icons/b.png");
 		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		this.setIconImage(imagemTitulo);
 
@@ -85,7 +85,7 @@ public class Window extends JFrame {
 
 	private void inicializar() {
 		String dataLogin = getDateTime();
-		this.setTitle("Sistema Escolar v0.0.0-1      " + "Usu·rio Logado: " + usuarioLogado.getLogin() + " ("
+		this.setTitle("Sistema Escolar v0.0.0-1      " + "Usu√°rio Logado: " + usuarioLogado.getLogin() + " ("
 				+ usuarioLogado.getPerfil() + ")" + " - Ultimo Login: " + dataLogin);
 		this.setJMenuBar(getWindowMenuBar());
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -96,7 +96,7 @@ public class Window extends JFrame {
 	}
 
 	/*
-	 * MENU DE NAVEGA«√O
+	 * MENU DE NAVEGA√á√ÉO
 	 */
 	private JMenuBar getWindowMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
@@ -149,7 +149,7 @@ public class Window extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frameListarAlunos = new ListarAlunosWindow(desktop, usuarioLogado);
 				abrirFrame(frameListarAlunos);
-				// Garante que a grid se encaixe na tela depois que a tela È criada
+				// Garante que a grid se encaixe na tela depois que a tela √© criada
 				frameListarAlunos.redimensionarGrid(frameListarAlunos.getGridContent());
 			}
 		});
@@ -326,7 +326,7 @@ public class Window extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frameListarCidades = new ListarCidadesWindow(desktop, usuarioLogado);
 				abrirFrame(frameListarCidades);
-				// Garante que a grid se encaixe na tela depois que a tela È criada
+				// Garante que a grid se encaixe na tela depois que a tela √© criada
 				frameListarCidades.redimensionarGrid(frameListarCidades.getGridContent());
 			}
 		});
@@ -334,10 +334,10 @@ public class Window extends JFrame {
 		return menuItem;
 	}
 
-	// Menu Usu·rios
+	// Menu Usu√°rios
 	private JMenu getMenuUsuarios() {
 		menuUsuarios = new JMenu();
-		menuUsuarios.setText("Usu·rios");
+		menuUsuarios.setText("Usu√°rios");
 		menuUsuarios.setFont(getDefaultFont());
 
 		menuUsuarios.add(getMenuItemCadastrarUsuario());
@@ -388,7 +388,7 @@ public class Window extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frameListarUsuarios = new ListarUsuariosWindow(desktop, usuarioLogado);
 				abrirFrame(frameListarUsuarios);
-				// Garante que a grid se encaixe na tela depois que a tela È criada
+				// Garante que a grid se encaixe na tela depois que a tela √© criada
 				frameListarUsuarios.redimensionarGrid(frameListarUsuarios.getGridContent());
 			}
 		});
@@ -396,11 +396,11 @@ public class Window extends JFrame {
 		return menuItem;
 	}
 
-	// Menu opÁıes
+	// Menu op√ß√µes
 
 	private JMenu getMenuOpcao() {
 		menuOpcao = new JMenu();
-		menuOpcao.setText("Utilit·rios");
+		menuOpcao.setText("Utilit√°rios");
 		menuOpcao.setFont(getDefaultFont());
 
 		menuOpcao.add(getMenuItemImportar());
@@ -461,7 +461,7 @@ public class Window extends JFrame {
 	 * HELPERS
 	 */
 	private void protegerMenuItemBaseadoPerfilUsuario(JMenuItem menuItem) {
-		// Se usu·rio for diferente de administrador, desabilita menu item
+		// Se usu√°rio for diferente de administrador, desabilita menu item
 		if (!usuarioLogado.possuiPerfilAdministrador()) {
 			menuItem.setEnabled(false);
 		}
@@ -472,14 +472,14 @@ public class Window extends JFrame {
 
 		// Percorre todos os frames adicionados
 		for (JInternalFrame addedFrame : desktop.getAllFrames()) {
-			// Se o frame a ser adicionado j· estiver
+			// Se o frame a ser adicionado j√° estiver
 			if (addedFrame.getTitle().equals(frame.getTitle())) {
-				// Se for uma tela com grid, remove a existente para forÁar a atualizaÁ„o da
+				// Se for uma tela com grid, remove a existente para for√ßar a atualiza√ß√£o da
 				// lista
 				if (addedFrame instanceof AbstractGridWindow) {
 					desktop.remove(addedFrame);
 
-					// Do contr·rio, apenas atribui o frame ao j· existente
+					// Do contr√°rio, apenas atribui o frame ao j√° existente
 				} else {
 					frame = (AbstractWindowFrame) addedFrame;
 					frameJaExiste = true;
