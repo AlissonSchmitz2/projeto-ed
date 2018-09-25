@@ -32,25 +32,27 @@ public class Window extends JFrame {
 
 	private JMenu menuAlunos;
 	private JMenu menuCursos;
-	private JMenu menuDisciplina;
-	private JMenu menuFase;
+	private JMenu menuDisciplinas;
+	private JMenu menuFases;
 	private JMenu menuCidades;
 	private JMenu menuUsuarios;
 	private JMenu menuOpcao;
+	private JMenu menuProfessores;
 
 	private JDesktopPane desktop;
 	
 	private ListarAlunosWindow frameListarAlunos;
 	private CadastrarAlunosWindow frameCadastrarAlunos;
-	private CadastrarCidadeWindow frameCadastrarCidade;
+	private CadastrarCidadesWindow frameCadastrarCidade;
 	private ListarCidadesWindow frameListarCidades;
-	private CadastrarUsuarioWindow frameCadastrarUsuario;
+	private CadastrarUsuariosWindow frameCadastrarUsuario;
 	private AlterarSenhaWindow frameAlterarSenha;
 	private ListarUsuariosWindow frameListarUsuarios;
 	private CadastrarCursosWindow frameCadastrarCursos;
-	private CadastrarDisciplinaWindow frameCadastrarDisciplina;
-	private CadastrarFaseWindow frameCadastrarFase;
-
+	private CadastrarDisciplinasWindow frameCadastrarDisciplina;
+	private CadastrarFasesWindow frameCadastrarFase;
+	private CadastrarProfessoresWindow frameCadastrarProfessores;
+	
 	public Window(Usuario usuarioLogado) {
 		super();
 
@@ -82,7 +84,7 @@ public class Window extends JFrame {
 	private void inicializar() {
 		String dataLogin = getDateTime();
 		this.setTitle("Sistema Escolar v0.0.0-1      " + "Usuário Logado: " + usuarioLogado.getLogin() + " ("
-				+ usuarioLogado.getPerfil() + ")" + " - Ultimo Login: " + dataLogin);
+				+ usuarioLogado.getPerfil() + ")" + " - Último Login: " + dataLogin);
 		this.setJMenuBar(getWindowMenuBar());
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(new Rectangle(0, 0, 796, 713));
@@ -96,10 +98,11 @@ public class Window extends JFrame {
 	 */
 	private JMenuBar getWindowMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.add(getMenuAlunos());
 		menuBar.add(getMenuCursos());
 		menuBar.add(getMenuFases());
 		menuBar.add(getMenuDisciplinas());
+		menuBar.add(getMenuAlunos());
+		menuBar.add(getMenuProfessores());
 		menuBar.add(getMenuCidades());
 		menuBar.add(getMenuUsuarios());
 		menuBar.add(getMenuOpcao());
@@ -154,6 +157,52 @@ public class Window extends JFrame {
 		return menuItem;
 	}
 
+	// Menu Professores
+	private JMenu getMenuProfessores() {
+		menuProfessores = new JMenu();
+		menuProfessores.setText("Professores");
+		menuProfessores.setFont(getDefaultFont());
+
+		menuProfessores.add(getMenuItemCadastrarProfessores());
+		menuProfessores.add(getMenuItemListarProfessores());
+
+		return menuProfessores;
+	}
+
+	private JMenuItem getMenuItemCadastrarProfessores() {
+		JMenuItem menuItem = new JMenuItem();
+		menuItem.setText("Cadastrar");
+		menuItem.setFont(getDefaultFont());
+
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
+
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				frameCadastrarProfessores = new CadastrarProfessoresWindow();
+				abrirFrame(frameCadastrarProfessores);
+
+			}
+		});
+
+		return menuItem;
+	}
+
+	private JMenuItem getMenuItemListarProfessores() {
+		JMenuItem menuItem = new JMenuItem();
+		menuItem.setText("Listar");
+		menuItem.setFont(getDefaultFont());
+
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Listar professores
+			}
+		});
+
+		return menuItem;
+	}
+
+	
 	// Menu Cursos
 	private JMenu getMenuCursos() {
 		menuCursos = new JMenu();
@@ -199,13 +248,13 @@ public class Window extends JFrame {
 
 	// Menu Fases
 	private JMenu getMenuFases() {
-		menuFase = new JMenu();
-		menuFase.setText("Fase");
-		menuFase.setFont(getDefaultFont());
+		menuFases = new JMenu();
+		menuFases.setText("Fases");
+		menuFases.setFont(getDefaultFont());
 
-		menuFase.add(getMenuItemCadastrarFases());
-		menuFase.add(getMenuItemListarFases());
-		return menuFase;
+		menuFases.add(getMenuItemCadastrarFases());
+		menuFases.add(getMenuItemListarFases());
+		return menuFases;
 	}
 
 	private JMenuItem getMenuItemCadastrarFases() {
@@ -218,7 +267,7 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frameCadastrarFase = new CadastrarFaseWindow();
+				frameCadastrarFase = new CadastrarFasesWindow();
 				abrirFrame(frameCadastrarFase);
 			}
 		});
@@ -243,13 +292,13 @@ public class Window extends JFrame {
 
 	// Menu Disciplinas
 	private JMenu getMenuDisciplinas() {
-		menuDisciplina = new JMenu();
-		menuDisciplina.setText("Disciplina");
-		menuDisciplina.setFont(getDefaultFont());
+		menuDisciplinas = new JMenu();
+		menuDisciplinas.setText("Disciplinas");
+		menuDisciplinas.setFont(getDefaultFont());
 
-		menuDisciplina.add(getMenuItemCadastrarDisciplinas());
-		menuDisciplina.add(getMenuItemListarDisciplinas());
-		return menuDisciplina;
+		menuDisciplinas.add(getMenuItemCadastrarDisciplinas());
+		menuDisciplinas.add(getMenuItemListarDisciplinas());
+		return menuDisciplinas;
 	}
 
 	private JMenuItem getMenuItemCadastrarDisciplinas() {
@@ -262,7 +311,7 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frameCadastrarDisciplina = new CadastrarDisciplinaWindow();
+				frameCadastrarDisciplina = new CadastrarDisciplinasWindow();
 				abrirFrame(frameCadastrarDisciplina);
 			}
 		});
@@ -306,7 +355,7 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frameCadastrarCidade = new CadastrarCidadeWindow();
+				frameCadastrarCidade = new CadastrarCidadesWindow();
 				abrirFrame(frameCadastrarCidade);
 			}
 		});
@@ -353,7 +402,7 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frameCadastrarUsuario = new CadastrarUsuarioWindow();
+				frameCadastrarUsuario = new CadastrarUsuariosWindow();
 				abrirFrame(frameCadastrarUsuario);
 			}
 		});

@@ -20,7 +20,7 @@ import br.com.sistemaescolar.model.Usuario;
 import br.com.sistemaescolar.observer.ObserverUsuario;
 import br.com.sistemaescolar.observer.SubjectUsuario;
 
-public class CadastrarUsuarioWindow extends AbstractWindowFrame implements SubjectUsuario {
+public class CadastrarUsuariosWindow extends AbstractWindowFrame implements SubjectUsuario {
 	private static final long serialVersionUID = 1L;
 
 	KeyAdapter acao = new KeyAdapter() {
@@ -44,13 +44,13 @@ public class CadastrarUsuarioWindow extends AbstractWindowFrame implements Subje
 
 	private Usuario usuario;
 
-	public CadastrarUsuarioWindow() {
+	public CadastrarUsuariosWindow() {
 		super("Cadastrar Usuário");
 		this.usuario = new Usuario();
 		criarComponentes();
 	}
 
-	public CadastrarUsuarioWindow(Usuario usuario) {
+	public CadastrarUsuariosWindow(Usuario usuario) {
 		super("Editar Usuario");
 		this.usuario = usuario;
 		criarComponentes();

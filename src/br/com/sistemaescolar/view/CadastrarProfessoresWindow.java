@@ -8,7 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class CadastrarProfessorWindow extends AbstractWindowFrame{
+public class CadastrarProfessoresWindow extends AbstractWindowFrame{
 
 	private static final long serialVersionUID = 4734772377961557461L;
 
@@ -17,7 +17,7 @@ public class CadastrarProfessorWindow extends AbstractWindowFrame{
 	private JComboBox<String> cbxCurso, cbxFases, cbxDisciplina;
 	private JTextField txfProf;
 	
-	public CadastrarProfessorWindow() {
+	public CadastrarProfessoresWindow() {
 		super("Cadastrar Professor");
 		criarComponentes();
 	}

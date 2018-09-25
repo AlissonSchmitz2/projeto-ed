@@ -10,7 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class CadastrarFaseWindow extends AbstractWindowFrame{
+public class CadastrarFasesWindow extends AbstractWindowFrame{
 
 	private static final long serialVersionUID = -6470064732665196009L;
 	
@@ -18,7 +18,7 @@ public class CadastrarFaseWindow extends AbstractWindowFrame{
 		private JButton btnSalvar, btnLimpar;
 		private JComboBox<String> cbxCurso, cbxFases;
 		
-		public CadastrarFaseWindow() {
+		public CadastrarFasesWindow() {
 			super("Cadastrar Fase");
 			criarComponentes();
 		}

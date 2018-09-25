@@ -234,7 +234,7 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 	}
 
 	private void abrirEdicaoUsuario(Usuario usuario) {
-		CadastrarUsuarioWindow frame = new CadastrarUsuarioWindow(usuario);
+		CadastrarUsuariosWindow frame = new CadastrarUsuariosWindow(usuario);
 		frame.addObserver(this);
 		abrirFrame(frame);
 	}

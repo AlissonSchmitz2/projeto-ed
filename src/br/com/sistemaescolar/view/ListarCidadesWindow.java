@@ -227,7 +227,7 @@ public class ListarCidadesWindow extends AbstractGridWindow implements ObserverC
 	}
 
 	private void abrirEdicaoCidade(Cidade cidade) {
-		CadastrarCidadeWindow frame = new CadastrarCidadeWindow(cidade);
+		CadastrarCidadesWindow frame = new CadastrarCidadesWindow(cidade);
 		frame.addObserver(this);
 		abrirFrame(frame);
 	}

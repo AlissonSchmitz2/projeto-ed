@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-public class CadastrarDisciplinaWindow extends AbstractWindowFrame{
+public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 
 	private static final long serialVersionUID = 10914486141164967L;
 	
@@ -15,7 +15,7 @@ public class CadastrarDisciplinaWindow extends AbstractWindowFrame{
 	private JButton btnSalvar, btnLimpar;
 	private JComboBox<String> cbxCurso, cbxFases, cbxDisciplina;
 	
-	public CadastrarDisciplinaWindow() {
+	public CadastrarDisciplinasWindow() {
 		super("Cadastrar Disciplina");
 		criarComponentes();
 	}

@@ -20,7 +20,7 @@ import br.com.sistemaescolar.model.Cidade;
 import br.com.sistemaescolar.observer.ObserverCidade;
 import br.com.sistemaescolar.observer.SubjectCidade;
 
-public class CadastrarCidadeWindow extends AbstractWindowFrame implements SubjectCidade {
+public class CadastrarCidadesWindow extends AbstractWindowFrame implements SubjectCidade {
 	private static final long serialVersionUID = 1L;
 
 	KeyAdapter acao = new KeyAdapter() {
@@ -42,13 +42,13 @@ public class CadastrarCidadeWindow extends AbstractWindowFrame implements Subjec
 	private Cidade cidade;
 	private ManipularArquivo aM = new ManipularArquivo();
 	
-	public CadastrarCidadeWindow() {
+	public CadastrarCidadesWindow() {
 		super("Cadastrar Cidade");
 		this.cidade = new Cidade();
 		criarComponentes();
 	}
 
-	public CadastrarCidadeWindow(Cidade cidade) {
+	public CadastrarCidadesWindow(Cidade cidade) {
 		super("Editar Cidade");
 		this.cidade = cidade;
 		criarComponentes();
