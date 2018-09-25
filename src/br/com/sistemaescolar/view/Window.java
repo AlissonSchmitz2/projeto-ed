@@ -1,5 +1,7 @@
 package br.com.sistemaescolar.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Image;
@@ -13,9 +15,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -53,6 +57,8 @@ public class Window extends JFrame {
 	private CadastrarFasesWindow frameCadastrarFase;
 	private CadastrarProfessoresWindow frameCadastrarProfessores;
 	
+	private JLabel wallpaper;
+	
 	public Window(Usuario usuarioLogado) {
 		super();
 
@@ -63,9 +69,17 @@ public class Window extends JFrame {
 		desktop.setVisible(true);
 		setContentPane(desktop);
 		
+		
 		URL url = this.getClass().getResource("/br/com/sistemaescolar/icons/t.png");
 		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		this.setIconImage(imagemTitulo);
+		
+		ImageIcon logo = new ImageIcon(this.getClass().getResource("/br/com/sistemaescolar/icons/wallpaper.jpg"));
+		wallpaper = new JLabel(logo);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		wallpaper.setBounds(0, 0, screenSize.width, screenSize.height);
+		getContentPane().add(wallpaper);
 
 		inicializar();
 
@@ -89,7 +103,7 @@ public class Window extends JFrame {
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setBounds(new Rectangle(0, 0, 796, 713));
 		this.setFocusableWindowState(true);
-		
+		getContentPane().setBackground(new Color(247, 247, 247));
 		
 	}
 
@@ -102,7 +116,7 @@ public class Window extends JFrame {
 		menuBar.add(getMenuFases());
 		menuBar.add(getMenuDisciplinas());
 		menuBar.add(getMenuAlunos());
-		menuBar.add(getMenuProfessores());
+		menuBar.add(getMenuProfessores());	
 		menuBar.add(getMenuCidades());
 		menuBar.add(getMenuUsuarios());
 		menuBar.add(getMenuOpcao());
