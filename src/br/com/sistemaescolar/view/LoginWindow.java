@@ -18,7 +18,7 @@ public class LoginWindow extends JDialog {
 	private JButton btnAcessar;
 	private JLabel Descricao;
 	private String login, senha;
-
+	
 	LoginWindow() {
 		setSize(250, 200);
 		setTitle("Sistema Escolar");
@@ -97,7 +97,7 @@ public class LoginWindow extends JDialog {
 				}
 			}
 		});
-
+		
 	}
 
 	public void autenticaUsuario(String login, String senha) {
