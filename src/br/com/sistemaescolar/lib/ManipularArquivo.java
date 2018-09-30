@@ -27,6 +27,7 @@ public class ManipularArquivo {
 	private static String FASE_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\fase.txt";
 	private static String DISCIPLINA_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\disciplina.txt";
 	private static String PROFESSOR_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\professor.txt";
+	private static String GRADE_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\grade.txt";
 
 	private static String SEPARATOR = ";;;";
 
@@ -1032,8 +1033,9 @@ public class ManipularArquivo {
 			return new File(DISCIPLINA_PATH).getAbsolutePath();
 		case "professor":
 			return new File(PROFESSOR_PATH).getAbsolutePath();
+		case "grade":
+			return new File(GRADE_PATH).getAbsolutePath();
 		}
-
 		return null;
 	}
 }

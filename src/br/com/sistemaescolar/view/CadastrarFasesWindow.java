@@ -97,7 +97,7 @@ public class CadastrarFasesWindow extends AbstractWindowFrame {
 			}
 		});
 
-		btnSalvar = new JButton("Salvar");
+		btnSalvar = new JButton("Cadastrar");
 		btnSalvar.setBounds(120, 130, 95, 25);
 		getContentPane().add(btnSalvar);
 		btnSalvar.addActionListener(new ActionListener() {
