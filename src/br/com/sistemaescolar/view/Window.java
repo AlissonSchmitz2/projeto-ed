@@ -42,6 +42,7 @@ public class Window extends JFrame {
 	private JMenu menuUsuarios;
 	private JMenu menuOpcao;
 	private JMenu menuProfessores;
+	private JMenu menuGrade;
 
 	private JDesktopPane desktop;
 	
@@ -56,6 +57,7 @@ public class Window extends JFrame {
 	private CadastrarDisciplinasWindow frameCadastrarDisciplina;
 	private CadastrarFasesWindow frameCadastrarFase;
 	private CadastrarProfessoresWindow frameCadastrarProfessores;
+	private CadastrarGradeWindow frameCadastrarGrade;
 	
 	private JLabel wallpaper;
 	
@@ -116,8 +118,9 @@ public class Window extends JFrame {
 		menuBar.add(getMenuCursos());
 		menuBar.add(getMenuFases());
 		menuBar.add(getMenuDisciplinas());
-		menuBar.add(getMenuAlunos());
-		menuBar.add(getMenuProfessores());	
+		menuBar.add(getMenuProfessores());
+		menuBar.add(getMenuGrade());
+		menuBar.add(getMenuAlunos());	
 		menuBar.add(getMenuCidades());
 		menuBar.add(getMenuUsuarios());
 		menuBar.add(getMenuOpcao());
@@ -348,6 +351,51 @@ public class Window extends JFrame {
 
 		return menuItem;
 	}
+	
+	//Menu Grade
+	
+		private JMenu getMenuGrade() {
+			menuGrade = new JMenu();
+			menuGrade.setText("Grade");
+			menuGrade.setFont(getDefaultFont());
+			
+			menuGrade.add(getMenuItemCadastrarGrade());
+			menuGrade.add(getMenuItemListarGrade());
+			return menuGrade;
+		}
+		
+		private JMenuItem getMenuItemCadastrarGrade() {
+			JMenuItem menuItem = new JMenuItem();
+			
+			menuItem.setText("Cadastrar");
+			menuItem.setFont(getDefaultFont());
+			
+			protegerMenuItemBaseadoPerfilUsuario(menuItem);
+			
+			menuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frameCadastrarGrade = new CadastrarGradeWindow();
+					abrirFrame(frameCadastrarGrade);
+				}
+			});
+			
+			return menuItem;
+		}
+		
+		private JMenuItem getMenuItemListarGrade() {
+			JMenuItem menuItem = new JMenuItem();
+
+			menuItem.setText("Listar");
+			menuItem.setFont(getDefaultFont());
+
+			menuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// TODO:Abrir frame para listar grade
+				}
+			});
+
+			return menuItem;
+		}
 
 	// Menu Cidades
 	private JMenu getMenuCidades() {
