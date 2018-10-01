@@ -3,7 +3,7 @@ package br.com.sistemaescolar.model;
 public class Fase {
 
 	Integer id;
-	Integer idCurso;
+	private Integer idCurso;
 	private String fase;
 
 	public Fase(Integer id, String fase, Integer idCurso) {

@@ -15,6 +15,7 @@ import br.com.sistemaescolar.model.Cidade;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
+import br.com.sistemaescolar.model.Grade;
 import br.com.sistemaescolar.model.Professor;
 import br.com.sistemaescolar.model.Usuario;
 
@@ -735,8 +736,8 @@ public class ManipularArquivo {
 	}
 
 	private String criarStringDados(Disciplina disciplina) {
-		return disciplina.getId() + SEPARATOR + disciplina.getCodDisciplina() + SEPARATOR + disciplina.getDisciplina()
-				+ SEPARATOR + disciplina.getIdFase();
+		return disciplina.getId() + SEPARATOR + disciplina.getCodDisciplina() + 
+				SEPARATOR + disciplina.getDisciplina();
 	}
 
 	private Disciplina criarDisciplinaApartirAtributos(String[] atributo) {
@@ -745,13 +746,12 @@ public class ManipularArquivo {
 		novaDisciplina.setId(Integer.parseInt(atributo[0]));
 		novaDisciplina.setCodDisciplina(Integer.parseInt(atributo[1]));
 		novaDisciplina.setDisciplina(atributo[2]);
-		novaDisciplina.setIdFase(Integer.parseInt(atributo[3]));
 
 		return novaDisciplina;
 	}
 
 	public Disciplina pegarDisciplinaPorNome(String disciplina) {
-	
+
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("disciplina"));
 			lerArq = new BufferedReader(arq);
@@ -762,8 +762,8 @@ public class ManipularArquivo {
 				String[] verificaLinha = linha.split(SEPARATOR);
 
 				if (disciplina.equals(verificaLinha[2])) {
-					return new Disciplina(Integer.parseInt(verificaLinha[0]),Integer.parseInt(verificaLinha[1]),verificaLinha[2],
-							Integer.parseInt(verificaLinha[3]));
+					return new Disciplina(Integer.parseInt(verificaLinha[0]), Integer.parseInt(verificaLinha[1]),
+							verificaLinha[2]);
 				}
 
 				linha = lerArq.readLine();
@@ -844,7 +844,7 @@ public class ManipularArquivo {
 	}
 
 	private String criarStringDados(Professor prof) {
-		return prof.getId() + SEPARATOR + prof.getProfessor() + SEPARATOR + prof.getIdDisciplina();
+		return prof.getId() + SEPARATOR + prof.getProfessor();
 	}
 
 	private Professor criarProfessorApartirAtributos(String[] atributo) {
@@ -852,7 +852,6 @@ public class ManipularArquivo {
 
 		novoProf.setId(Integer.parseInt(atributo[0]));
 		novoProf.setProfessor(atributo[1]);
-		novoProf.setIdDisciplina(Integer.parseInt(atributo[1]));
 
 		return novoProf;
 	}
@@ -902,6 +901,90 @@ public class ManipularArquivo {
 		}
 
 		return null;
+	}
+	
+	/*
+	 * GRADE
+	 */
+	
+	public void inserirDado(Grade grade) {
+		grade.setId(pegarProximoId("grade"));
+
+		String novosDados = criarStringDados(grade);
+
+		inserirDadosNoArquivo("grade", novosDados);
+	}
+
+	public void editarDado(Grade grade) {
+		String novosDados = criarStringDados(grade);
+
+		editarDadosNoArquivo("grade", grade.getId().toString(), novosDados);
+	}
+
+	public void removerDado(Grade grade) {
+		removerDadosDoArquivo("grade", grade.getId().toString());
+	}
+
+	public Grade pegarGradePorId(Integer id) {
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("grade"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				if (id.toString().equals(atributo[0])) {
+					return criarGradeApartirAtributos(atributo);
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return null;
+	}
+
+	private String criarStringDados(Grade grade) {
+		return grade.getId() + SEPARATOR + grade.getId_fase() + SEPARATOR + grade.getId_disciplina() + SEPARATOR +
+				grade.getId_professor();
+	}
+
+	private Grade criarGradeApartirAtributos(String[] atributo) {
+		Grade novaGrade = new Grade();
+
+		novaGrade.setId(Integer.parseInt(atributo[0]));
+		novaGrade.setId_fase(Integer.parseInt(atributo[1]));
+		novaGrade.setId_disciplina(Integer.parseInt(atributo[2]));
+		novaGrade.setId_professor(Integer.parseInt(atributo[3]));
+
+		return novaGrade;
+	}
+
+	public List<Grade> pegarGrade() {
+		List<Grade> grade = new ArrayList<Grade>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("grade"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				grade.add(criarGradeApartirAtributos(atributo));
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return grade;
 	}
 
 	/*

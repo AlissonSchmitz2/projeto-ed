@@ -49,6 +49,7 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 		txfCodDisciplina.setBounds(15, 30, 200, 25);
 		txfCodDisciplina.setToolTipText("Informe o código da disciplina");
 		getContentPane().add(txfCodDisciplina);
+		txfCodDisciplina.addKeyListener(acao);
 		
 		labes = new JLabel("Disciplina:");
 		labes.setBounds(15, 60, 250, 25);
@@ -58,6 +59,7 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 		txfDisciplina.setBounds(15, 80, 200, 25);
 		txfDisciplina.setToolTipText("Informe a disciplina");
 		getContentPane().add(txfDisciplina);
+		txfDisciplina.addKeyListener(acao);
 		
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(15, 130, 95, 25);
@@ -74,13 +76,15 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 		btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.setBounds(120, 130, 95, 25);
 		getContentPane().add(btnCadastrar);
+		
+		btnCadastrar.addKeyListener(acao);
+		
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cadastrarDisciplina();
 			}
 		});
-		
-
+	
 	}
 	
 	public void cadastrarDisciplina() {
@@ -90,12 +94,13 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 			return;
 		}
 		
+		disciplina.setCodDisciplina(Integer.parseInt(txfCodDisciplina.getText()));
 		disciplina.setDisciplina(txfDisciplina.getText());
 		
 		ManipularArquivo aM = new ManipularArquivo();
 		aM.inserirDado(disciplina);
 		
-		JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso!");
+		JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!");
 		limparFormulario();
 	}
 	
@@ -110,6 +115,7 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 	
 	public void limparFormulario() {
 		txfDisciplina.setText("");
+		txfCodDisciplina.setText("");
 		disciplina = new Disciplina();
 	}
 	

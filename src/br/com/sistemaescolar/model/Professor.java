@@ -2,8 +2,6 @@ package br.com.sistemaescolar.model;
 
 public class Professor {
 	Integer id;
-	Integer idDisciplina;
-
 	private String professor;
 
 	public Professor(Integer id, String professor) {
@@ -29,13 +27,5 @@ public class Professor {
 
 	public void setProfessor(String professor) {
 		this.professor = professor;
-	}
-
-	public Integer getIdDisciplina() {
-		return idDisciplina;
-	}
-
-	public void setIdDisciplina(Integer idDisciplina) {
-		this.idDisciplina = idDisciplina;
 	}
 }
