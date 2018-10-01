@@ -878,6 +878,33 @@ public class ManipularArquivo {
 
 		return professor;
 	}
+	
+	public List<Professor> pegarProfessor(String valorBusca) {
+		List<Professor> professor = new ArrayList<Professor>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("professor"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				
+				if (linha.toLowerCase().contains(valorBusca.toLowerCase())) {
+
+					String[] atributo = linha.split(SEPARATOR);
+
+					professor.add(criarProfessorApartirAtributos(atributo));
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return professor;
+	}
 
 	public Professor pegarProfessorPorNome(String prof) {
 
