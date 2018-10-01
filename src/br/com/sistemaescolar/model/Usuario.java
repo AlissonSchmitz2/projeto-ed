@@ -8,6 +8,7 @@ public class Usuario implements Model {
 	private String senha;
 	private String login;
 	private String perfil;
+	private boolean ultimoAdm = false;
 	
 	public Usuario() {
 	}
@@ -58,4 +59,14 @@ public class Usuario implements Model {
 	public Boolean possuiPerfilAdministrador() {
 		return ADMINISTRADOR.equals(getPerfil());
 	}
+
+	public boolean getUltimoAdm() {
+		return ultimoAdm;
+	}
+
+	public void setUltimoAdm(boolean ultimoAdm) {
+		this.ultimoAdm = ultimoAdm;
+	}
+	
+	
 }

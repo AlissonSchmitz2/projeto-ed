@@ -112,7 +112,12 @@ public class CadastrarUsuariosWindow extends AbstractWindowFrame implements Subj
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
+				if( usuario.getUltimoAdm() && "Convidado".equalsIgnoreCase(txfPerfil.getSelectedItem().toString()) ) {
+					JOptionPane.showMessageDialog(rootPane, "O último usuário administrador não pode tornar-se convidado!", "",
+							JOptionPane.ERROR_MESSAGE, null);
+				} else {
 				cadastraUsuario();
+				}
 			}
 		});
 

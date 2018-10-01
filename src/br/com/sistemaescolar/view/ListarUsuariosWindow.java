@@ -55,6 +55,7 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 	private UsuarioTableModel model;
 	private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 	private JDesktopPane desktop;
+	private int contAdm = 0;
 
 	public ListarUsuariosWindow(JDesktopPane desktop, Usuario usuarioLogado) {
 		super("Lista de Usuários");
@@ -75,6 +76,13 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 		botaoEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
+				
+				contAdm = 0;
+				verificarUltimoAdm();
+				
+				if("Administrador".equals(usuario.getPerfil()) && contAdm == 1) {
+					usuario.setUltimoAdm(true);
+				}
 
 				if (usuario instanceof Usuario) {
 					abrirEdicaoUsuario(usuario);
@@ -95,6 +103,16 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 				}
 				
 				Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
+				
+				contAdm = 0;
+				verificarUltimoAdm();
+				
+				//Caso o usuário logado mude o perfil para convidado e tente excluir o último administrador.
+				if("Administrador".equals(usuario.getPerfil()) && contAdm == 1) {
+					JOptionPane.showMessageDialog(rootPane, "O último usuário administrador não pode ser excluído!", "",
+					JOptionPane.ERROR_MESSAGE, null);
+					return;
+				}
 
 				if (usuario instanceof Usuario) {
 					// Remove dado do arquivo
@@ -209,6 +227,13 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 				if (e.getClickCount() == 2) {
 					if (usuarioLogado.possuiPerfilAdministrador()) {
 						Usuario usuario = aM.pegarUsuarioPorId(Integer.parseInt(idSelecionado));
+						
+						contAdm = 0;
+						verificarUltimoAdm();
+						
+						if("Administrador".equals(usuario.getPerfil()) && contAdm == 1) {
+							usuario.setUltimoAdm(true);
+						}
 
 						if (usuario instanceof Usuario) {
 							abrirEdicaoUsuario(usuario);
@@ -220,7 +245,7 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 
 		try {
 			listaUsuarios = aM.pegarUsuarios();
-			model.addListaDeUsuarios(listaUsuarios);
+			model.addListaDeUsuarios(listaUsuarios);		
 		} catch (Exception e) {
 			System.err.printf("Erro ao iniciar lista de usuarios: %s.\n", e.getMessage());
 		}
@@ -263,5 +288,13 @@ public class ListarUsuariosWindow extends AbstractGridWindow implements Observer
 		model.limpar();
 		listaUsuarios = aM.pegarUsuarios(txfBuscar.getText());
 		model.addListaDeUsuarios(listaUsuarios);
+	}
+	
+	private void verificarUltimoAdm() {
+		for(int i = 0; i < listaUsuarios.size(); i++) {
+			if("Administrador".equals(listaUsuarios.get(i).getPerfil())) {
+				contAdm++;
+			}
+		}
 	}
 }
