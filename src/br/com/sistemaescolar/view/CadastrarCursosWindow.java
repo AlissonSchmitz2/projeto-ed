@@ -48,7 +48,7 @@ public class CadastrarCursosWindow extends AbstractWindowFrame {
 		txfCurso.setBounds(15, 30, 200, 25);
 		txfCurso.setToolTipText("Digite o curso");
 		getContentPane().add(txfCurso);
-		
+		txfCurso.addKeyListener(acao);
 
 		btnLimpar = new JButton("Limpar");
 		btnLimpar.setBounds(15, 80, 95, 25);
