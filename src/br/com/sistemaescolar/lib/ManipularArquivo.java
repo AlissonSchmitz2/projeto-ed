@@ -844,7 +844,7 @@ public class ManipularArquivo {
 	}
 
 	private String criarStringDados(Professor prof) {
-		return prof.getId() + SEPARATOR + prof.getProfessor();
+		return prof.getId() + SEPARATOR + prof.getProfessor() + SEPARATOR + prof.getTituloDocente();
 	}
 
 	private Professor criarProfessorApartirAtributos(String[] atributo) {
@@ -852,6 +852,7 @@ public class ManipularArquivo {
 
 		novoProf.setId(Integer.parseInt(atributo[0]));
 		novoProf.setProfessor(atributo[1]);
+		novoProf.setTituloDocente(atributo[2]);
 
 		return novoProf;
 	}
@@ -918,7 +919,7 @@ public class ManipularArquivo {
 				String[] verificaLinha = linha.split(SEPARATOR);
 
 				if (prof.equals(verificaLinha[1])) {
-					return new Professor(Integer.parseInt(verificaLinha[0]), verificaLinha[1]);
+					return new Professor(Integer.parseInt(verificaLinha[0]), verificaLinha[1], verificaLinha[2]);
 				}
 
 				linha = lerArq.readLine();
