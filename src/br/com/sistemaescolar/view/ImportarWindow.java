@@ -220,15 +220,17 @@ public class ImportarWindow extends AbstractWindowFrame{
 										professor = aM.inserirDado(novoProfessor);
 									}
 									
-									//TODO: Dependendo da implementação do Giovani, será necessário fazer uma verificação por grade aqui
-									//Talvez não seja possível duplicar disciplinas ou professores
+									Grade grade = aM.pegarGradePorChaves(fase.getId(), disciplina.getId(), professor.getId());
 									
-									Grade grade = new Grade();
-									grade.setId_fase(fase.getId());
-									grade.setId_disciplina(disciplina.getId());
-									grade.setId_professor(professor.getId());
-									
-									aM.inserirDado(grade);
+									//Só cadastra um novo item se não houver um outro exatamente igual
+									if (grade == null) {
+										grade = new Grade();
+										grade.setId_fase(fase.getId());
+										grade.setId_disciplina(disciplina.getId());
+										grade.setId_professor(professor.getId());
+										
+										aM.inserirDado(grade);
+									}
 								}
 							}
 						}

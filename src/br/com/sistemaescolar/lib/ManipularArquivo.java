@@ -1054,6 +1054,29 @@ public class ManipularArquivo {
 
 		return null;
 	}
+	
+	public Grade pegarGradePorChaves(Integer idFase, Integer idDisciplina, Integer idProfessor) {
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("grade"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				if (idFase.toString().equals(atributo[1]) && idDisciplina.toString().equals(atributo[2]) && idProfessor.toString().equals(atributo[3])) {
+					return criarGradeApartirAtributos(atributo);
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return null;
+	}
 
 	private String criarStringDados(Grade grade) {
 		return grade.getId() + SEPARATOR + grade.getId_fase() + SEPARATOR + grade.getId_disciplina() + SEPARATOR +
