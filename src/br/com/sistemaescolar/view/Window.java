@@ -59,6 +59,7 @@ public class Window extends JFrame {
 	private CadastrarProfessoresWindow frameCadastrarProfessores;
 	private CadastrarGradeWindow frameCadastrarGrade;
 	private ListarProfessoresWindow frameListarProfessores;
+	private ListarCursosWindow frameListarCursos;
 	
 	private JLabel wallpaper;
 	
@@ -264,6 +265,10 @@ public class Window extends JFrame {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// TODO:Abrir frame para listar cursos
+				frameListarCursos = new ListarCursosWindow(desktop, usuarioLogado);
+				abrirFrame(frameListarCursos);
+				// Garante que a grid se encaixe na tela depois que a tela é criada
+				frameListarCursos.redimensionarGrid(frameListarCursos.getGridContent());
 			}
 		});
 		return menuItem;

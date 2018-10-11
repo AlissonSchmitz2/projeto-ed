@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -35,6 +36,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 	private JLabel labes;
 	private JButton btnCadastrar, btnLimpar;
 	private JTextField txfProf;
+	private JComboBox<String> cbxTitulo;
 	
 	private ArrayList<ObserverProfessor> observers = new ArrayList<ObserverProfessor>();
 	private ManipularArquivo aM = new ManipularArquivo();
@@ -63,8 +65,24 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 		getContentPane().add(txfProf);
 		txfProf.addKeyListener(acao);
 		
+		labes = new JLabel("Título Docente:");
+		labes.setBounds(15, 60, 250, 25);
+		getContentPane().add(labes);
+		
+		cbxTitulo = new JComboBox<String>();
+		cbxTitulo.addItem("-Selecione-");
+		cbxTitulo.addItem("Pós-Graduação");
+		cbxTitulo.addItem("Mestrado");
+		cbxTitulo.addItem("Doutorado");
+		cbxTitulo.addItem("Pós-Doutorado");
+		cbxTitulo.setBounds(15, 80, 200, 25);
+		cbxTitulo.setToolTipText("Informe o título docente");
+		getContentPane().add(cbxTitulo);
+		
+		
+		
 		btnLimpar = new JButton("Limpar");
-		btnLimpar.setBounds(15, 80, 95, 25);
+		btnLimpar.setBounds(15, 130, 95, 25);
 		btnLimpar.setToolTipText("Clique aqui para limpar o campo");
 		getContentPane().add(btnLimpar);
 		btnLimpar.addActionListener(new ActionListener() {
@@ -80,7 +98,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 		});
 		
 		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(120, 80, 95, 25);
+		btnCadastrar.setBounds(120, 130, 95, 25);
 		getContentPane().add(btnCadastrar);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -99,6 +117,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 		}
 		
 		professor.setProfessor(txfProf.getText());
+		professor.setTituloDocente(cbxTitulo.getSelectedItem().toString());
 		
 		if(professor.getId() != null) {
 			aM.editarDado(professor);
@@ -120,7 +139,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 	
 	public boolean validarCamposObrigatorios() {
 		
-		if(txfProf.getText().isEmpty()) {
+		if(txfProf.getText().isEmpty() || cbxTitulo.getSelectedIndex() == 0) {
 			return true;
 		}
 		
@@ -129,12 +148,14 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 	
 	public void limparFormulario() {
 		txfProf.setText("");
+		cbxTitulo.setSelectedIndex(0);
 		professor = new Professor();
 	}
 	
 	private void setarValores(Professor professor) {
 		// TODO: setar valores iniciais para edição
 		txfProf.setText(professor.getProfessor());
+		cbxTitulo.setSelectedItem(professor.getTituloDocente());
 	}
 	
 	@Override

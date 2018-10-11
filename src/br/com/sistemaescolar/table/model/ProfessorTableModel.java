@@ -11,7 +11,7 @@ public class ProfessorTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 8228777679477205329L;
 	
 	private List<Professor> professores;
-	private String[] colunas = new String[] { "ID", "Nome" };
+	private String[] colunas = new String[] { "ID", "Nome", "Título Docente" };
 	
 	public ProfessorTableModel (List<Professor> professores) {
 		this.professores = professores;
@@ -42,9 +42,11 @@ public class ProfessorTableModel extends AbstractTableModel {
 
 		professor.setId(aValue.getId());
 		professor.setProfessor(aValue.getProfessor());
+		professor.setTituloDocente(aValue.getTituloDocente());
 
 		fireTableCellUpdated(rowIndex, 0);
 		fireTableCellUpdated(rowIndex, 1);
+		fireTableCellUpdated(rowIndex, 2);
 	}
 	
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -55,6 +57,8 @@ public class ProfessorTableModel extends AbstractTableModel {
 			professor.setId(Integer.parseInt(aValue.toString()));
 		case 1:
 			professor.setProfessor(aValue.toString());
+		case 2:
+			professor.setTituloDocente(aValue.toString());
 
 		default:
 			System.err.println("Índice da coluna inválido");
@@ -73,6 +77,9 @@ public class ProfessorTableModel extends AbstractTableModel {
 			break;
 		case 1:
 			valueObject = professorSelecionado.getProfessor();
+			break;
+		case 2:
+			valueObject = professorSelecionado.getTituloDocente();
 			break;
 		default:
 			System.err.println("Índice inválido para propriedade do bean Professor.class");

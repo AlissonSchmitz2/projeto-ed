@@ -45,7 +45,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 
 	private JPanel painel;
 	private JScrollPane scrollpane;
-	
+
 	Disciplina disc = new Disciplina();
 	Professor prof = new Professor();
 
@@ -70,7 +70,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		cbxFases.setBounds(480, 60, 170, 25);
 		cbxFases.setToolTipText("Informe a fase");
 		getContentPane().add(cbxFases);
-		
+
 		labes = new JLabel("Curso:");
 		labes.setBounds(410, 20, 250, 25);
 		getContentPane().add(labes);
@@ -96,8 +96,8 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 
 				// Adiciona opções estados
 				opcoesFases(fase, cursoSelecionado).forEach(fase -> cbxFases.addItem(fase));
-				//TODO: Atualizar ComboBox ao voltar na opção --Selecione-- do Curso
-				//TODO:Adicionar disciplinas ao JTable, se já cadastradas
+				// TODO: Atualizar ComboBox ao voltar na opção --Selecione-- do Curso
+				// TODO:Adicionar disciplinas ao JTable, se já cadastradas
 			}
 		});
 
@@ -110,7 +110,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		getContentPane().add(cbxDisciplina);
 		cbxDisciplina.addItem("-Selecione-");
 		opcoesDisciplinas(disciplina).forEach(disciplinas -> cbxDisciplina.addItem(disciplinas));
-		
+
 		label = new JLabel("Professor:");
 		label.setBounds(660, 130, 70, 45);
 		getContentPane().add(label);
@@ -120,8 +120,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		getContentPane().add(cbxProfessor);
 		cbxProfessor.addItem("-Selecione-");
 		opcoesProfessores(professor).forEach(professores -> cbxProfessor.addItem(professores));
-		
-		
+
 		btnAdd = new JButton("+");
 		btnAdd.setBounds(959, 140, 50, 25);
 		getContentPane().add(btnAdd);
@@ -131,7 +130,8 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 					JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
 							JOptionPane.ERROR_MESSAGE, null);
 				} else {
-					addListaJTable(cbxDisciplina.getSelectedItem().toString(), cbxProfessor.getSelectedItem().toString());
+					addListaJTable(cbxDisciplina.getSelectedItem().toString(),
+							cbxProfessor.getSelectedItem().toString());
 					limparFormulario();
 					numRow++;
 				}
@@ -143,14 +143,23 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		getContentPane().add(btnSalvar1);
 		btnSalvar1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cadastrarGrade();
-				limparJTable();
+				if (numRow == 0) {
+					JOptionPane.showMessageDialog(rootPane, "Informe as disciplinas para cadastro!", "",
+							JOptionPane.ERROR_MESSAGE, null);
+				} else {
+					cadastrarGrade();
+					limparJTable();
+				}
 			}
 		});
 	}
 
 	public boolean validarCamposObrigatorios() {
-		if (cbxDisciplina.getSelectedItem().toString().isEmpty() || cbxProfessor.getSelectedItem().toString().isEmpty()) {
+		if ("-Selecione-".equals(cbxDisciplina.getSelectedItem()) ||
+			"-Selecione-".equals(cbxProfessor.getSelectedItem())  ||
+			"-Selecione-".equals(cbxCurso.getSelectedItem())   	  ||
+			"-Selecione-".equals(cbxFases.getSelectedItem())) {
+
 			return true;
 		}
 		return false;
@@ -163,7 +172,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		for (int i = 0; i < numRow; i++) {
 			Curso curso = aM.pegarCursoPorNome(cbxCurso.getSelectedItem().toString());
 			Fase fase = aM.pegarFasePorFaseCurso(cbxFases.getSelectedItem().toString(), curso.getId());
-			
+
 			String valueRowDisciplina = (String) tabela.getValueAt(i, 1);
 			disc = aM.pegarDisciplinaPorNome(valueRowDisciplina);
 			String valueRowProf = (String) tabela.getValueAt(i, 2);
@@ -177,12 +186,12 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		}
 		JOptionPane.showMessageDialog(null, "Grade cadastrada com sucesso!");
 	}
-	
+
 	// Obtem lista de Cursos
 	private List<String> opcoesCursos(List<Curso> cursos) {
 		return cursos.stream().map(curso -> curso.getCurso()).distinct().collect(Collectors.toList());
 	}
-	
+
 	// Obtem lista de Fases referente ao curso
 	private List<String> opcoesFases(List<Fase> fases, String curso) {
 
@@ -192,25 +201,26 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		return fases.stream().filter(fase -> idCurso == fase.getIdCurso()).map(fase -> fase.getFase()).distinct()
 				.collect(Collectors.toList());
 	}
-	
+
 	// Obtem lista de Disciplinas
 	private List<String> opcoesDisciplinas(List<Disciplina> disciplinas) {
-		return disciplinas.stream().map(disciplina -> disciplina.getDisciplina()).distinct().collect(Collectors.toList());
+		return disciplinas.stream().map(disciplina -> disciplina.getDisciplina()).distinct()
+				.collect(Collectors.toList());
 	}
-	
+
 	// Obtem lista de Professores
 	private List<String> opcoesProfessores(List<Professor> professores) {
 		return professores.stream().map(professor -> professor.getProfessor()).distinct().collect(Collectors.toList());
 	}
-	
+
 	// Manipulação da JTable
 
-	//TODO:Organizar manipulação com Table a uma classe DisciplinasTableModel
-	
+	// TODO:Organizar manipulação com Table a uma classe DisciplinasTableModel
+
 	public void addListaJTable(String disciplina, String professor) {
 		disc = aM.pegarDisciplinaPorNome(disciplina);
 		prof = aM.pegarProfessorPorNome(professor);
-		
+
 		String codDisciplina = String.valueOf(disc.getCodDisciplina());
 		String[] linha = { codDisciplina, disc.getDisciplina(), prof.getProfessor() };
 		criarGrid(linha);
@@ -234,7 +244,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		scrollpane.setVisible(true);
 		add(scrollpane);
 	}
-	
+
 	public void limparJTable() {
 		String[] linha = {};
 
@@ -245,7 +255,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 
 		numRow = 0;
 	}
-	
+
 	public void limparFormulario() {
 		cbxDisciplina.setSelectedIndex(0);
 		cbxProfessor.setSelectedIndex(0);
