@@ -2,6 +2,8 @@ package br.com.sistemaescolar.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,20 +17,24 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.sun.org.glassfish.external.statistics.StringStatistic;
-
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
 import br.com.sistemaescolar.model.Grade;
 import br.com.sistemaescolar.model.Professor;
+import br.com.sistemaescolar.observer.ObserverGrade;
+import br.com.sistemaescolar.observer.SubjectGrade;
+import br.com.sistemaescolar.table.model.GradeTableModel;
 
-public class CadastrarGradeWindow extends AbstractWindowFrame {
+public class CadastrarGradeWindow extends AbstractWindowFrame implements SubjectGrade {
 
 	private static final long serialVersionUID = 10914486141164967L;
-
+	
 	ManipularArquivo aM = new ManipularArquivo();
+	private Grade grade = new Grade();
+	private GradeTableModel modelGradesEdicao;
+	private List<Grade> listaGrades = new ArrayList<Grade>();
 	DefaultTableModel model = new DefaultTableModel();
 	private JLabel labes;
 	private JComboBox<String> cbxCurso, cbxFases;
@@ -38,7 +44,8 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 	List<Disciplina> disciplina;
 	List<Professor> professor;
 	int numRow = 0;
-
+	private ArrayList<ObserverGrade> observers = new ArrayList<ObserverGrade>();
+	
 	private JTextField txfCod;
 	private JComboBox<String> cbxDisciplina;
 	private JComboBox<String> cbxProfessor;
@@ -59,6 +66,18 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		professor = aM.pegarProfessor();
 		criarComponentes();
 		criarGrid(null);
+	}
+	
+	public CadastrarGradeWindow(Grade grade, GradeTableModel modelGradesEdicao) {
+		super("Editar Grade");
+		curso = aM.pegarCurso();
+		fase = aM.pegarFase();
+		disciplina = aM.pegarDisciplina();
+		professor = aM.pegarProfessor();
+		criarComponentes();
+		criarGrid(null);
+		setarValores(grade);
+		this.modelGradesEdicao = modelGradesEdicao;
 	}
 
 	public void criarComponentes() {
@@ -169,7 +188,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 
 	public void cadastrarGrade() {
 
-		Grade grade = new Grade();
+		Grade grade = new Grade();		
 
 		for (int i = 0; i < numRow; i++) {
 			Curso curso = aM.pegarCursoPorNome(cbxCurso.getSelectedItem().toString());
@@ -183,10 +202,36 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 			grade.setId_disciplina(disc.getId());
 			grade.setId_professor(prof.getId());
 			grade.setId_fase(fase.getId());
-
-			aM.inserirDado(grade);
+			
+			if(this.grade.getId() != null && i == 0) {
+				
+				grade.setId(this.grade.getId());
+				
+				aM.editarDado(grade);
+				
+				notifyObservers(grade);
+				
+			} else {
+				aM.inserirDado(grade);
+			}
 		}
-		JOptionPane.showMessageDialog(null, "Grade cadastrada com sucesso!");
+		
+		if(this.grade.getId() == null) {
+			JOptionPane.showMessageDialog(null, "Grade cadastrada com sucesso!");
+		} else {
+			// Reseta a lista e atualiza JTable novamente para o caso de haver uma nova adiçao de grade na tela de edição.
+			modelGradesEdicao.limpar();
+
+			try {
+				listaGrades = aM.pegarGrade();
+				modelGradesEdicao.addListaDeGrades(listaGrades);
+			} catch (Exception e2) {
+				System.err.printf("Erro ao iniciar lista de Grades: %s.\n", e2.getMessage());
+			}
+			
+			JOptionPane.showMessageDialog(null, "Grade salva com sucesso!");
+			setVisible(false);
+		}
 	}
 
 	// Obtem lista de Cursos
@@ -262,5 +307,44 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		cbxDisciplina.setSelectedIndex(0);
 		cbxProfessor.setSelectedIndex(0);
 	}
+	
+	private void setarValores(Grade grade) {
+		// TODO: setar valores iniciais para edição
+		this.grade.setId(grade.getId());
+		
+		if(grade.getDescricaoCurso() != null) {
+			cbxCurso.setSelectedItem(grade.getDescricaoCurso());
+		}
+		
+		if(grade.getDescricaoDisciplina() != null) {
+			cbxDisciplina.setSelectedItem(grade.getDescricaoDisciplina());
+		}
+		
+		if(grade.getDescricaoFase() != null) {
+			cbxFases.setSelectedItem(grade.getDescricaoFase());
+		}
+		
+		if(grade.getDescricaoProfessor() != null) {
+			cbxProfessor.setSelectedItem(grade.getDescricaoProfessor());
+		}
+	}
 
+	@Override
+	public void addObserver(ObserverGrade o) {
+		observers.add(o);
+	}
+
+	@Override
+	public void removeObserver(ObserverGrade o) {
+		observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers(Grade grade) {
+		Iterator it = observers.iterator();
+		while (it.hasNext()) {
+			ObserverGrade observer = (ObserverGrade) it.next();
+			observer.update(grade);
+		}
+	}
 }

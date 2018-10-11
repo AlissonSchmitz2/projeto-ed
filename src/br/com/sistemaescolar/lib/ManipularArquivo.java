@@ -69,6 +69,7 @@ public class ManipularArquivo {
 	}
 
 	public Usuario pegarUsuarioPorId(Integer id) {
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
 			lerArq = new BufferedReader(arq);
@@ -92,7 +93,7 @@ public class ManipularArquivo {
 	}
 
 	public Usuario pegarUsuarioPorLogin(String login) {
-
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
 			lerArq = new BufferedReader(arq);
@@ -117,6 +118,7 @@ public class ManipularArquivo {
 	}
 
 	public Usuario pegarUsuarioPorLoginSenha(String login, String senha) throws Exception {
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
 			lerArq = new BufferedReader(arq);
@@ -147,6 +149,7 @@ public class ManipularArquivo {
 	}
 
 	public List<Usuario> pegarUsuarios() {
+		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 
 		try {
@@ -171,7 +174,7 @@ public class ManipularArquivo {
 
 	public List<Usuario> pegarUsuarios(String valorBusca) {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
-
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("usuarios"));
 			lerArq = new BufferedReader(arq);
@@ -234,6 +237,7 @@ public class ManipularArquivo {
 	}
 
 	public Aluno pegarAlunoPorId(Integer id) {
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("alunos"));
 			lerArq = new BufferedReader(arq);
@@ -257,6 +261,7 @@ public class ManipularArquivo {
 	}
 
 	public Aluno pegarAlunoPorCodigo(String codigo) {
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("alunos"));
 			lerArq = new BufferedReader(arq);
@@ -281,7 +286,7 @@ public class ManipularArquivo {
 
 	public List<Aluno> pegarAlunos() {
 		List<Aluno> alunos = new ArrayList<Aluno>();
-
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("alunos"));
 			lerArq = new BufferedReader(arq);
@@ -305,7 +310,7 @@ public class ManipularArquivo {
 	public List<Aluno> pegarAlunos(String valorBusca) {
 		List<Aluno> alunos = new ArrayList<Aluno>();
 		int indicesDaBusca[] = { 0, 1, 2, 7 };
-
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("alunos"));
 			lerArq = new BufferedReader(arq);
@@ -390,6 +395,7 @@ public class ManipularArquivo {
 	}
 
 	public Cidade pegarCidadePorId(Integer id) {
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("cidades"));
 			lerArq = new BufferedReader(arq);
@@ -414,7 +420,7 @@ public class ManipularArquivo {
 
 	public List<Cidade> pegarCidades() {
 		List<Cidade> cidades = new ArrayList<Cidade>();
-
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("cidades"));
 			lerArq = new BufferedReader(arq);
@@ -437,7 +443,7 @@ public class ManipularArquivo {
 
 	public List<Cidade> pegarCidades(String valorBusca) {
 		List<Cidade> cidades = new ArrayList<Cidade>();
-
+		
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("cidades"));
 			lerArq = new BufferedReader(arq);
@@ -537,6 +543,7 @@ public class ManipularArquivo {
 	}
 
 	public List<Curso> pegarCurso() {
+		
 		List<Curso> curso = new ArrayList<Curso>();
 
 		try {
@@ -621,6 +628,7 @@ public class ManipularArquivo {
 
 				linha = lerArq.readLine();
 			}
+			
 		} catch (IOException e) {
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
@@ -945,7 +953,7 @@ public class ManipularArquivo {
 
 	public void editarDado(Grade grade) {
 		String novosDados = criarStringDados(grade);
-
+		
 		editarDadosNoArquivo("grade", grade.getId().toString(), novosDados);
 	}
 
@@ -988,6 +996,45 @@ public class ManipularArquivo {
 		novaGrade.setId_fase(Integer.parseInt(atributo[1]));
 		novaGrade.setId_disciplina(Integer.parseInt(atributo[2]));
 		novaGrade.setId_professor(Integer.parseInt(atributo[3]));
+		
+		//Setar descrições para a listagem.
+		List<Fase> fases = new ArrayList<Fase>();
+		fases = pegarFase();
+		
+		Professor professor = new Professor();
+		professor = pegarProfessorPorId(Integer.parseInt(atributo[3]));
+		
+		Disciplina disciplina = new Disciplina();
+		disciplina = pegarDisciplinaPorId(Integer.parseInt(atributo[2]));
+		
+		Fase fase = new Fase();
+		fase = pegarFasePorId(Integer.parseInt(atributo[1]));
+		
+		for(int i = 0; i < fases.size(); i++) {
+			
+			if(fases.get(i).getId().equals(Integer.parseInt(atributo[1]))) {
+				
+				Curso curso = new Curso();
+				curso = pegarCursoPorId(fases.get(i).getIdCurso());
+				
+				if(curso != null) {
+				novaGrade.setDescricaoCurso(curso.getCurso());
+				}
+				break;
+			}
+		}
+		
+		if(disciplina != null) {
+		novaGrade.setDescricaoDisciplina(disciplina.getDisciplina());
+		}
+		
+	    if(fase != null) {
+		novaGrade.setDescricaoFase(fase.getFase());
+	    }
+	    
+	    if(professor != null) {
+		novaGrade.setDescricaoProfessor(professor.getProfessor());
+	    }
 
 		return novaGrade;
 	}
@@ -996,23 +1043,46 @@ public class ManipularArquivo {
 		List<Grade> grade = new ArrayList<Grade>();
 
 		try {
+			
 			FileReader arq = new FileReader(pegarDestinoArquivo("grade"));
-			lerArq = new BufferedReader(arq);
+			
+			BufferedReader lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
 
-			while (linha != null) {
-				String[] atributo = linha.split(SEPARATOR);
+				while (linha != null) {
+					String[] atributo = linha.split(SEPARATOR);
 
-				grade.add(criarGradeApartirAtributos(atributo));
+					grade.add(criarGradeApartirAtributos(atributo));
 
-				linha = lerArq.readLine();
-			}
+					linha = lerArq.readLine();
+				}
+			
 		} catch (IOException e) {
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
 
 		return grade;
+	}
+	
+	public List<Grade> pegarGrade(String valorBusca) {
+		List<Grade> gradesFiltradas = new ArrayList<Grade>();
+		List<Grade> grades = new ArrayList<Grade>();
+		grades = pegarGrade();
+		
+		for(int i = 0; i < grades.size(); i++) {
+			
+			String dados = grades.get(i).getDescricaoCurso().toLowerCase() + SEPARATOR + 
+				           grades.get(i).getDescricaoFase().toLowerCase() + SEPARATOR +
+				           grades.get(i).getDescricaoDisciplina().toLowerCase() + SEPARATOR +
+				           grades.get(i).getDescricaoProfessor().toLowerCase();
+			
+			if(dados.contains(valorBusca.toLowerCase())) {
+				gradesFiltradas.add(grades.get(i));
+			}
+		}
+
+		return gradesFiltradas;
 	}
 
 	/*
