@@ -913,7 +913,7 @@ public class ManipularArquivo {
 	}
 
 	private String criarStringDados(Professor prof) {
-		return prof.getId() + SEPARATOR + prof.getProfessor() + SEPARATOR + prof.getTituloDocente();
+		return prof.getId() + SEPARATOR + prof.getProfessor() + SEPARATOR + (prof.getTituloDocente() != null ? prof.getTituloDocente() : "-----");
 	}
 
 	private Professor criarProfessorApartirAtributos(String[] atributo) {
@@ -988,7 +988,7 @@ public class ManipularArquivo {
 				String[] verificaLinha = linha.split(SEPARATOR);
 
 				if (nome.toLowerCase().equals(verificaLinha[1].toLowerCase())) {
-					return new Professor(Integer.parseInt(verificaLinha[0]), verificaLinha[1]);
+					return new Professor(Integer.parseInt(verificaLinha[0]), verificaLinha[1], verificaLinha[2]);
 				}
 
 				linha = lerArq.readLine();
