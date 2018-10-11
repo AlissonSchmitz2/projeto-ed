@@ -15,8 +15,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.sun.org.glassfish.external.statistics.StringStatistic;
-
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
@@ -55,7 +53,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame {
 		super("Grade");
 		curso = aM.pegarCurso();
 		fase = aM.pegarFase();
-		disciplina = aM.pegarDisciplina();
+		disciplina = aM.pegarDisciplinas();
 		professor = aM.pegarProfessor();
 		criarComponentes();
 		criarGrid(null);

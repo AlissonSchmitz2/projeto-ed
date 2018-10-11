@@ -22,10 +22,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import br.com.sistemaescolar.importation.ImportacaoDados;
+import br.com.sistemaescolar.importation.ExtracaoDados;
 import br.com.sistemaescolar.importation.ResumoDisciplina;
 import br.com.sistemaescolar.importation.ResumoFase;
 import br.com.sistemaescolar.importation.ResumoProfessor;
+import br.com.sistemaescolar.lib.ManipularArquivo;
+import br.com.sistemaescolar.model.Configuracoes;
+import br.com.sistemaescolar.model.Curso;
+import br.com.sistemaescolar.model.Disciplina;
+import br.com.sistemaescolar.model.Fase;
+import br.com.sistemaescolar.model.Grade;
+import br.com.sistemaescolar.model.Professor;
 
 public class ImportarWindow extends AbstractWindowFrame{
 	
@@ -43,6 +50,10 @@ public class ImportarWindow extends AbstractWindowFrame{
 	private DefaultListModel<ResumoFase> modelFases = new DefaultListModel<ResumoFase>();
 	private DefaultListModel<ResumoDisciplina> modelDisciplinas = new DefaultListModel<ResumoDisciplina>();
 	private DefaultListModel<ResumoProfessor> modelProfessores = new DefaultListModel<ResumoProfessor>();
+	private JButton btnImportarArquivo;
+	
+	private ManipularArquivo aM = new ManipularArquivo();
+	private ExtracaoDados extracaoDados;
 	
 	public ImportarWindow() {
 		super("Importar Arquivo");
@@ -137,7 +148,112 @@ public class ImportarWindow extends AbstractWindowFrame{
 		scrollProfessores.setBounds(700, 165, 300, 450);
 		getContentPane().add(scrollProfessores, BorderLayout.CENTER);
 		listProfessores.addMouseListener(acaoSelecionarProfessor());
+		
+		btnImportarArquivo = new JButton("Importar");
+		btnImportarArquivo.setBounds(550, 32, 120, 25);
+		getContentPane().add(btnImportarArquivo);
+		btnImportarArquivo.addActionListener(acaoBotaoImportarArquivo());
 	}
+	
+	private void limparCampos() {
+		txfImportacao.setText("");
+		txfData.setText("");
+		txfCurso.setText("");
+		txfFaseInicial.setText("");
+		txfFaseFinal.setText("");
+		
+		//Listas
+		modelFases.clear();
+		modelDisciplinas.clear();
+		modelProfessores.clear();
+	}
+	
+	private AbstractAction acaoBotaoImportarArquivo() {
+		return new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				if (extracaoDados != null) {
+					try {
+						String nomeCurso = extracaoDados.getHeader().getNomeCurso();
+						
+						Curso curso = aM.pegarCursoPorNome(nomeCurso);
+						
+						if (curso == null) {
+							Curso novoCurso = new Curso();
+							novoCurso.setCurso(nomeCurso);
+							
+							curso = aM.inserirDado(novoCurso);
+						}
+						
+						for (ResumoFase resumoFase : extracaoDados.getResumos().values()) {
+							Fase fase = aM.pegarFasePorFaseCurso(resumoFase.getFase().trim(), curso.getId());
+							
+							if (fase == null) {
+								Fase novaFase = new Fase();
+								novaFase.setFase(resumoFase.getFase().trim());
+								novaFase.setIdCurso(curso.getId());
+								
+								fase = aM.inserirDado(novaFase);
+							}
+							
+							for (ResumoDisciplina resumoDisciplina : resumoFase.getDisciplinas().values()) {
+								Disciplina disciplina = aM.pegarDisciplinaPorCodigo(Integer.parseInt(resumoDisciplina.getCodigoDisciplina()));
+							
+								if (disciplina == null) {
+									Disciplina novaDisciplina = new Disciplina();
+									novaDisciplina.setCodDisciplina(Integer.parseInt(resumoDisciplina.getCodigoDisciplina()));
+									novaDisciplina.setDisciplina("---Importado---");
+									
+									disciplina = aM.inserirDado(novaDisciplina);
+								}
+								
+								for (ResumoProfessor resumoProfessor : resumoDisciplina.getProfessores().values()) {
+									Professor professor = aM.pegarProfessorPorNome(resumoProfessor.getNome().trim());
+									
+									if (professor == null) {
+										Professor novoProfessor = new Professor();
+										novoProfessor.setProfessor(resumoProfessor.getNome().trim());
+										
+										professor = aM.inserirDado(novoProfessor);
+									}
+									
+									//TODO: Dependendo da implementação do Giovani, será necessário fazer uma verificação por grade aqui
+									//Talvez não seja possível duplicar disciplinas ou professores
+									
+									Grade grade = new Grade();
+									grade.setId_fase(fase.getId());
+									grade.setId_disciplina(disciplina.getId());
+									grade.setId_professor(professor.getId());
+									
+									aM.inserirDado(grade);
+								}
+							}
+						}
+						
+						//Incrementa controle de importação
+						Configuracoes configuracoes = aM.pegarConfiguracoes();
+						configuracoes.incrementarSequencialImportacao();
+						aM.atualizarConfiguracoes(configuracoes);
+						
+						//Reseta arquivo importado
+						extracaoDados = null;
+						limparCampos();
+						
+						//Exibe mensagem de sucesso
+						JOptionPane.showMessageDialog(rootPane, "Importação efetuada com sucesso", "", JOptionPane.INFORMATION_MESSAGE, null);
+					} catch(Exception error) {
+						JOptionPane.showMessageDialog(rootPane, "Erro na importação: " + error.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
+						
+						error.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(rootPane, "Selecione um arquivo válido para importar", "", JOptionPane.ERROR_MESSAGE, null);
+				}
+			}
+		};
+	}
+			
 	
 	private AbstractAction acaoBotaoSelecionarArquivo() {
 		return new AbstractAction() {
@@ -147,35 +263,46 @@ public class ImportarWindow extends AbstractWindowFrame{
 				String arquivoSelecionado = fileChooser();
 				
 				if (arquivoSelecionado != null) {
+					txfImportacao.setBackground(Color.WHITE);
 					txfImportacao.setText(arquivoSelecionado);
 					
 					try {
-						ImportacaoDados importacaoDados = new ImportacaoDados(arquivoSelecionado);
+						extracaoDados = new ExtracaoDados(arquivoSelecionado);
 						
 						//Seta as informações nos components da tela
 						DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-						txfData.setText(dateFormat.format(importacaoDados.getHeader().getDataProcessamento()));
+						txfData.setText(dateFormat.format(extracaoDados.getHeader().getDataProcessamento()));
 						
-						txfCurso.setText(importacaoDados.getHeader().getNomeCurso());
+						txfCurso.setText(extracaoDados.getHeader().getNomeCurso());
 						
-						txfFaseInicial.setText(importacaoDados.getHeader().getFaseInicial());
-						txfFaseFinal.setText(importacaoDados.getHeader().getFaseFinal());
+						txfFaseInicial.setText(extracaoDados.getHeader().getFaseInicial());
+						txfFaseFinal.setText(extracaoDados.getHeader().getFaseFinal());
 						
 						//Listas
 						modelFases.clear();
-						importacaoDados.getResumos().values().stream().forEach(resumoFase -> modelFases.addElement(resumoFase));
+						extracaoDados.getResumos().values().stream().forEach(resumoFase -> modelFases.addElement(resumoFase));
 						
 						modelDisciplinas.clear();
-						importacaoDados.getTodasDisciplinas().values().stream().forEach(resumoDisciplina -> modelDisciplinas.addElement(resumoDisciplina));
+						extracaoDados.getTodasDisciplinas().values().stream().forEach(resumoDisciplina -> modelDisciplinas.addElement(resumoDisciplina));
 						
 						modelProfessores.clear();
-						importacaoDados.getTodosProfessores().values().stream().forEach(resumoProfessor -> modelProfessores.addElement(resumoProfessor));
+						extracaoDados.getTodosProfessores().values().stream().forEach(resumoProfessor -> modelProfessores.addElement(resumoProfessor));
 					} catch (Exception erro) {
 						//TODO: Limpar todos os valores dos componentes e desabilitar botão de processamento da importação
-						JOptionPane.showMessageDialog(rootPane, erro.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
+						
+						txfImportacao.setBackground(Color.getHSBColor((float)100, (float)0.29, (float)1));
+						
+						extracaoDados = null;
+						
+						JOptionPane.showMessageDialog(rootPane, "Erro ao extrar dados: " + erro.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
 					}
 				} else {
 					//TODO: Limpar todos os valores dos componentes e desabilitar botão de processamento da importação
+					
+					txfImportacao.setBackground(Color.getHSBColor((float)100, (float)0.29, (float)1));
+					
+					extracaoDados = null;
+					
 					txfImportacao.setText("");
 				}
 			}

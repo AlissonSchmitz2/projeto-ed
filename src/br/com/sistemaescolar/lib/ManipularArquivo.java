@@ -12,6 +12,7 @@ import java.util.List;
 
 import br.com.sistemaescolar.model.Aluno;
 import br.com.sistemaescolar.model.Cidade;
+import br.com.sistemaescolar.model.Configuracoes;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
@@ -29,6 +30,7 @@ public class ManipularArquivo {
 	private static String DISCIPLINA_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\disciplina.txt";
 	private static String PROFESSOR_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\professor.txt";
 	private static String GRADE_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\grade.txt";
+	private static String CONFIGURACOES_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\configuracoes.txt";
 
 	private static String SEPARATOR = ";;;";
 
@@ -50,12 +52,14 @@ public class ManipularArquivo {
 	/*
 	 * USUÁRIOS
 	 */
-	public void inserirDado(Usuario usuario) {
+	public Usuario inserirDado(Usuario usuario) {
 		usuario.setId(pegarProximoId("usuarios"));
 
 		String novosDados = criarStringDados(usuario);
 
 		inserirDadosNoArquivo("usuarios", novosDados);
+		
+		return usuario;
 	}
 
 	public void editarDado(Usuario usuario) {
@@ -215,12 +219,14 @@ public class ManipularArquivo {
 	/*
 	 * ALUNOS
 	 */
-	public void inserirDado(Aluno aluno) {
+	public Aluno inserirDado(Aluno aluno) {
 		aluno.setId(pegarProximoId("alunos"));
 
 		String novosDados = criarStringDados(aluno);
 
 		inserirDadosNoArquivo("alunos", novosDados);
+		
+		return aluno;
 	}
 
 	public void editarDado(Aluno aluno) {
@@ -371,12 +377,14 @@ public class ManipularArquivo {
 	 * CIDADES
 	 */
 
-	public void inserirDado(Cidade cidade) {
+	public Cidade inserirDado(Cidade cidade) {
 		cidade.setId(pegarProximoId("cidades"));
 
 		String novosDados = criarStringDados(cidade);
 
 		inserirDadosNoArquivo("cidades", novosDados);
+		
+		return cidade;
 	}
 
 	public void editarDado(Cidade cidade) {
@@ -482,12 +490,14 @@ public class ManipularArquivo {
 	 * CURSOS
 	 */
 
-	public void inserirDado(Curso curso) {
+	public Curso inserirDado(Curso curso) {
 		curso.setId(pegarProximoId("curso"));
 
 		String novosDados = criarStringDados(curso);
 
 		inserirDadosNoArquivo("curso", novosDados);
+		
+		return curso;
 	}
 
 	public void editarDado(Curso curso) {
@@ -559,7 +569,7 @@ public class ManipularArquivo {
 		return curso;
 	}
 
-	public Curso pegarCursoPorNome(String curso) {
+	public Curso pegarCursoPorNome(String nome) {
 
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("curso"));
@@ -570,7 +580,7 @@ public class ManipularArquivo {
 			while (linha != null) {
 				String[] verificaLinha = linha.split(SEPARATOR);
 
-				if (curso.equals(verificaLinha[1])) {
+				if (nome.toLowerCase().equals(verificaLinha[1].toLowerCase())) {
 					return new Curso(Integer.parseInt(verificaLinha[0]), verificaLinha[1]);
 				}
 
@@ -587,12 +597,14 @@ public class ManipularArquivo {
 	 * FASES
 	 */
 
-	public void inserirDado(Fase fase) {
+	public Fase inserirDado(Fase fase) {
 		fase.setId(pegarProximoId("fase"));
 
 		String novosDados = criarStringDados(fase);
 
 		inserirDadosNoArquivo("fase", novosDados);
+		
+		return fase;
 	}
 
 	public void editarDado(Fase fase) {
@@ -694,12 +706,14 @@ public class ManipularArquivo {
 	 * DISCIPLINA
 	 */
 
-	public void inserirDado(Disciplina disciplina) {
+	public Disciplina inserirDado(Disciplina disciplina) {
 		disciplina.setId(pegarProximoId("disciplina"));
 
 		String novosDados = criarStringDados(disciplina);
 
 		inserirDadosNoArquivo("disciplina", novosDados);
+		
+		return disciplina;
 	}
 
 	public void editarDado(Disciplina disciplina) {
@@ -734,6 +748,29 @@ public class ManipularArquivo {
 
 		return null;
 	}
+	
+	public Disciplina pegarDisciplinaPorCodigo(Integer codigo) {
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("disciplina"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				if (codigo.toString().equals(atributo[1])) {
+					return criarDisciplinaApartirAtributos(atributo);
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return null;
+	}
 
 	private String criarStringDados(Disciplina disciplina) {
 		return disciplina.getId() + SEPARATOR + disciplina.getCodDisciplina() + 
@@ -750,7 +787,7 @@ public class ManipularArquivo {
 		return novaDisciplina;
 	}
 
-	public Disciplina pegarDisciplinaPorNome(String disciplina) {
+	public Disciplina pegarDisciplinaPorNome(String nome) {
 
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("disciplina"));
@@ -761,7 +798,7 @@ public class ManipularArquivo {
 			while (linha != null) {
 				String[] verificaLinha = linha.split(SEPARATOR);
 
-				if (disciplina.equals(verificaLinha[2])) {
+				if (nome.toLowerCase().equals(verificaLinha[2].toLowerCase())) {
 					return new Disciplina(Integer.parseInt(verificaLinha[0]), Integer.parseInt(verificaLinha[1]),
 							verificaLinha[2]);
 				}
@@ -775,7 +812,7 @@ public class ManipularArquivo {
 		return null;
 	}
 
-	public List<Disciplina> pegarDisciplina() {
+	public List<Disciplina> pegarDisciplinas() {
 		List<Disciplina> disciplina = new ArrayList<Disciplina>();
 
 		try {
@@ -802,12 +839,14 @@ public class ManipularArquivo {
 	 * PROFESSOR
 	 */
 
-	public void inserirDado(Professor prof) {
-		prof.setId(pegarProximoId("professor"));
+	public Professor inserirDado(Professor professor) {
+		professor.setId(pegarProximoId("professor"));
 
-		String novosDados = criarStringDados(prof);
+		String novosDados = criarStringDados(professor);
 
 		inserirDadosNoArquivo("professor", novosDados);
+		
+		return professor;
 	}
 
 	public void editarDado(Professor prof) {
@@ -906,7 +945,7 @@ public class ManipularArquivo {
 		return professor;
 	}
 
-	public Professor pegarProfessorPorNome(String prof) {
+	public Professor pegarProfessorPorNome(String nome) {
 
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("professor"));
@@ -917,7 +956,7 @@ public class ManipularArquivo {
 			while (linha != null) {
 				String[] verificaLinha = linha.split(SEPARATOR);
 
-				if (prof.equals(verificaLinha[1])) {
+				if (nome.toLowerCase().equals(verificaLinha[1].toLowerCase())) {
 					return new Professor(Integer.parseInt(verificaLinha[0]), verificaLinha[1]);
 				}
 
@@ -934,12 +973,14 @@ public class ManipularArquivo {
 	 * GRADE
 	 */
 	
-	public void inserirDado(Grade grade) {
+	public Grade inserirDado(Grade grade) {
 		grade.setId(pegarProximoId("grade"));
 
 		String novosDados = criarStringDados(grade);
 
 		inserirDadosNoArquivo("grade", novosDados);
+		
+		return grade;
 	}
 
 	public void editarDado(Grade grade) {
@@ -1012,6 +1053,59 @@ public class ManipularArquivo {
 		}
 
 		return grade;
+	}
+	
+	/*
+	 * CONFIGURAÇÕES
+	 */
+	
+	public Configuracoes pegarConfiguracoes() {
+		try {
+			FileReader arq;
+			
+			try {
+				arq = new FileReader(pegarDestinoArquivo("configuracoes"));
+			} catch (IOException e) {
+				//Se não existir, cria uma nova configuração
+				return inserirDado(new Configuracoes(1, 0));
+			}
+
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] verificaLinha = linha.split(SEPARATOR);
+
+				if ("1".equals(verificaLinha[0])) {
+					return new Configuracoes(1, Integer.parseInt(verificaLinha[1]));
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return null;
+	}
+	
+	public void atualizarConfiguracoes(Configuracoes configuracoes) {
+		String novosDados = criarStringDados(configuracoes);
+
+		editarDadosNoArquivo("configuracoes", "1", novosDados);
+	}
+	
+	private Configuracoes inserirDado(Configuracoes configuracoes) {
+		String novosDados = criarStringDados(configuracoes);
+
+		inserirDadosNoArquivo("configuracoes", novosDados);
+		
+		return configuracoes;
+	}
+	
+	private String criarStringDados(Configuracoes configuracoes) {
+		return "1" + SEPARATOR + configuracoes.getSequencialImportacao();
 	}
 
 	/*
@@ -1145,6 +1239,8 @@ public class ManipularArquivo {
 			return new File(PROFESSOR_PATH).getAbsolutePath();
 		case "grade":
 			return new File(GRADE_PATH).getAbsolutePath();
+		case "configuracoes":
+			return new File(CONFIGURACOES_PATH).getAbsolutePath();
 		}
 		return null;
 	}
