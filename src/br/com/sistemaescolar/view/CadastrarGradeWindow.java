@@ -60,20 +60,20 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 
 	public CadastrarGradeWindow() {
 		super("Grade");
-		curso = aM.pegarCurso();
-		fase = aM.pegarFase();
+		curso = aM.pegarCursos();
+		fase = aM.pegarFases();
 		disciplina = aM.pegarDisciplinas();
-		professor = aM.pegarProfessor();
+		professor = aM.pegarProfessores();
 		criarComponentes();
 		criarGrid(null);
 	}
 	
 	public CadastrarGradeWindow(Grade grade, GradeTableModel modelGradesEdicao) {
 		super("Editar Grade");
-		curso = aM.pegarCurso();
-		fase = aM.pegarFase();
+		curso = aM.pegarCursos();
+		fase = aM.pegarFases();
 		disciplina = aM.pegarDisciplinas();
-		professor = aM.pegarProfessor();
+		professor = aM.pegarProfessores();
 		criarComponentes();
 		criarGrid(null);
 		setarValores(grade);
@@ -223,7 +223,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 			modelGradesEdicao.limpar();
 
 			try {
-				listaGrades = aM.pegarGrade();
+				listaGrades = aM.pegarGrades();
 				modelGradesEdicao.addListaDeGrades(listaGrades);
 			} catch (Exception e2) {
 				System.err.printf("Erro ao iniciar lista de Grades: %s.\n", e2.getMessage());

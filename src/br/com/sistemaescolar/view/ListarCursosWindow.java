@@ -145,7 +145,7 @@ public class ListarCursosWindow extends AbstractGridWindow implements ObserverCu
 					txfBuscar.setText("");
 					model.limpar();
 					try {
-						listaCursos = aM.pegarCurso();
+						listaCursos = aM.pegarCursos();
 						model.addListaDeCursos(listaCursos);
 					} catch (Exception e2) {
 						System.err.printf("Erro ao iniciar lista de cursos: %s.\n", e2.getMessage());
@@ -161,7 +161,7 @@ public class ListarCursosWindow extends AbstractGridWindow implements ObserverCu
 						txfBuscar.setText("");
 						model.limpar();
 						try {
-							listaCursos = aM.pegarCurso();
+							listaCursos = aM.pegarCursos();
 							model.addListaDeCursos(listaCursos);
 						} catch (Exception e2) {
 							System.err.printf("Erro ao iniciar lista de cursos: %s.\n", e2.getMessage());
@@ -221,7 +221,7 @@ public class ListarCursosWindow extends AbstractGridWindow implements ObserverCu
 			});
 
 			try {
-				listaCursos = aM.pegarCurso();
+				listaCursos = aM.pegarCursos();
 				model.addListaDeCursos(listaCursos);
 			} catch (Exception e) {
 				System.err.printf("Erro ao iniciar lista de cursos: %s.\n", e.getMessage());

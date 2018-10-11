@@ -143,7 +143,7 @@ public class ListarProfessoresWindow extends AbstractGridWindow implements Obser
 				txfBuscar.setText("");
 				model.limpar();
 				try {
-					listaProfessores = aM.pegarProfessor();
+					listaProfessores = aM.pegarProfessores();
 					model.addListaDeProfessores(listaProfessores);
 				} catch (Exception e2) {
 					System.err.printf("Erro ao iniciar lista de professores: %s.\n", e2.getMessage());
@@ -164,7 +164,7 @@ public class ListarProfessoresWindow extends AbstractGridWindow implements Obser
 		model.limpar();
 
 		// Lista oque estiver relacionado com a busca.
-		listaProfessores = aM.pegarProfessor(txfBuscar.getText());
+		listaProfessores = aM.pegarProfessores(txfBuscar.getText());
 		model.addListaDeProfessores(listaProfessores);
 	}
 	
@@ -208,7 +208,7 @@ public class ListarProfessoresWindow extends AbstractGridWindow implements Obser
 		});
 
 		try {
-			listaProfessores = aM.pegarProfessor();
+			listaProfessores = aM.pegarProfessores();
 			model.addListaDeProfessores(listaProfessores);		
 		} catch (Exception e) {
 			System.err.printf("Erro ao iniciar lista de professores: %s.\n", e.getMessage());
@@ -250,7 +250,7 @@ public class ListarProfessoresWindow extends AbstractGridWindow implements Obser
 	@Override
 	public void update(Professor professor) {
 		model.limpar();
-		listaProfessores = aM.pegarProfessor(txfBuscar.getText());
+		listaProfessores = aM.pegarProfessores(txfBuscar.getText());
 		model.addListaDeProfessores(listaProfessores);
 	}
 

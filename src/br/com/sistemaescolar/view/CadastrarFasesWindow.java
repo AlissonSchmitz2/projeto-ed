@@ -45,7 +45,7 @@ public class CadastrarFasesWindow extends AbstractWindowFrame {
 
 	public CadastrarFasesWindow() {
 		super("Cadastrar Fase");
-		curso = aM.pegarCurso();
+		curso = aM.pegarCursos();
 		criarComponentes();
 	}
 

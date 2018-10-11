@@ -552,7 +552,7 @@ public class ManipularArquivo {
 		return novoCurso;
 	}
 
-	public List<Curso> pegarCurso() {
+	public List<Curso> pegarCursos() {
 		
 		List<Curso> curso = new ArrayList<Curso>();
 
@@ -717,7 +717,7 @@ public class ManipularArquivo {
 		return novaFase;
 	}
 
-	public List<Fase> pegarFase() {
+	public List<Fase> pegarFases() {
 		List<Fase> fase = new ArrayList<Fase>();
 
 		try {
@@ -934,7 +934,7 @@ public class ManipularArquivo {
 		return novoProf;
 	}
 
-	public List<Professor> pegarProfessor() {
+	public List<Professor> pegarProfessores() {
 		List<Professor> professor = new ArrayList<Professor>();
 
 		try {
@@ -957,7 +957,7 @@ public class ManipularArquivo {
 		return professor;
 	}
 	
-	public List<Professor> pegarProfessor(String valorBusca) {
+	public List<Professor> pegarProfessores(String valorBusca) {
 		List<Professor> professor = new ArrayList<Professor>();
 
 		try {
@@ -1070,7 +1070,7 @@ public class ManipularArquivo {
 		
 		//Setar descrições para a listagem.
 		List<Fase> fases = new ArrayList<Fase>();
-		fases = pegarFase();
+		fases = pegarFases();
 		
 		Professor professor = new Professor();
 		professor = pegarProfessorPorId(Integer.parseInt(atributo[3]));
@@ -1110,7 +1110,7 @@ public class ManipularArquivo {
 		return novaGrade;
 	}
 
-	public List<Grade> pegarGrade() {
+	public List<Grade> pegarGrades() {
 		List<Grade> grade = new ArrayList<Grade>();
 
 		try {
@@ -1136,10 +1136,10 @@ public class ManipularArquivo {
 		return grade;
 	}
 	
-	public List<Grade> pegarGrade(String valorBusca) {
+	public List<Grade> pegarGrades(String valorBusca) {
 		List<Grade> gradesFiltradas = new ArrayList<Grade>();
 		List<Grade> grades = new ArrayList<Grade>();
-		grades = pegarGrade();
+		grades = pegarGrades();
 		
 		for(int i = 0; i < grades.size(); i++) {
 			
