@@ -72,7 +72,6 @@ public class LoginWindow extends JDialog {
 			}
 		});
 
-
 		btnAcessar = new JButton(new AbstractAction("Acessar") {
 			private static final long serialVersionUID = 1L;
 

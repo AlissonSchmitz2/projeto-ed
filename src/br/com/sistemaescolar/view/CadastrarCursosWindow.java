@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -12,9 +15,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
+import br.com.sistemaescolar.model.Aluno;
 import br.com.sistemaescolar.model.Curso;
+import br.com.sistemaescolar.observer.ObserverCursos;
+import br.com.sistemaescolar.observer.SubjectCursos;
 
-public class CadastrarCursosWindow extends AbstractWindowFrame {
+public class CadastrarCursosWindow extends AbstractWindowFrame implements SubjectCursos {
 
 	private static final long serialVersionUID = -1040641568238182334L;
 	
@@ -27,15 +33,24 @@ public class CadastrarCursosWindow extends AbstractWindowFrame {
 		}
 	};
 	
+	private ArrayList<ObserverCursos> observers = new ArrayList<ObserverCursos>();
 	private JLabel labes;
 	private JButton btnSalvar, btnLimpar;
 	private JTextField txfCurso;
+	private ManipularArquivo aM = new ManipularArquivo();
 	
 	Curso curso = new Curso();
 	
 	public CadastrarCursosWindow() {
 		super("Cadastrar Cursos");
 		criarComponentes();
+	}
+	
+	public CadastrarCursosWindow(Curso curso) {
+		super("Editar Curso");
+		this.curso = curso;
+		criarComponentes();
+		setarValores(curso);
 	}
 
 	public void criarComponentes() {
@@ -86,11 +101,23 @@ public class CadastrarCursosWindow extends AbstractWindowFrame {
 		
 		curso.setCurso(txfCurso.getText());
 		
-		ManipularArquivo aM = new ManipularArquivo();
-		aM.inserirDado(curso);
+		if (curso.getId() == null) {
+			aM.inserirDado(curso);
+			limparFormulario();
+			JOptionPane.showMessageDialog(null, "Curso salvo com sucesso!");
+		}
 		
-		JOptionPane.showMessageDialog(null, "Curso cadastrado com sucesso!");
-		limparFormulario();
+		if (curso.getId() != null) {
+			aM.editarDado(curso);
+			
+			notifyObservers(curso);
+			
+			JOptionPane.showMessageDialog(null, "Curso editado com sucesso!");
+			
+			limparFormulario();
+			setVisible(false);
+		}
+		
 	}
 	
 	public boolean validarCamposObrigatorios() {
@@ -106,7 +133,29 @@ public class CadastrarCursosWindow extends AbstractWindowFrame {
 		txfCurso.setText("");
 		curso = new Curso();
 	}
+	
+	public void setarValores(Curso curso) {
+		txfCurso.setText(curso.getCurso());
+	}
 
-}
+	@Override
+	public void addObserver(ObserverCursos o) {
+		observers.add(o);
+	}
+	
+	@Override
+	public void removeObserver(ObserverCursos o) {
+		observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers(Curso cursos) {
+		Iterator it = observers.iterator();
+		while (it.hasNext()) {
+			ObserverCursos observer = (ObserverCursos) it.next();
+			observer.update(cursos);
+		}
+	}}
+
 
 

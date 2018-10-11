@@ -8,16 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class ImportacaoDados {
+import br.com.sistemaescolar.lib.ManipularArquivo;
+
+public class ExtracaoDados {
 	private String caminhoArquivo;
 	
 	private HeaderArquivo header;
 	private TrailerArquivo trailer;
 	private Map<String, ResumoFase> resumos;
 	
+	private ManipularArquivo aM = new ManipularArquivo();
+	
 	private Map<String, String> disciplinasCadastradas = new HashMap<String, String>();
 	
-	public ImportacaoDados(String caminhoArquivo) throws Exception {
+	public ExtracaoDados(String caminhoArquivo) throws Exception {
 		this.caminhoArquivo = caminhoArquivo;
 		
 		carregarDisciplinasCadastradas();
@@ -73,10 +77,8 @@ public class ImportacaoDados {
 	 * Disciplinas cadastradas (Baseado no código da disciplina a ser importada, é possível recuperar o nome)
 	 */
 	public void carregarDisciplinasCadastradas() {
-		//TODO: Busca do arquivo de dados, iterar sobre o resultado e inserir no hashmap
-		disciplinasCadastradas.put("010850", "Teste");
-		disciplinasCadastradas.put("010851", "Teste 2");
-		disciplinasCadastradas.put("010852", "Teste 3");
+		aM.pegarDisciplinas().stream()
+			.forEach(disciplina -> disciplinasCadastradas.put(String.format("%06d", disciplina.getCodDisciplina()), disciplina.getDisciplina()));
 	}
 	
 	/**

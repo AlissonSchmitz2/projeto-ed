@@ -6,8 +6,8 @@ public class HeaderArquivo implements RegistroDadosInterface {
 	public static final Integer CODIGO_REGISTRO = 0;
 	private String nomeCurso;
 	private Date dataProcessamento;
-	private String faseInicial; //TODO: ao invés de guardar string, guardar um model Fase
-	private String faseFinal; //TODO: ao invés de guardar string, guardar um model Fase
+	private String faseInicial;
+	private String faseFinal;
 	private Integer numeroSequencial;
 	private String versaoLayout;
 	

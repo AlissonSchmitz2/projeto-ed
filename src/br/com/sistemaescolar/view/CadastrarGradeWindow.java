@@ -62,7 +62,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		super("Grade");
 		curso = aM.pegarCurso();
 		fase = aM.pegarFase();
-		disciplina = aM.pegarDisciplina();
+		disciplina = aM.pegarDisciplinas();
 		professor = aM.pegarProfessor();
 		criarComponentes();
 		criarGrid(null);
@@ -72,7 +72,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		super("Editar Grade");
 		curso = aM.pegarCurso();
 		fase = aM.pegarFase();
-		disciplina = aM.pegarDisciplina();
+		disciplina = aM.pegarDisciplinas();
 		professor = aM.pegarProfessor();
 		criarComponentes();
 		criarGrid(null);
