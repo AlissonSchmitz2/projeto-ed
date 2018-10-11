@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import br.com.sistemaescolar.enums.TitulosDocentes;
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Professor;
 import br.com.sistemaescolar.observer.ObserverProfessor;
@@ -70,11 +71,10 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 		getContentPane().add(labes);
 		
 		cbxTitulo = new JComboBox<String>();
+		
 		cbxTitulo.addItem("-Selecione-");
-		cbxTitulo.addItem("Pós-Graduação");
-		cbxTitulo.addItem("Mestrado");
-		cbxTitulo.addItem("Doutorado");
-		cbxTitulo.addItem("Pós-Doutorado");
+		TitulosDocentes.getTitulosDocentes().forEach((codigo, descricao) -> cbxTitulo.addItem(descricao));
+		
 		cbxTitulo.setBounds(15, 80, 200, 25);
 		cbxTitulo.setToolTipText("Informe o título docente");
 		getContentPane().add(cbxTitulo);

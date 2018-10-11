@@ -7,6 +7,7 @@ public class ResumoProfessor implements RegistroDadosInterface {
 	
 	public ResumoProfessor(String nome, String codigoTitulo) {
 		this.nome = nome;
+		System.out.println(codigoTitulo);
 		this.codigoTitulo = codigoTitulo;
 	}
 

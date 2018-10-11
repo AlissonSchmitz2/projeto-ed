@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import br.com.sistemaescolar.enums.TitulosDocentes;
 import br.com.sistemaescolar.importation.ExtracaoDados;
 import br.com.sistemaescolar.importation.ResumoDisciplina;
 import br.com.sistemaescolar.importation.ResumoFase;
@@ -214,6 +215,7 @@ public class ImportarWindow extends AbstractWindowFrame{
 									if (professor == null) {
 										Professor novoProfessor = new Professor();
 										novoProfessor.setProfessor(resumoProfessor.getNome().trim());
+										novoProfessor.setTituloDocente(TitulosDocentes.getDescriptionByCode(resumoProfessor.getCodigoTitulo()));
 										
 										professor = aM.inserirDado(novoProfessor);
 									}
