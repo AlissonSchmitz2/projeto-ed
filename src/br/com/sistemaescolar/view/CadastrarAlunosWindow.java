@@ -30,6 +30,7 @@ import br.com.sistemaescolar.observer.ObserverAluno;
 import br.com.sistemaescolar.observer.SubjectAluno;
 
 public class CadastrarAlunosWindow extends AbstractWindowFrame implements SubjectAluno {
+	
 	private static final long serialVersionUID = -4479891238469664919L;
 
 	KeyAdapter acao = new KeyAdapter() {

@@ -558,6 +558,36 @@ public class ManipularArquivo {
 
 		return curso;
 	}
+	
+	public List<Curso> pegarCurso(String valorBusca) {
+		List<Curso> cursos = new ArrayList<Curso>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("curso"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+
+				String[] atributo = linha.split(SEPARATOR);
+
+				
+				if (linha.toLowerCase().contains(valorBusca.toLowerCase())) {
+					atributo = linha.split(SEPARATOR);
+					cursos.add(criarCursoApartirAtributos(atributo));
+				}
+
+				linha = lerArq.readLine();
+			}
+
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return cursos;
+	}
+
 
 	public Curso pegarCursoPorNome(String curso) {
 
