@@ -85,9 +85,8 @@ public class Window extends JFrame {
 		wallpaper = new JLabel(logo);
 		
 	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		wallpaper.setBounds(0, 0, screenSize.width, screenSize.height);
+		wallpaper.setBounds(0, -50, screenSize.width, screenSize.height);
 		getContentPane().add(wallpaper);
-		
 		
 		inicializar();
 
