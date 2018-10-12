@@ -76,7 +76,7 @@ public class Window extends JFrame {
 		desktop.setVisible(true);
 		setContentPane(desktop);
 		
-		/*
+		
 		URL url = this.getClass().getResource("/br/com/sistemaescolar/icons/t.png");
 		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		this.setIconImage(imagemTitulo);
@@ -87,7 +87,7 @@ public class Window extends JFrame {
 	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		wallpaper.setBounds(0, 0, screenSize.width, screenSize.height);
 		getContentPane().add(wallpaper);
-		 */
+		
 		
 		inicializar();
 
