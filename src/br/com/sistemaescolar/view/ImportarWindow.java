@@ -34,6 +34,7 @@ import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
 import br.com.sistemaescolar.model.Grade;
 import br.com.sistemaescolar.model.Professor;
+import br.com.sistemaescolar.model.Usuario;
 
 public class ImportarWindow extends AbstractWindowFrame{
 	
@@ -60,9 +61,10 @@ public class ImportarWindow extends AbstractWindowFrame{
 		super("Importar Arquivo");
 		
 		criarComponentes();
+		iniciarEasterEggResetarArquivos();
 	}
 	
-	public void criarComponentes() {
+	private void criarComponentes() {
 		
 		labelDescricao = new JLabel("Arquivo:");
 		labelDescricao.setBounds(15, 10, 100, 25);
@@ -154,6 +156,62 @@ public class ImportarWindow extends AbstractWindowFrame{
 		btnImportarArquivo.setBounds(550, 32, 120, 25);
 		getContentPane().add(btnImportarArquivo);
 		btnImportarArquivo.addActionListener(acaoBotaoImportarArquivo());
+	}
+	
+	private void iniciarEasterEggResetarArquivos() {
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 5) {
+					int dialogButton = JOptionPane.YES_NO_OPTION;
+					
+					//Quer continuar
+					int resultado = JOptionPane.showConfirmDialog (null, "Quer iniciar o processo de resetar arquivos?", "Resetar Arquivos", dialogButton);
+
+					if (resultado == JOptionPane.YES_OPTION) {
+						//Limpar professores
+						resultado = JOptionPane.showConfirmDialog (null, "Quer resetar o arquivo de PROFESSORES?", "Resetar Arquivos", dialogButton);
+						
+						if (resultado == JOptionPane.YES_OPTION) {
+							aM.resetarArquivoProfessores();
+						}
+						
+						//Limpar disciplinas
+						resultado = JOptionPane.showConfirmDialog (null, "Quer resetar o arquivo de DISCIPLINAS?", "Resetar Arquivos", dialogButton);
+
+						if (resultado == JOptionPane.YES_OPTION) {
+							aM.resetarArquivoDisciplinas();
+						}
+						
+						//Limpar fases
+						resultado = JOptionPane.showConfirmDialog (null, "Quer resetar o arquivo de FASES?", "Resetar Arquivos", dialogButton);
+
+						if (resultado == JOptionPane.YES_OPTION) {
+							aM.resetarArquivoFases();
+						}
+						
+						//Limpar grades
+						resultado = JOptionPane.showConfirmDialog (null, "Quer resetar o arquivo de GRADES?", "Resetar Arquivos", dialogButton);
+
+						if (resultado == JOptionPane.YES_OPTION) {
+							aM.resetarArquivoGrades();
+						}
+						
+						//Zerar sequencial de importação
+						resultado = JOptionPane.showConfirmDialog (null, "Quer zerar o número sequencial de importação?", "Resetar Arquivos", dialogButton);
+
+						if (resultado == JOptionPane.YES_OPTION) {
+							Configuracoes configuracoes = aM.pegarConfiguracoes();
+							configuracoes.setSequencialImportacao(0);
+							
+							aM.atualizarConfiguracoes(configuracoes);
+						}
+						
+						//Conclusão
+						JOptionPane.showMessageDialog(rootPane, "Processo concluído", "Resetar Arquivos", JOptionPane.WARNING_MESSAGE, null);
+					}
+				}
+			}
+		});
 	}
 	
 	private void limparCampos() {

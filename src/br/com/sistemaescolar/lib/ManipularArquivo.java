@@ -497,11 +497,11 @@ public class ManipularArquivo {
 	 */
 
 	public Curso inserirDado(Curso curso) {
-		curso.setId(pegarProximoId("curso"));
+		curso.setId(pegarProximoId("cursos"));
 
 		String novosDados = criarStringDados(curso);
 
-		inserirDadosNoArquivo("curso", novosDados);
+		inserirDadosNoArquivo("cursos", novosDados);
 		
 		return curso;
 	}
@@ -509,16 +509,16 @@ public class ManipularArquivo {
 	public void editarDado(Curso curso) {
 		String novosDados = criarStringDados(curso);
 
-		editarDadosNoArquivo("curso", curso.getId().toString(), novosDados);
+		editarDadosNoArquivo("cursos", curso.getId().toString(), novosDados);
 	}
 
 	public void removerDado(Curso curso) {
-		removerDadosDoArquivo("curso", curso.getId().toString());
+		removerDadosDoArquivo("cursos", curso.getId().toString());
 	}
 
 	public Curso pegarCursoPorId(Integer id) {
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("curso"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("cursos"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -557,7 +557,7 @@ public class ManipularArquivo {
 		List<Curso> curso = new ArrayList<Curso>();
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("curso"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("cursos"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -580,7 +580,7 @@ public class ManipularArquivo {
 		List<Curso> cursos = new ArrayList<Curso>();
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("curso"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("cursos"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -609,7 +609,7 @@ public class ManipularArquivo {
 	public Curso pegarCursoPorNome(String nome) {
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("curso"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("cursos"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -635,11 +635,11 @@ public class ManipularArquivo {
 	 */
 
 	public Fase inserirDado(Fase fase) {
-		fase.setId(pegarProximoId("fase"));
+		fase.setId(pegarProximoId("fases"));
 
 		String novosDados = criarStringDados(fase);
 
-		inserirDadosNoArquivo("fase", novosDados);
+		inserirDadosNoArquivo("fases", novosDados);
 		
 		return fase;
 	}
@@ -647,16 +647,20 @@ public class ManipularArquivo {
 	public void editarDado(Fase fase) {
 		String novosDados = criarStringDados(fase);
 
-		editarDadosNoArquivo("fase", fase.getId().toString(), novosDados);
+		editarDadosNoArquivo("fases", fase.getId().toString(), novosDados);
 	}
 
 	public void removerDado(Fase fase) {
-		removerDadosDoArquivo("fase", fase.getId().toString());
+		removerDadosDoArquivo("fases", fase.getId().toString());
+	}
+	
+	public void resetarArquivoFases() {
+		resetarArquivo("fases");
 	}
 
 	public Fase pegarFasePorId(Integer id) {
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("fase"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("fases"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -681,7 +685,7 @@ public class ManipularArquivo {
 	public Fase pegarFasePorFaseCurso(String fase, Integer curso) {
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("fase"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("fases"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -721,7 +725,7 @@ public class ManipularArquivo {
 		List<Fase> fase = new ArrayList<Fase>();
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("fase"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("fases"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -745,11 +749,11 @@ public class ManipularArquivo {
 	 */
 
 	public Disciplina inserirDado(Disciplina disciplina) {
-		disciplina.setId(pegarProximoId("disciplina"));
+		disciplina.setId(pegarProximoId("disciplinas"));
 
 		String novosDados = criarStringDados(disciplina);
 
-		inserirDadosNoArquivo("disciplina", novosDados);
+		inserirDadosNoArquivo("disciplinas", novosDados);
 		
 		return disciplina;
 	}
@@ -757,16 +761,20 @@ public class ManipularArquivo {
 	public void editarDado(Disciplina disciplina) {
 		String novosDados = criarStringDados(disciplina);
 
-		editarDadosNoArquivo("disciplina", disciplina.getId().toString(), novosDados);
+		editarDadosNoArquivo("disciplinas", disciplina.getId().toString(), novosDados);
 	}
 
 	public void removerDado(Disciplina disciplina) {
-		removerDadosDoArquivo("disciplina", disciplina.getId().toString());
+		removerDadosDoArquivo("disciplinas", disciplina.getId().toString());
+	}
+	
+	public void resetarArquivoDisciplinas() {
+		resetarArquivo("disciplinas");
 	}
 
 	public Disciplina pegarDisciplinaPorId(Integer id) {
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("disciplina"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("disciplinas"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -789,7 +797,7 @@ public class ManipularArquivo {
 	
 	public Disciplina pegarDisciplinaPorCodigo(Integer codigo) {
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("disciplina"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("disciplinas"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -828,7 +836,7 @@ public class ManipularArquivo {
 	public Disciplina pegarDisciplinaPorNome(String nome) {
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("disciplina"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("disciplinas"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -854,7 +862,7 @@ public class ManipularArquivo {
 		List<Disciplina> disciplina = new ArrayList<Disciplina>();
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("disciplina"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("disciplinas"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -878,11 +886,11 @@ public class ManipularArquivo {
 	 */
 
 	public Professor inserirDado(Professor professor) {
-		professor.setId(pegarProximoId("professor"));
+		professor.setId(pegarProximoId("professores"));
 
 		String novosDados = criarStringDados(professor);
 
-		inserirDadosNoArquivo("professor", novosDados);
+		inserirDadosNoArquivo("professores", novosDados);
 		
 		return professor;
 	}
@@ -890,16 +898,20 @@ public class ManipularArquivo {
 	public void editarDado(Professor prof) {
 		String novosDados = criarStringDados(prof);
 
-		editarDadosNoArquivo("professor", prof.getId().toString(), novosDados);
+		editarDadosNoArquivo("professores", prof.getId().toString(), novosDados);
 	}
 
 	public void removerDado(Professor prof) {
-		removerDadosDoArquivo("professor", prof.getId().toString());
+		removerDadosDoArquivo("professores", prof.getId().toString());
+	}
+	
+	public void resetarArquivoProfessores() {
+		resetarArquivo("professores");
 	}
 
 	public Professor pegarProfessorPorId(Integer id) {
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("professor"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("professores"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -938,7 +950,7 @@ public class ManipularArquivo {
 		List<Professor> professor = new ArrayList<Professor>();
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("professor"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("professores"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -961,7 +973,7 @@ public class ManipularArquivo {
 		List<Professor> professor = new ArrayList<Professor>();
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("professor"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("professores"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -987,7 +999,7 @@ public class ManipularArquivo {
 	public Professor pegarProfessorPorNome(String nome) {
 
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("professor"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("professores"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -1013,11 +1025,11 @@ public class ManipularArquivo {
 	 */
 	
 	public Grade inserirDado(Grade grade) {
-		grade.setId(pegarProximoId("grade"));
+		grade.setId(pegarProximoId("grades"));
 
 		String novosDados = criarStringDados(grade);
 
-		inserirDadosNoArquivo("grade", novosDados);
+		inserirDadosNoArquivo("grades", novosDados);
 		
 		return grade;
 	}
@@ -1025,16 +1037,20 @@ public class ManipularArquivo {
 	public void editarDado(Grade grade) {
 		String novosDados = criarStringDados(grade);
 		
-		editarDadosNoArquivo("grade", grade.getId().toString(), novosDados);
+		editarDadosNoArquivo("grades", grade.getId().toString(), novosDados);
 	}
 
 	public void removerDado(Grade grade) {
-		removerDadosDoArquivo("grade", grade.getId().toString());
+		removerDadosDoArquivo("grades", grade.getId().toString());
+	}
+	
+	public void resetarArquivoGrades() {
+		resetarArquivo("grades");
 	}
 
 	public Grade pegarGradePorId(Integer id) {
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("grade"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("grades"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -1057,7 +1073,7 @@ public class ManipularArquivo {
 	
 	public Grade pegarGradePorChaves(Integer idFase, Integer idDisciplina, Integer idProfessor) {
 		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("grade"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("grades"));
 			lerArq = new BufferedReader(arq);
 
 			String linha = lerArq.readLine();
@@ -1138,7 +1154,7 @@ public class ManipularArquivo {
 
 		try {
 			
-			FileReader arq = new FileReader(pegarDestinoArquivo("grade"));
+			FileReader arq = new FileReader(pegarDestinoArquivo("grades"));
 			
 			BufferedReader lerArq = new BufferedReader(arq);
 
@@ -1244,6 +1260,16 @@ public class ManipularArquivo {
 			arq.close();
 		} catch (IOException e) {
 			System.err.printf("Não foi possível gravar o arquivo: %s.\n", e.getMessage());
+		}
+
+	}
+	
+	private void resetarArquivo(String area) {
+		try {
+			FileWriter arq = new FileWriter(pegarDestinoArquivo(area), false);
+			arq.close();
+		} catch (IOException e) {
+			System.err.printf("Não foi possível resetar o arquivo: %s.\n", e.getMessage());
 		}
 
 	}
@@ -1353,15 +1379,15 @@ public class ManipularArquivo {
 			return new File(CIDADES_PATH).getAbsolutePath();
 		case "alunos":
 			return new File(ALUNOS_PATH).getAbsolutePath();
-		case "curso":
+		case "cursos":
 			return new File(CURSO_PATH).getAbsolutePath();
-		case "fase":
+		case "fases":
 			return new File(FASE_PATH).getAbsolutePath();
-		case "disciplina":
+		case "disciplinas":
 			return new File(DISCIPLINA_PATH).getAbsolutePath();
-		case "professor":
+		case "professores":
 			return new File(PROFESSOR_PATH).getAbsolutePath();
-		case "grade":
+		case "grades":
 			return new File(GRADE_PATH).getAbsolutePath();
 		case "configuracoes":
 			return new File(CONFIGURACOES_PATH).getAbsolutePath();
