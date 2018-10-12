@@ -51,7 +51,7 @@ public class ResumoDisciplina extends ManipuladorRegistro implements RegistroDad
 	
 	public boolean validar(Configuracoes configuracoes) throws DadosInvalidosException {
 		//É esperado que todas as informações do disciplina estejam presentes
-		if (getCodigoDisciplina() == null || getNomeDisciplina() == null || getCodigoDiaSemana() == null || getQtdeProfessoresEsperados() == null) {
+		if (getCodigoDisciplina() == null || getCodigoDiaSemana() == null || getQtdeProfessoresEsperados() == null) {
 			dispararErro("Existe um ou mais dados faltantes do DISCIPLINA");
 		}
 		

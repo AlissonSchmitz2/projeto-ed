@@ -93,8 +93,6 @@ public class Window extends JFrame {
 
 		//Full screen
 		setExtendedState(Frame.MAXIMIZED_BOTH);
-		
-		
 	}
 
 	private String getDateTime() {
@@ -105,7 +103,7 @@ public class Window extends JFrame {
 
 	private void inicializar() {
 		String dataLogin = getDateTime();
-		this.setTitle("Sistema Escolar v0.0.0-1      " + "Usuário Logado: " + usuarioLogado.getLogin() + " ("
+		this.setTitle("Sistema Escolar v2.0.0-betha     " + "Usuário Logado: " + usuarioLogado.getLogin() + " ("
 				+ usuarioLogado.getPerfil() + ")" + " - Último Login: " + dataLogin);
 		this.setJMenuBar(getWindowMenuBar());
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
