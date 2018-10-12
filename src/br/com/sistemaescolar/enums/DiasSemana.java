@@ -4,20 +4,26 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum TitulosDocentes {
-	POS_GRADUACAO("01", "Pós-Graduação"),
+public enum DiasSemana {
+	DOMINGO("01", "Domingo"),
 	
-	MESTRADO("02", "Mestrado"),
+	SEGUNDA("02", "Segunda-Feira"),
 	
-	DOUTORADO("03", "Doutorado"),
+	TERCA("03", "Terça-Feira"),
 	
-	POS_DOUTORADO("04", "Pós-Doutorado");
+	QUARTA("04", "Quarta-Feira"),
+	
+	QUINTA("05", "Quinta-Feira"),
+	
+	SEXTA("06", "Sexta-Feira"),
+	
+	SABADO("07", "Sábado");
 
     private final String code;
     private final String description;
     private static final Map<String, String> mMap = Collections.unmodifiableMap(initializeMapping());
 
-    private TitulosDocentes(String code, String description) {
+    private DiasSemana(String code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -41,7 +47,7 @@ public enum TitulosDocentes {
         return null;
     }
     
-    public static Map<String, String> getTitulosDocentes() {
+    public static Map<String, String> getDiasSemana() {
     	if (mMap == null) {
             initializeMapping();
         }
@@ -51,7 +57,7 @@ public enum TitulosDocentes {
 
     private static Map<String, String> initializeMapping() {
         Map<String, String> mMap = new HashMap<String, String>();
-        for (TitulosDocentes s : TitulosDocentes.values()) {
+        for (DiasSemana s : DiasSemana.values()) {
             mMap.put(s.code, s.description);
         }
         return mMap;
