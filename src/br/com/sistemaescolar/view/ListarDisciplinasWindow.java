@@ -21,21 +21,23 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
-import br.com.sistemaescolar.model.Fase;
+import br.com.sistemaescolar.model.Disciplina;
+import br.com.sistemaescolar.model.Professor;
 import br.com.sistemaescolar.model.Usuario;
-import br.com.sistemaescolar.observer.ObserverFase;
-import br.com.sistemaescolar.table.model.FaseTableModel;
+import br.com.sistemaescolar.observer.ObserverDisciplina;
+import br.com.sistemaescolar.table.model.DisciplinaTableModel;
+import br.com.sistemaescolar.table.model.ProfessorTableModel;
 
-public class ListarFasesWindow extends AbstractGridWindow implements ObserverFase{
-	private static final long serialVersionUID = 1605315384041909269L;
+public class ListarDisciplinasWindow extends AbstractGridWindow implements ObserverDisciplina{
+	private static final long serialVersionUID = -7355210321328497096L;
 
-	ManipularArquivo aM = new ManipularArquivo();
+ManipularArquivo aM = new ManipularArquivo();
 	
 	KeyAdapter acao = new KeyAdapter() {
 		@Override
 		public void keyPressed(java.awt.event.KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				buscarFase();
+				buscarDisciplina();
 			}
 		}
 	};
@@ -51,13 +53,13 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 	private JButton btnLimparBusca;
 	private JLabel labelInformacao;
 	
-	private JTable jTableFases;
-	private FaseTableModel model;
-	private List<Fase> listaFases = new ArrayList<Fase>();
+	private JTable jTableDisciplinas;
+	private DisciplinaTableModel model;
+	private List<Disciplina> listaDisciplinas = new ArrayList<Disciplina>();
 	private JDesktopPane desktop;
 	
-	public ListarFasesWindow(JDesktopPane desktop, Usuario usuarioLogado) {
-		super("Lista de Cursos");
+	public ListarDisciplinasWindow(JDesktopPane desktop, Usuario usuarioLogado) {
+		super("Lista de Disciplinas");
 
 		this.desktop = desktop;
 		this.usuarioLogado = usuarioLogado;
@@ -74,10 +76,10 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 		add(botaoEditar);
 		botaoEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Fase fase = aM.pegarFasePorId(Integer.parseInt(idSelecionado));
+				Disciplina disciplina = aM.pegarDisciplinaPorId(Integer.parseInt(idSelecionado));
 				
-				if (fase instanceof Fase) {
-					abrirEdicaoFase(fase);
+				if (disciplina instanceof Disciplina) {
+					abrirEdicaoDisciplina(disciplina);
 				}
 			}
 		});
@@ -90,22 +92,22 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 		botaoExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
 				
-				Fase fase = aM.pegarFasePorId(Integer.parseInt(idSelecionado));
+				Disciplina disciplina = aM.pegarDisciplinaPorId(Integer.parseInt(idSelecionado));
 				
-				if (fase instanceof Fase) {
+				if (disciplina instanceof Disciplina) {
 					// Remove dado do arquivo
-					aM.removerDado(fase);
+					aM.removerDado(disciplina);
 
 					// Percorre a lista de usuarios e remove o Usuario com ID selecionado
-					listaFases = listaFases.stream().filter(it -> !it.getId().equals(fase.getId()))
+					listaDisciplinas = listaDisciplinas.stream().filter(it -> !it.getId().equals(disciplina.getId()))
 							.collect(Collectors.toList());
 
 					// Reseta a lista e atualiza JTable novamente
 					model.limpar();
-					model.addListaDeFases(listaFases);
+					model.addListaDeDisciplinas(listaDisciplinas);
 
 					// Limpa seleção
-					jTableFases.getSelectionModel().clearSelection();
+					jTableDisciplinas.getSelectionModel().clearSelection();
 
 					// Desabilita botão de ações (uma vez que a linha selecionada anteriormente não
 					// existe, desabilita botões de ação
@@ -129,7 +131,7 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 		getContentPane().add(btnBuscar);
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buscarFase();
+				buscarDisciplina();
 			}
 		});
 		btnBuscar.addKeyListener(acao);
@@ -143,10 +145,10 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 				txfBuscar.setText("");
 				model.limpar();
 				try {
-					listaFases = aM.pegarFases();
-					model.addListaDeFases(listaFases);
+					listaDisciplinas = aM.pegarDisciplinas();
+					model.addListaDeDisciplinas(listaDisciplinas);
 				} catch (Exception e2) {
-					System.err.printf("Erro ao iniciar lista de fases: %s.\n", e2.getMessage());
+					System.err.printf("Erro ao iniciar lista de disciplinas: %s.\n", e2.getMessage());
 				}
 			}
 		});
@@ -159,13 +161,13 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 		});
 	}
 	
-	public void buscarFase() {
+	public void buscarDisciplina() {
 		// Limpa a lista.
 		model.limpar();
 
 		// Lista oque estiver relacionado com a busca.
-		listaFases = aM.pegarFases(txfBuscar.getText());
-		model.addListaDeFases(listaFases);
+		listaDisciplinas = aM.pegarDisciplinas(txfBuscar.getText());
+		model.addListaDeDisciplinas(listaDisciplinas);
 	}
 	
 	private void abrirFrame(AbstractWindowFrame frame) {
@@ -175,32 +177,32 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 	}
 	
 	private void carregarGrid() {
-		model = new FaseTableModel();
-		jTableFases = new JTable(model);
+		model = new DisciplinaTableModel();
+		jTableDisciplinas = new JTable(model);
 
 		// Habilita a seleção por linha
-		jTableFases.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		jTableDisciplinas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		// Ação Seleção de uma linha
-		jTableFases.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		jTableDisciplinas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
 				habilitarBotoesDeAcoes();
 
-				if (jTableFases.getSelectedRow() != -1) {
-					idSelecionado = jTableFases.getValueAt(jTableFases.getSelectedRow(), 0).toString();
+				if (jTableDisciplinas.getSelectedRow() != -1) {
+					idSelecionado = jTableDisciplinas.getValueAt(jTableDisciplinas.getSelectedRow(), 0).toString();
 				}
 			}
 		});
 
 		// Double Click na linha
-		jTableFases.addMouseListener(new MouseAdapter() {
+		jTableDisciplinas.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (usuarioLogado.possuiPerfilAdministrador()) {
-						Fase fase = aM.pegarFasePorId(Integer.parseInt(idSelecionado));
+						Disciplina disciplina = aM.pegarDisciplinaPorId(Integer.parseInt(idSelecionado));
 						
-						if (fase instanceof Fase) {
-							abrirEdicaoFase(fase);
+						if (disciplina instanceof Disciplina) {
+							abrirEdicaoDisciplina(disciplina);
 						}
 					}
 				}
@@ -208,13 +210,13 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 		});
 
 		try {
-			listaFases = aM.pegarFases();
-			model.addListaDeFases(listaFases);		
+			listaDisciplinas = aM.pegarDisciplinas();
+			model.addListaDeDisciplinas(listaDisciplinas);		
 		} catch (Exception e) {
-			System.err.printf("Erro ao iniciar lista de fases: %s.\n", e.getMessage());
+			System.err.printf("Erro ao iniciar lista de disciplinas: %s.\n", e.getMessage());
 		}
 
-		grid = new JScrollPane(jTableFases);
+		grid = new JScrollPane(jTableDisciplinas);
 		setLayout(null);
 		redimensionarGrid(grid);
 		grid.setVisible(true);
@@ -222,8 +224,8 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 		add(grid);
 	}
 	
-	private void abrirEdicaoFase(Fase fase) {
-		CadastrarFasesWindow frame = new CadastrarFasesWindow(fase);
+	private void abrirEdicaoDisciplina(Disciplina disciplina) {
+		CadastrarDisciplinasWindow frame = new CadastrarDisciplinasWindow(disciplina);
 		frame.addObserver(this);
 		abrirFrame(frame);
 	}
@@ -248,10 +250,10 @@ public class ListarFasesWindow extends AbstractGridWindow implements ObserverFas
 	}
 	
 	@Override
-	public void update(Fase fase) {
+	public void update(Disciplina disciplina) {
 		model.limpar();
-		listaFases = aM.pegarFases(txfBuscar.getText());
-		model.addListaDeFases(listaFases);
+		listaDisciplinas = aM.pegarDisciplinas(txfBuscar.getText());
+		model.addListaDeDisciplinas(listaDisciplinas);
 	}
 	
 }

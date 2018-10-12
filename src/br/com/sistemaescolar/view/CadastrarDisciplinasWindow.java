@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,8 +15,12 @@ import javax.swing.JTextField;
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
+import br.com.sistemaescolar.model.Professor;
+import br.com.sistemaescolar.observer.ObserverDisciplina;
+import br.com.sistemaescolar.observer.ObserverProfessor;
+import br.com.sistemaescolar.observer.SubjectDisciplina;
 
-public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
+public class CadastrarDisciplinasWindow extends AbstractWindowFrame implements SubjectDisciplina{
 
 	private static final long serialVersionUID = 4734772377961557461L;
 
@@ -29,14 +35,23 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 	
 	Disciplina disciplina = new Disciplina();
 	
+	private ArrayList<ObserverDisciplina> observers = new ArrayList<ObserverDisciplina>();
 	private JLabel labes;
 	private JButton btnCadastrar, btnLimpar;
 	private JTextField txfDisciplina;
 	private JTextField txfCodDisciplina;
+	private ManipularArquivo aM = new ManipularArquivo();
 	
 	public CadastrarDisciplinasWindow() {
 		super("Cadastrar Disciplina");
 		criarComponentes();
+	}
+	
+	public CadastrarDisciplinasWindow(Disciplina disciplina) {
+		super("Editar Disciplina");
+		this.disciplina = disciplina;
+		criarComponentes();
+		setarValores(disciplina);
 	}
 	
 	public void criarComponentes() {
@@ -97,11 +112,21 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 		disciplina.setCodDisciplina(Integer.parseInt(txfCodDisciplina.getText()));
 		disciplina.setDisciplina(txfDisciplina.getText());
 		
-		ManipularArquivo aM = new ManipularArquivo();
+		if(disciplina.getId() != null) {
+			aM.editarDado(disciplina);
+			
+			notifyObservers(disciplina);
+			JOptionPane.showMessageDialog(null, "Disciplina salva com sucesso!");
+			
+			limparFormulario();
+			setVisible(false);
+		} else {
+		
 		aM.inserirDado(disciplina);
 		
 		JOptionPane.showMessageDialog(null, "Disciplina cadastrada com sucesso!");
 		limparFormulario();
+		}
 	}
 	
 	public boolean validarCamposObrigatorios() {
@@ -117,6 +142,31 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame{
 		txfDisciplina.setText("");
 		txfCodDisciplina.setText("");
 		disciplina = new Disciplina();
+	}
+	
+	private void setarValores(Disciplina disciplina) {
+		// TODO: setar valores iniciais para edição
+		txfCodDisciplina.setText(Integer.toString(disciplina.getCodDisciplina()));
+		txfDisciplina.setText(disciplina.getDisciplina());
+	}
+	
+	@Override
+	public void addObserver(ObserverDisciplina o) {
+		observers.add(o);
+	}
+
+	@Override
+	public void removeObserver(ObserverDisciplina o) {
+		observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers(Disciplina disciplina) {
+		Iterator it = observers.iterator();
+		while (it.hasNext()) {
+			ObserverDisciplina observer = (ObserverDisciplina) it.next();
+			observer.update(disciplina);
+		}
 	}
 	
 }

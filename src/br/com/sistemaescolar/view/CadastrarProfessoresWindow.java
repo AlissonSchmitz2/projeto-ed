@@ -129,7 +129,6 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 			setVisible(false);
 		} else {	
 		
-		ManipularArquivo aM = new ManipularArquivo();
 		aM.inserirDado(professor);
 		
 		JOptionPane.showMessageDialog(null, "Professor cadastrado com sucesso!");

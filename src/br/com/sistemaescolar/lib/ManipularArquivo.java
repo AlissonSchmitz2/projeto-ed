@@ -907,6 +907,35 @@ public class ManipularArquivo {
 
 		return disciplina;
 	}
+	
+
+	public List<Disciplina> pegarDisciplinas(String valorBusca) {
+		List<Disciplina> disciplina = new ArrayList<Disciplina>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("disciplinas"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				
+				if (linha.toLowerCase().contains(valorBusca.toLowerCase())) {
+
+					String[] atributo = linha.split(SEPARATOR);
+
+					disciplina.add(criarDisciplinaApartirAtributos(atributo));
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return disciplina;
+	}
+
 
 	/*
 	 * PROFESSOR
