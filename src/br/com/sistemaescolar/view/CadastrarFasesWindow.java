@@ -6,25 +6,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
-import br.com.sistemaescolar.model.Cidade;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Fase;
+import br.com.sistemaescolar.observer.ObserverFase;
+import br.com.sistemaescolar.observer.SubjectFase;
 
-public class CadastrarFasesWindow extends AbstractWindowFrame {
+public class CadastrarFasesWindow extends AbstractWindowFrame implements SubjectFase{
 
 	private static final long serialVersionUID = -6470064732665196009L;
 
@@ -38,6 +36,7 @@ public class CadastrarFasesWindow extends AbstractWindowFrame {
 	};
 	
 	ManipularArquivo aM = new ManipularArquivo();
+	private ArrayList<ObserverFase> observers = new ArrayList<ObserverFase>();
 	private JLabel labes;
 	private JButton btnSalvar, btnLimpar;
 	private JComboBox<String> cbxCurso, cbxFases;
@@ -47,6 +46,14 @@ public class CadastrarFasesWindow extends AbstractWindowFrame {
 		super("Cadastrar Fase");
 		curso = aM.pegarCursos();
 		criarComponentes();
+	}
+	
+	public CadastrarFasesWindow(Fase fase) {
+		super("Editar Fase");
+		this.fase = fase;
+		curso = aM.pegarCursos();
+		criarComponentes();
+		setarValores(fase);
 	}
 
 	Fase fase = new Fase();
@@ -113,17 +120,29 @@ public class CadastrarFasesWindow extends AbstractWindowFrame {
 					JOptionPane.ERROR_MESSAGE, null);
 			return;
 		}
-
+		
 		Curso c = new Curso();
 		c = aM.pegarCursoPorNome(cbxCurso.getSelectedItem().toString());
 		
 		fase.setFase(cbxFases.getSelectedItem().toString());
 		fase.setIdCurso(c.getId());
 
+		if(fase.getId() != null) {
+		aM.editarDado(fase);
+		
+		notifyObservers(fase);
+		JOptionPane.showMessageDialog(null, "Fase salva com sucesso!");
+		
+		limparFormulario();
+		setVisible(false);
+		
+		}else {
 		aM.inserirDado(fase);
 
 		JOptionPane.showMessageDialog(null, "Fase cadastrada com sucesso!");
+		
 		limparFormulario();
+		}
 	}
 
 	public boolean validarCamposObrigatorios() {
@@ -137,12 +156,42 @@ public class CadastrarFasesWindow extends AbstractWindowFrame {
 
 	public void limparFormulario() {
 		cbxFases.setSelectedIndex(0);
-
+		cbxCurso.setSelectedIndex(0);
+		
 		fase = new Fase();
 	}
 
 	private List<String> opcoesCursos(List<Curso> cursos) {
 		return cursos.stream().map(curso -> curso.getCurso()).distinct().collect(Collectors.toList());
 	}
+	
+	private void setarValores(Fase fase) {
+		// TODO: setar valores iniciais para edição
+		Curso c = new Curso();
+		c = aM.pegarCursoPorId(fase.getIdCurso());
+
+		cbxCurso.setSelectedItem(c.getCurso());
+		cbxFases.setSelectedItem(fase.getFase());
+	}
+	
+	@Override
+	public void addObserver(ObserverFase o) {
+		observers.add(o);
+	}
+
+	@Override
+	public void removeObserver(ObserverFase o) {
+		observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers(Fase fase) {
+		Iterator it = observers.iterator();
+		while (it.hasNext()) {
+			ObserverFase observer = (ObserverFase) it.next();
+			observer.update(fase);
+		}
+	}
+
 
 }
