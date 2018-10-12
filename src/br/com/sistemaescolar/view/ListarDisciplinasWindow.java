@@ -22,11 +22,9 @@ import javax.swing.event.ListSelectionListener;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Disciplina;
-import br.com.sistemaescolar.model.Professor;
 import br.com.sistemaescolar.model.Usuario;
 import br.com.sistemaescolar.observer.ObserverDisciplina;
 import br.com.sistemaescolar.table.model.DisciplinaTableModel;
-import br.com.sistemaescolar.table.model.ProfessorTableModel;
 
 public class ListarDisciplinasWindow extends AbstractGridWindow implements ObserverDisciplina{
 	private static final long serialVersionUID = -7355210321328497096L;

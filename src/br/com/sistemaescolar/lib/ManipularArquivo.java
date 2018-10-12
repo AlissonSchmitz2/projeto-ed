@@ -515,6 +515,10 @@ public class ManipularArquivo {
 	public void removerDado(Curso curso) {
 		removerDadosDoArquivo("cursos", curso.getId().toString());
 	}
+	
+	public void resetarArquivoCursos() {
+		resetarArquivo("cursos");
+	}
 
 	public Curso pegarCursoPorId(Integer id) {
 		try {

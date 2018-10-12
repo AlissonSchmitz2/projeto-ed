@@ -551,7 +551,7 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 
 	@Override
 	public void notifyObservers(Aluno aluno) {
-		Iterator it = observers.iterator();
+		Iterator<ObserverAluno> it = observers.iterator();
 		while (it.hasNext()) {
 			ObserverAluno observer = (ObserverAluno) it.next();
 			observer.update(aluno);

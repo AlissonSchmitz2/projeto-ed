@@ -210,7 +210,7 @@ public class CadastrarCidadesWindow extends AbstractWindowFrame implements Subje
 
 	@Override
 	public void notifyObservers(Cidade cidade) {
-		Iterator it = observers.iterator();
+		Iterator<ObserverCidade> it = observers.iterator();
 		while (it.hasNext()) {
 			ObserverCidade observer = (ObserverCidade) it.next();
 			observer.update(cidade);

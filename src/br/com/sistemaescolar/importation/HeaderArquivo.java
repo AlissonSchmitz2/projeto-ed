@@ -2,7 +2,9 @@ package br.com.sistemaescolar.importation;
 
 import java.util.Date;
 
-public class HeaderArquivo implements RegistroDadosInterface {
+import br.com.sistemaescolar.model.Configuracoes;
+
+public class HeaderArquivo extends ManipuladorRegistro implements RegistroDadoInterface {
 	public static final Integer CODIGO_REGISTRO = 0;
 	private String nomeCurso;
 	private Date dataProcessamento;
@@ -44,14 +46,21 @@ public class HeaderArquivo implements RegistroDadosInterface {
 		return versaoLayout;
 	}
 
-	public boolean validar() throws DadosInvalidosException {
+	public boolean validar(Configuracoes configuracoes) throws DadosInvalidosException {
+		//É esperado que todas as informações do header estejam presentes
 		if (getNomeCurso() == null || getDataProcessamento() == null || getFaseInicial() == null || getFaseFinal() == null || getNumeroSequencial() == null || getVersaoLayout() == null) {
-			//É esperado que todas as informações do header estejam presentes
-			throw new DadosInvalidosException("O HEADER do arquivo é inválido");
+			dispararErro("Existe um ou mais dados faltantes do HEADER do arquivo");
 		}
 		
-		//TODO: validar o sequencial (Deve ser o próximo número imediato ao guardado no controle)]
-		//TODO: validar se a fase inicial é menor ou igual a fase final
+		//Sequêncial deve ser igual ao armazenado nas configurações
+		if (configuracoes.getSequencialImportacao().compareTo(getNumeroSequencial()) != 0) {
+			dispararErro("O número sequência contido no HEADER é inválido: Espera-se que o sequencial seja " + configuracoes.getSequencialImportacao());
+		}
+		
+		//Verifica o valor de fase inicial é válido
+		if (converterFaseParaInteiro(getFaseInicial()).compareTo(converterFaseParaInteiro(getFaseFinal())) == 1) {
+			dispararErro("As fases contidas no HEADER são inválidas: Espera-se que a fase inicial \"" + getFaseInicial() + "\" seja menor ou igual a fase final \"" + getFaseFinal() + "\"");
+		}
 		
 		return true;
 	}

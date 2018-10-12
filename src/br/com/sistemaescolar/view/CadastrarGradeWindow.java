@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
@@ -46,7 +45,6 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	int numRow = 0;
 	private ArrayList<ObserverGrade> observers = new ArrayList<ObserverGrade>();
 	
-	private JTextField txfCod;
 	private JComboBox<String> cbxDisciplina;
 	private JComboBox<String> cbxProfessor;
 	private JButton btnAdd, btnSalvar1;
@@ -341,7 +339,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 
 	@Override
 	public void notifyObservers(Grade grade) {
-		Iterator it = observers.iterator();
+		Iterator<ObserverGrade> it = observers.iterator();
 		while (it.hasNext()) {
 			ObserverGrade observer = (ObserverGrade) it.next();
 			observer.update(grade);

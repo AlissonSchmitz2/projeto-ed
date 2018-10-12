@@ -34,7 +34,6 @@ import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
 import br.com.sistemaescolar.model.Grade;
 import br.com.sistemaescolar.model.Professor;
-import br.com.sistemaescolar.model.Usuario;
 
 public class ImportarWindow extends AbstractWindowFrame{
 	
@@ -56,9 +55,12 @@ public class ImportarWindow extends AbstractWindowFrame{
 	
 	private ManipularArquivo aM = new ManipularArquivo();
 	private ExtracaoDados extracaoDados;
+	Configuracoes configuracoes;
 	
 	public ImportarWindow() {
 		super("Importar Arquivo");
+		
+		configuracoes = aM.pegarConfiguracoes();
 		
 		criarComponentes();
 		iniciarEasterEggResetarArquivos();
@@ -165,49 +167,62 @@ public class ImportarWindow extends AbstractWindowFrame{
 					int dialogButton = JOptionPane.YES_NO_OPTION;
 					
 					//Quer continuar
-					int resultado = JOptionPane.showConfirmDialog (null, "Quer iniciar o processo de resetar arquivos?", "Resetar Arquivos", dialogButton);
+					int resultado = JOptionPane.showConfirmDialog (null, "Gostaria de iniciar o processo de resetar arquivos?", "Resetar Arquivos", dialogButton);
 
 					if (resultado == JOptionPane.YES_OPTION) {
 						//Limpar professores
-						resultado = JOptionPane.showConfirmDialog (null, "Quer resetar o arquivo de PROFESSORES?", "Resetar Arquivos", dialogButton);
+						resultado = JOptionPane.showConfirmDialog (null, "Gostaria de limpar o arquivo de PROFESSORES?", "Resetar Arquivos", dialogButton);
 						
 						if (resultado == JOptionPane.YES_OPTION) {
 							aM.resetarArquivoProfessores();
 						}
 						
 						//Limpar disciplinas
-						resultado = JOptionPane.showConfirmDialog (null, "Quer resetar o arquivo de DISCIPLINAS?", "Resetar Arquivos", dialogButton);
+						resultado = JOptionPane.showConfirmDialog (null, "Gostaria de limpar o arquivo de DISCIPLINAS?", "Resetar Arquivos", dialogButton);
 
 						if (resultado == JOptionPane.YES_OPTION) {
 							aM.resetarArquivoDisciplinas();
 						}
 						
 						//Limpar fases
-						resultado = JOptionPane.showConfirmDialog (null, "Quer resetar o arquivo de FASES?", "Resetar Arquivos", dialogButton);
+						resultado = JOptionPane.showConfirmDialog (null, "Gostaria de limpar o arquivo de FASES?", "Resetar Arquivos", dialogButton);
 
 						if (resultado == JOptionPane.YES_OPTION) {
 							aM.resetarArquivoFases();
 						}
 						
+						//Limpar cursos
+						resultado = JOptionPane.showConfirmDialog (null, "Gostaria de limpar o arquivo de CURSOS?", "Resetar Arquivos", dialogButton);
+
+						if (resultado == JOptionPane.YES_OPTION) {
+							aM.resetarArquivoCursos();
+						}
+						
 						//Limpar grades
-						resultado = JOptionPane.showConfirmDialog (null, "Quer resetar o arquivo de GRADES?", "Resetar Arquivos", dialogButton);
+						resultado = JOptionPane.showConfirmDialog (null, "Gostaria de limpar o arquivo de GRADES?", "Resetar Arquivos", dialogButton);
 
 						if (resultado == JOptionPane.YES_OPTION) {
 							aM.resetarArquivoGrades();
 						}
 						
 						//Zerar sequencial de importação
-						resultado = JOptionPane.showConfirmDialog (null, "Quer zerar o número sequencial de importação?", "Resetar Arquivos", dialogButton);
+						resultado = JOptionPane.showConfirmDialog (null, "Gostaria de inicializar o número sequencial de importação?", "Resetar Arquivos", dialogButton);
 
 						if (resultado == JOptionPane.YES_OPTION) {
-							Configuracoes configuracoes = aM.pegarConfiguracoes();
-							configuracoes.setSequencialImportacao(0);
+							configuracoes.setSequencialImportacao(1);
 							
 							aM.atualizarConfiguracoes(configuracoes);
 						}
 						
+						//Recadastrar o cadastro de disciplinas
+						resultado = JOptionPane.showConfirmDialog (null, "Gostaria de recadastrar todas as disciplinas?", "Resetar Arquivos", dialogButton);
+
+						if (resultado == JOptionPane.YES_OPTION) {
+							
+						}
+						
 						//Conclusão
-						JOptionPane.showMessageDialog(rootPane, "Processo concluído", "Resetar Arquivos", JOptionPane.WARNING_MESSAGE, null);
+						JOptionPane.showMessageDialog(rootPane, "Processo finaizado", "Resetar Arquivos", JOptionPane.WARNING_MESSAGE, null);
 					}
 				}
 			}
@@ -294,7 +309,6 @@ public class ImportarWindow extends AbstractWindowFrame{
 						}
 						
 						//Incrementa controle de importação
-						Configuracoes configuracoes = aM.pegarConfiguracoes();
 						configuracoes.incrementarSequencialImportacao();
 						aM.atualizarConfiguracoes(configuracoes);
 						
@@ -329,7 +343,7 @@ public class ImportarWindow extends AbstractWindowFrame{
 					txfImportacao.setText(arquivoSelecionado);
 					
 					try {
-						extracaoDados = new ExtracaoDados(arquivoSelecionado);
+						extracaoDados = new ExtracaoDados(arquivoSelecionado, aM.pegarConfiguracoes());
 						
 						//Seta as informações nos components da tela
 						DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -356,11 +370,9 @@ public class ImportarWindow extends AbstractWindowFrame{
 						
 						extracaoDados = null;
 						
-						JOptionPane.showMessageDialog(rootPane, "Erro ao extrar dados: " + erro.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
+						JOptionPane.showMessageDialog(rootPane, "Erro ao extrair dados: " + erro.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
 					}
 				} else {
-					//TODO: Limpar todos os valores dos componentes e desabilitar botão de processamento da importação
-					
 					txfImportacao.setBackground(Color.getHSBColor((float)100, (float)0.29, (float)1));
 					
 					extracaoDados = null;

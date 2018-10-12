@@ -9,9 +9,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
+import br.com.sistemaescolar.model.Configuracoes;
 
-public class ExtracaoDados {
+public class ExtracaoDados extends ManipuladorRegistro {
 	private String caminhoArquivo;
+	private Configuracoes configuracoes;
 	
 	private HeaderArquivo header;
 	private TrailerArquivo trailer;
@@ -21,8 +23,9 @@ public class ExtracaoDados {
 	
 	private Map<String, String> disciplinasCadastradas = new HashMap<String, String>();
 	
-	public ExtracaoDados(String caminhoArquivo) throws Exception {
+	public ExtracaoDados(String caminhoArquivo, Configuracoes configuracoes) throws Exception {
 		this.caminhoArquivo = caminhoArquivo;
+		this.configuracoes = configuracoes;
 		
 		carregarDisciplinasCadastradas();
 		processarArquivoDados();
@@ -98,19 +101,27 @@ public class ExtracaoDados {
 	 */
 	private void validarArquivo() throws Exception {
 		//Valida Header
-		header.validar();
+		header.validar(configuracoes);
 		
 		//Valida Trailer
-		trailer.validar();
+		trailer.validar(configuracoes);
 		
-		//Valida cada um dos resumos de fase
+		//Itera sobre cada um dos resumo fase
+		Integer totalRegistros = resumos.size();
 		for (ResumoFase resumoFase : resumos.values()){
-			resumoFase.validar();
+			//Valida cada um dos resumos de fase
+			resumoFase.validar(configuracoes);
+			
+			totalRegistros += resumoFase.getQtdeDisciplinasEsperadas() + resumoFase.getQtdeProfessoresEsperados();
+		}
+		
+		//É esperado que a quantidade de registros informada no TRAILER	seja a mesma quantidade extraída
+		if (trailer.getTotalRegistros().compareTo(totalRegistros) != 0) {
+			dispararErro("A quantidade de registros no arquivo \"" + totalRegistros + "\" é "
+					+ "diferente da informada no TRAILER \"" + trailer.getTotalRegistros() +"\"");
 		}
 		
 		//Neste método ficam as validações globais do arquivo (Aquelas que não são feitas nos registros individualmente)
-		
-		//TODO: validar se o total de resumos presentes é igual ao total de registro informado no trailer
 	}
 	
 	/**
@@ -168,6 +179,11 @@ public class ExtracaoDados {
 						}
 						
 						ultimoResumoDisciplina.inserirProfessor(criarObjetoResumoProfessor(linha));
+					} else if (tipoRegistro.equals(HeaderArquivo.CODIGO_REGISTRO) || tipoRegistro.equals(TrailerArquivo.CODIGO_REGISTRO)) {
+						//Somente para validação
+					} else {
+						bufferArquivo.close();
+						throw new Exception("Foi encontrado um tipo de registro inválido.");
 					}
 				}
 				
@@ -178,8 +194,10 @@ public class ExtracaoDados {
 			
 			return resumosExtraidos;
 		} catch(Exception error) {
-			throw new DadosInvalidosException("RESUMO é inválido. " + error.getMessage() + " - Linha " + iLinha);
+			dispararErro("RESUMO é inválido. " + error.getMessage() + " - Linha " + iLinha);
 		}
+		
+		return null;
 	}
 	
 	/**
@@ -190,14 +208,18 @@ public class ExtracaoDados {
 			BufferedReader bufferArquivo = new BufferedReader(new FileReader(caminhoArquivo));
 	
 			String linha = bufferArquivo.readLine();
+			String linhaDadosEncontrada = null;
 			
 			while (linha != null) {
 				if (!linha.isEmpty()) {
 					Integer tipoRegistro = Integer.parseInt(linha.substring(0, 1));
 					
 					if (tipoRegistro.equals(HeaderArquivo.CODIGO_REGISTRO)) {
-						bufferArquivo.close();
-						return criarObjetoHeaderArquivo(linha);
+						if (linhaDadosEncontrada != null) {
+							dispararErro("O arquivo possui dois ou mais HEADERs");
+						}
+						
+						linhaDadosEncontrada = linha;
 					}
 				}
 				
@@ -205,11 +227,17 @@ public class ExtracaoDados {
 			}
 			
 			bufferArquivo.close();
+			
+			if (linhaDadosEncontrada != null) {
+				return criarObjetoHeaderArquivo(linhaDadosEncontrada);
+			}
 		} catch(Exception error) {
-			throw new DadosInvalidosException("HEADER é inválido: " + error.getMessage());
+			dispararErro("HEADER é inválido: " + error.getMessage());
 		}
 		
-		throw new DadosInvalidosException("O arquivo não possui um HEADER");
+		dispararErro("O arquivo não possui um HEADER");
+		
+		return null;
 	}
 	
 	/**
@@ -220,14 +248,18 @@ public class ExtracaoDados {
 			BufferedReader bufferArquivo = new BufferedReader(new FileReader(caminhoArquivo));
 
 			String linha = bufferArquivo.readLine();
+			String linhaDadosEncontrada = null;
 			
 			while (linha != null) {
 				if (!linha.isEmpty()) {
 					Integer tipoRegistro = Integer.parseInt(linha.substring(0, 1));
 					
 					if (tipoRegistro.equals(TrailerArquivo.CODIGO_REGISTRO)) {
-						bufferArquivo.close();
-						return criarObjetoTrailerArquivo(linha);
+						if (linhaDadosEncontrada != null) {
+							dispararErro("O arquivo possui dois ou mais TRAILERs");
+						}
+						
+						linhaDadosEncontrada = linha;
 					}
 				}
 				
@@ -235,11 +267,17 @@ public class ExtracaoDados {
 			}
 			
 			bufferArquivo.close();
+			
+			if (linhaDadosEncontrada != null) {
+				return criarObjetoTrailerArquivo(linhaDadosEncontrada);
+			}
 		} catch(Exception error) {
-			throw new DadosInvalidosException("TRAILER é inválido: " + error.getMessage());
+			dispararErro("TRAILER é inválido: " + error.getMessage());
 		}
 		
-		throw new DadosInvalidosException("O arquivo não possui um TRAILER");
+		dispararErro("O arquivo não possui um TRAILER");
+		
+		return null;
 	}
 	
 	/**
@@ -252,7 +290,7 @@ public class ExtracaoDados {
 		Integer qtdeProfessores = Integer.parseInt(linha.substring(10, 12));
 		
 		if (!tipoRegistro.equals(ResumoFase.CODIGO_REGISTRO)) {
-			throw new DadosInvalidosException("A linha informada não pertence a um Resumo de Fase");
+			dispararErro("A linha informada não pertence a um Resumo de Fase");
 		}
 
 		return new ResumoFase(fase, qtdeDisciplinas, qtdeProfessores);
@@ -268,7 +306,7 @@ public class ExtracaoDados {
 		Integer qtdeProfessores = Integer.parseInt(linha.substring(9, 11));
 		
 		if (!tipoRegistro.equals(ResumoDisciplina.CODIGO_REGISTRO)) {
-			throw new DadosInvalidosException("A linha informada não pertence a um Resumo de Disciplina");
+			dispararErro("A linha informada não pertence a um Resumo de Disciplina");
 		}
 
 		return new ResumoDisciplina(codigoDisciplina, disciplinasCadastradas.get(codigoDisciplina), codigoDiaSemana, qtdeProfessores);
@@ -283,7 +321,7 @@ public class ExtracaoDados {
 		String codigoTitulo = linha.substring(41, 43);
 		
 		if (!tipoRegistro.equals(ResumoProfessor.CODIGO_REGISTRO)) {
-			throw new DadosInvalidosException("A linha informada não pertence a um Resumo de Professor");
+			dispararErro("A linha informada não pertence a um Resumo de Professor");
 		}
 
 		return new ResumoProfessor(nome, codigoTitulo);
@@ -303,7 +341,7 @@ public class ExtracaoDados {
 		String versaoLayout = linha.substring(40, 43);
 		
 		if (!tipoRegistro.equals(HeaderArquivo.CODIGO_REGISTRO)) {
-			throw new DadosInvalidosException("A linha informada não pertence ao Header do Arquivo");
+			dispararErro("A linha informada não pertence ao Header do Arquivo");
 		}
 		
 		return new HeaderArquivo(nomeCurso, dataProcessamento, faseInicial, faseFinal, numeroSequencial, versaoLayout);
@@ -317,7 +355,7 @@ public class ExtracaoDados {
 		Integer totalRegistros = Integer.parseInt(linha.substring(1, 11));
 		
 		if (!tipoRegistro.equals(TrailerArquivo.CODIGO_REGISTRO)) {
-			throw new DadosInvalidosException("A linha informada não pertence ao Trailer do Arquivo");
+			dispararErro("A linha informada não pertence ao Trailer do Arquivo");
 		}
 		
 		return new TrailerArquivo(totalRegistros);

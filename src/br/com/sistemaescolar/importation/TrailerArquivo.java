@@ -1,6 +1,8 @@
 package br.com.sistemaescolar.importation;
 
-public class TrailerArquivo implements RegistroDadosInterface {
+import br.com.sistemaescolar.model.Configuracoes;
+
+public class TrailerArquivo extends ManipuladorRegistro implements RegistroDadoInterface {
 	public static final Integer CODIGO_REGISTRO = 9;
 	private Integer totalRegistros;
 	
@@ -12,10 +14,10 @@ public class TrailerArquivo implements RegistroDadosInterface {
 		return totalRegistros;
 	}
 
-	public boolean validar() throws DadosInvalidosException {
+	public boolean validar(Configuracoes configuracoes) throws DadosInvalidosException {
 		if (getTotalRegistros() == null) {
 			//É esperado que total de registro esteja presente no trailer
-			throw new DadosInvalidosException("O TRAILER do arquivo é inválido");
+			dispararErro("O total de registro não está presente no TRAILER");
 		}
 		
 		return true;

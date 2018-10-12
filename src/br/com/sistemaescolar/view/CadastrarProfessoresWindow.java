@@ -169,7 +169,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 
 	@Override
 	public void notifyObservers(Professor professor) {
-		Iterator it = observers.iterator();
+		Iterator<ObserverProfessor> it = observers.iterator();
 		while (it.hasNext()) {
 			ObserverProfessor observer = (ObserverProfessor) it.next();
 			observer.update(professor);

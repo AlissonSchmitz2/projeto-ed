@@ -13,11 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
-import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
-import br.com.sistemaescolar.model.Professor;
 import br.com.sistemaescolar.observer.ObserverDisciplina;
-import br.com.sistemaescolar.observer.ObserverProfessor;
 import br.com.sistemaescolar.observer.SubjectDisciplina;
 
 public class CadastrarDisciplinasWindow extends AbstractWindowFrame implements SubjectDisciplina{
@@ -162,7 +159,7 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame implements S
 
 	@Override
 	public void notifyObservers(Disciplina disciplina) {
-		Iterator it = observers.iterator();
+		Iterator<ObserverDisciplina> it = observers.iterator();
 		while (it.hasNext()) {
 			ObserverDisciplina observer = (ObserverDisciplina) it.next();
 			observer.update(disciplina);

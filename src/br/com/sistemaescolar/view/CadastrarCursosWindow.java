@@ -6,7 +6,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -15,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
-import br.com.sistemaescolar.model.Aluno;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.observer.ObserverCursos;
 import br.com.sistemaescolar.observer.SubjectCursos;
@@ -150,7 +148,7 @@ public class CadastrarCursosWindow extends AbstractWindowFrame implements Subjec
 
 	@Override
 	public void notifyObservers(Curso cursos) {
-		Iterator it = observers.iterator();
+		Iterator<ObserverCursos> it = observers.iterator();
 		while (it.hasNext()) {
 			ObserverCursos observer = (ObserverCursos) it.next();
 			observer.update(cursos);

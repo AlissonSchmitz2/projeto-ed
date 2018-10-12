@@ -186,7 +186,7 @@ public class CadastrarFasesWindow extends AbstractWindowFrame implements Subject
 
 	@Override
 	public void notifyObservers(Fase fase) {
-		Iterator it = observers.iterator();
+		Iterator<ObserverFase> it = observers.iterator();
 		while (it.hasNext()) {
 			ObserverFase observer = (ObserverFase) it.next();
 			observer.update(fase);

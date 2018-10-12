@@ -3,7 +3,9 @@ package br.com.sistemaescolar.importation;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResumoDisciplina implements RegistroDadosInterface {
+import br.com.sistemaescolar.model.Configuracoes;
+
+public class ResumoDisciplina extends ManipuladorRegistro implements RegistroDadoInterface {
 	public static final Integer CODIGO_REGISTRO = 2;
 	private String codigoDisciplina;
 	private String nomeDisciplina;
@@ -47,7 +49,18 @@ public class ResumoDisciplina implements RegistroDadosInterface {
 		return professoresParaImportar;
 	}
 	
-	public boolean validar() throws DadosInvalidosException {
+	public boolean validar(Configuracoes configuracoes) throws DadosInvalidosException {
+		//É esperado que todas as informações do disciplina estejam presentes
+		if (getCodigoDisciplina() == null || getNomeDisciplina() == null || getCodigoDiaSemana() == null || getQtdeProfessoresEsperados() == null) {
+			dispararErro("Existe um ou mais dados faltantes do DISCIPLINA");
+		}
+		
+		//Espera-se que a quantidade de disciplinas extraída é a mesma informada no arquivo
+		if (getQtdeProfessoresEsperados().compareTo(getProfessores().size()) != 0) {
+			dispararErro("A quantidade de professores esperados \"" + getQtdeProfessoresEsperados() + "\" para a disciplina " + getCodigoDisciplina() + " é "
+					+ "diferente da quantidade encontrada \"" + getProfessores().size() +"\"");
+		}
+				
 		return true;
 	}
 	

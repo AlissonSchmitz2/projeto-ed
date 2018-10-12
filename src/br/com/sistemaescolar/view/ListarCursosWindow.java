@@ -21,7 +21,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
-import br.com.sistemaescolar.model.Aluno;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Usuario;
 import br.com.sistemaescolar.observer.ObserverCursos;
