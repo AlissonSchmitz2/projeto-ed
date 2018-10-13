@@ -65,6 +65,6 @@ public class ResumoDisciplina extends ManipuladorRegistro implements RegistroDad
 	}
 	
 	public String toString() {
-		return codigoDisciplina + " - " + (nomeDisciplina != null ? nomeDisciplina : "Não cadastro");
+		return codigoDisciplina + " - " + (nomeDisciplina != null ? nomeDisciplina : "Não cadastrado");
 	}
 }
