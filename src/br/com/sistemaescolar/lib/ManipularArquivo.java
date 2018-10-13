@@ -1141,11 +1141,11 @@ public class ManipularArquivo {
 	}
 
 	public void removerDado(Grade grade) {
-		//Remove Itens
-		grade.getItens().stream().forEach(gradeItem -> removerDadosDoArquivo("grades_itens", gradeItem.getId().toString()));
-		
 		//Remove a grade
 		removerDadosDoArquivo("grades", grade.getId().toString());
+				
+		//Remove Itens
+		grade.getItens().stream().forEach(gradeItem -> removerDadosDoArquivo("grades_itens", gradeItem.getId().toString()));
 	}
 	
 	public void resetarArquivoGrades() {
@@ -1456,7 +1456,7 @@ public class ManipularArquivo {
 				}
 
 				inputBuffer.append(linha);
-				inputBuffer.append('\n');
+				inputBuffer.append(System.getProperty("line.separator"));
 
 				linha = lerArq.readLine();
 			}
@@ -1488,7 +1488,7 @@ public class ManipularArquivo {
 				// posteriormente
 				if (!id.equals(atributo[0])) {
 					inputBuffer.append(linha);
-					inputBuffer.append('\n');
+					inputBuffer.append(System.getProperty("line.separator"));
 				}
 
 				linha = lerArq.readLine();

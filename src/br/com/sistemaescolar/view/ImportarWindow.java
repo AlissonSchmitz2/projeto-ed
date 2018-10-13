@@ -304,7 +304,7 @@ public class ImportarWindow extends AbstractWindowFrame{
 									}
 								}
 							
-							//Se não existir a fase, existe a necessidade de verificar se a grade já existe
+							//Se não existir a fase, não existe a necessidade de verificar se a grade já existe
 							} else {
 								Fase novaFase = new Fase();
 								novaFase.setNome(resumoFase.getFase().trim());
