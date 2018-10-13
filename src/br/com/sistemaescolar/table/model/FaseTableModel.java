@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import br.com.sistemaescolar.lib.ManipularArquivo;
-import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Fase;
 
 public class FaseTableModel extends AbstractTableModel{
@@ -14,7 +12,6 @@ public class FaseTableModel extends AbstractTableModel{
 
 	private List<Fase> fases;
 	private String[] colunas = new String[] { "ID", "Curso", "Fase" };
-	private ManipularArquivo aM = new ManipularArquivo();
 	
 	public FaseTableModel (List<Fase> fases) {
 		this.fases = fases;
@@ -44,12 +41,8 @@ public class FaseTableModel extends AbstractTableModel{
 		Fase fase = fases.get(rowIndex);
 
 		fase.setId(aValue.getId());
-		fase.setIdCurso(aValue.getIdCurso());
-		fase.setFase(aValue.getFase());
 
 		fireTableCellUpdated(rowIndex, 0);
-		fireTableCellUpdated(rowIndex, 1);
-		fireTableCellUpdated(rowIndex, 2);
 	}
 	
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -58,10 +51,6 @@ public class FaseTableModel extends AbstractTableModel{
 		switch (columnIndex) {
 		case 0:
 			fase.setId(Integer.parseInt(aValue.toString()));
-		case 1:
-			fase.setIdCurso(Integer.parseInt(aValue.toString()));
-		case 2:
-			fase.setFase(aValue.toString());
 
 		default:
 			System.err.println("Índice da coluna inválido");
@@ -72,8 +61,6 @@ public class FaseTableModel extends AbstractTableModel{
 	
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Fase faseSelecionada = fases.get(rowIndex);
-		Curso c = new Curso();
-		c = aM.pegarCursoPorId(faseSelecionada.getIdCurso());
 		
 		String valueObject = null;
 		
@@ -82,10 +69,10 @@ public class FaseTableModel extends AbstractTableModel{
 			valueObject = faseSelecionada.getId().toString();
 			break;
 		case 1:
-			valueObject = c.getCurso();
+			valueObject = faseSelecionada.getCurso().getNome();
 			break;
 		case 2:
-			valueObject = faseSelecionada.getFase();
+			valueObject = faseSelecionada.getNome();
 			break;
 		default:
 			System.err.println("Índice inválido para propriedade do bean Professor.class");

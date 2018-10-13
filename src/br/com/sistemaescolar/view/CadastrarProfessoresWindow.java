@@ -116,7 +116,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 			return;
 		}
 		
-		professor.setProfessor(txfProf.getText());
+		professor.setNome(txfProf.getText());
 		professor.setTituloDocente(cbxTitulo.getSelectedItem().toString());
 		
 		if(professor.getId() != null) {
@@ -153,7 +153,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 	
 	private void setarValores(Professor professor) {
 		// TODO: setar valores iniciais para edição
-		txfProf.setText(professor.getProfessor());
+		txfProf.setText(professor.getNome());
 		cbxTitulo.setSelectedItem(professor.getTituloDocente());
 	}
 	

@@ -42,7 +42,7 @@ public class DisciplinaTableModel extends AbstractTableModel{
 
 		disciplina.setId(aValue.getId());
 		disciplina.setCodDisciplina(aValue.getCodDisciplina());
-		disciplina.setDisciplina(aValue.getDisciplina());
+		disciplina.setNome(aValue.getNome());
 
 		fireTableCellUpdated(rowIndex, 0);
 		fireTableCellUpdated(rowIndex, 1);
@@ -58,7 +58,7 @@ public class DisciplinaTableModel extends AbstractTableModel{
 		case 1:
 			disciplina.setCodDisciplina(Integer.parseInt(aValue.toString()));
 		case 2:
-			disciplina.setDisciplina(aValue.toString());
+			disciplina.setNome(aValue.toString());
 
 		default:
 			System.err.println("Índice da coluna inválido");
@@ -79,7 +79,7 @@ public class DisciplinaTableModel extends AbstractTableModel{
 			valueObject = Integer.toString(disciplinaSelecionada.getCodDisciplina());
 			break;
 		case 2:
-			valueObject = disciplinaSelecionada.getDisciplina();
+			valueObject = disciplinaSelecionada.getNome();
 			break;
 		default:
 			System.err.println("Índice inválido para propriedade do bean Disciplina.class");

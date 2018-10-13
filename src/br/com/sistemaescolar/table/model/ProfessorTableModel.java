@@ -41,7 +41,7 @@ public class ProfessorTableModel extends AbstractTableModel {
 		Professor professor = professores.get(rowIndex);
 
 		professor.setId(aValue.getId());
-		professor.setProfessor(aValue.getProfessor());
+		professor.setNome(aValue.getNome());
 		professor.setTituloDocente(aValue.getTituloDocente());
 
 		fireTableCellUpdated(rowIndex, 0);
@@ -56,7 +56,7 @@ public class ProfessorTableModel extends AbstractTableModel {
 		case 0:
 			professor.setId(Integer.parseInt(aValue.toString()));
 		case 1:
-			professor.setProfessor(aValue.toString());
+			professor.setNome(aValue.toString());
 		case 2:
 			professor.setTituloDocente(aValue.toString());
 
@@ -76,7 +76,7 @@ public class ProfessorTableModel extends AbstractTableModel {
 			valueObject = professorSelecionado.getId().toString();
 			break;
 		case 1:
-			valueObject = professorSelecionado.getProfessor();
+			valueObject = professorSelecionado.getNome();
 			break;
 		case 2:
 			valueObject = professorSelecionado.getTituloDocente();

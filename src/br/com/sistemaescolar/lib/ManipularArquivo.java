@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import br.com.sistemaescolar.model.Aluno;
 import br.com.sistemaescolar.model.Cidade;
@@ -19,6 +21,7 @@ import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
 import br.com.sistemaescolar.model.Grade;
+import br.com.sistemaescolar.model.GradeItem;
 import br.com.sistemaescolar.model.Professor;
 import br.com.sistemaescolar.model.Usuario;
 
@@ -32,6 +35,7 @@ public class ManipularArquivo {
 	private static String DISCIPLINA_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\disciplina.txt";
 	private static String PROFESSOR_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\professor.txt";
 	private static String GRADE_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\grade.txt";
+	private static String GRADE_ITEMS_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\grade-itens.txt";
 	private static String CONFIGURACOES_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\configuracoes.txt";
 
 	private static String SEPARATOR = ";;;";
@@ -546,14 +550,14 @@ public class ManipularArquivo {
 	}
 
 	private String criarStringDados(Curso curso) {
-		return curso.getId() + SEPARATOR + curso.getCurso();
+		return curso.getId() + SEPARATOR + curso.getNome();
 	}
 
 	private Curso criarCursoApartirAtributos(String[] atributo) {
 		Curso novoCurso = new Curso();
 
 		novoCurso.setId(Integer.parseInt(atributo[0]));
-		novoCurso.setCurso(atributo[1]);
+		novoCurso.setNome(atributo[1]);
 
 		return novoCurso;
 	}
@@ -675,7 +679,11 @@ public class ManipularArquivo {
 				String[] atributo = linha.split(SEPARATOR);
 
 				if (id.toString().equals(atributo[0])) {
-					return criarFaseApartirAtributos(atributo);
+					Fase fase = criarFaseApartirAtributos(atributo);
+					
+					fase.setCurso(pegarCursoPorId(fase.getCurso().getId()));
+					
+					return fase;
 				}
 
 				linha = lerArq.readLine();
@@ -688,7 +696,7 @@ public class ManipularArquivo {
 		return null;
 	}
 
-	public Fase pegarFasePorFaseCurso(String fase, Integer curso) {
+	public Fase pegarFasePorNomeFaseIdCurso(String nomeFase, Integer idCurso) {
 
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("fases"));
@@ -697,11 +705,14 @@ public class ManipularArquivo {
 			String linha = lerArq.readLine();
 
 			while (linha != null) {
-				String[] verificaLinha = linha.split(SEPARATOR);
+				String[] atributo = linha.split(SEPARATOR);
 
-				if (fase.equals(verificaLinha[1]) && curso.equals(Integer.parseInt(verificaLinha[2]))) {
-					return new Fase(Integer.parseInt(verificaLinha[0]), verificaLinha[1],
-							Integer.parseInt(verificaLinha[2]));
+				if (nomeFase.equals(atributo[1]) && idCurso.equals(Integer.parseInt(atributo[2]))) {
+					Fase fase = criarFaseApartirAtributos(atributo);
+					
+					fase.setCurso(pegarCursoPorId(fase.getCurso().getId()));
+					
+					return fase;
 				}
 
 				linha = lerArq.readLine();
@@ -714,21 +725,24 @@ public class ManipularArquivo {
 	}
 
 	private String criarStringDados(Fase fase) {
-		return fase.getId() + SEPARATOR + fase.getFase() + SEPARATOR + fase.getIdCurso();
+		return fase.getId() + SEPARATOR + fase.getNome() + SEPARATOR + fase.getCurso().getId();
 	}
 
 	private Fase criarFaseApartirAtributos(String[] atributo) {
 		Fase novaFase = new Fase();
 
 		novaFase.setId(Integer.parseInt(atributo[0]));
-		novaFase.setFase(atributo[1]);
-		novaFase.setIdCurso(Integer.parseInt(atributo[2]));
+		novaFase.setNome(atributo[1]);
+		
+		Curso curso = new Curso();
+		curso.setId(Integer.parseInt(atributo[2]));
+		novaFase.setCurso(curso);
 
 		return novaFase;
 	}
 
 	public List<Fase> pegarFases() {
-		List<Fase> fase = new ArrayList<Fase>();
+		List<Fase> fases = new ArrayList<Fase>();
 
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("fases"));
@@ -739,42 +753,26 @@ public class ManipularArquivo {
 			while (linha != null) {
 				String[] atributo = linha.split(SEPARATOR);
 
-				fase.add(criarFaseApartirAtributos(atributo));
+				fases.add(criarFaseApartirAtributos(atributo));
 
 				linha = lerArq.readLine();
 			}
 		} catch (IOException e) {
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
+		
+		//Carrega model Curso a listagem
+		fases.stream().forEach(fase -> fase.setCurso(pegarCursoPorId(fase.getCurso().getId())));
 
-		return fase;
+		return fases;
 	}
 	
 	public List<Fase> pegarFases(String valorBusca) {
-		List<Fase> fase = new ArrayList<Fase>();
+		List<Fase> fasesFiltradas = pegarFases().stream()
+			.filter(fase -> fase.getNome().toLowerCase().contains(valorBusca.toLowerCase()) || fase.getCurso().getNome().toLowerCase().contains(valorBusca.toLowerCase()))
+			.collect(Collectors.toList());
 
-		try {
-			FileReader arq = new FileReader(pegarDestinoArquivo("fases"));
-			lerArq = new BufferedReader(arq);
-
-			String linha = lerArq.readLine();
-
-			while (linha != null) {
-				
-				if (linha.toLowerCase().contains(valorBusca.toLowerCase())) {
-
-					String[] atributo = linha.split(SEPARATOR);
-
-					fase.add(criarFaseApartirAtributos(atributo));
-				}
-
-				linha = lerArq.readLine();
-			}
-		} catch (IOException e) {
-			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
-		}
-
-		return fase;
+		return fasesFiltradas;
 	}
 
 	/*
@@ -853,7 +851,7 @@ public class ManipularArquivo {
 
 	private String criarStringDados(Disciplina disciplina) {
 		return disciplina.getId() + SEPARATOR + disciplina.getCodDisciplina() + 
-				SEPARATOR + disciplina.getDisciplina();
+				SEPARATOR + disciplina.getNome();
 	}
 
 	private Disciplina criarDisciplinaApartirAtributos(String[] atributo) {
@@ -861,7 +859,7 @@ public class ManipularArquivo {
 
 		novaDisciplina.setId(Integer.parseInt(atributo[0]));
 		novaDisciplina.setCodDisciplina(Integer.parseInt(atributo[1]));
-		novaDisciplina.setDisciplina(atributo[2]);
+		novaDisciplina.setNome(atributo[2]);
 
 		return novaDisciplina;
 	}
@@ -964,7 +962,7 @@ public class ManipularArquivo {
 		for (Entry<String, String> dados : disciplinasParaCadastrar.entrySet()) {
 			Disciplina novaDisciplina = new Disciplina();
 			novaDisciplina.setCodDisciplina(Integer.parseInt(dados.getKey()));
-			novaDisciplina.setDisciplina(dados.getValue());
+			novaDisciplina.setNome(dados.getValue());
 			
 			inserirDado(novaDisciplina);
 		}
@@ -1023,14 +1021,14 @@ public class ManipularArquivo {
 	}
 
 	private String criarStringDados(Professor prof) {
-		return prof.getId() + SEPARATOR + prof.getProfessor() + SEPARATOR + (prof.getTituloDocente() != null ? prof.getTituloDocente() : "-----");
+		return prof.getId() + SEPARATOR + prof.getNome() + SEPARATOR + (prof.getTituloDocente() != null ? prof.getTituloDocente() : "-----");
 	}
 
 	private Professor criarProfessorApartirAtributos(String[] atributo) {
 		Professor novoProf = new Professor();
 
 		novoProf.setId(Integer.parseInt(atributo[0]));
-		novoProf.setProfessor(atributo[1]);
+		novoProf.setNome(atributo[1]);
 		novoProf.setTituloDocente(atributo[2]);
 
 		return novoProf;
@@ -1119,9 +1117,21 @@ public class ManipularArquivo {
 
 		String novosDados = criarStringDados(grade);
 
-		inserirDadosNoArquivo("grades", novosDados);
+		if (inserirDadosNoArquivo("grades", novosDados)) {
+			grade.getItens().stream().forEach(item -> { item.setGrade(grade); inserirDado(item); });
+		}
 		
 		return grade;
+	}
+	
+	public GradeItem inserirDado(GradeItem gradeItem) {
+		gradeItem.setId(pegarProximoId("grades_itens"));
+
+		String novosDados = criarStringDados(gradeItem);
+
+		inserirDadosNoArquivo("grades_itens", novosDados);
+		
+		return gradeItem;
 	}
 
 	public void editarDado(Grade grade) {
@@ -1131,14 +1141,19 @@ public class ManipularArquivo {
 	}
 
 	public void removerDado(Grade grade) {
+		//Remove Itens
+		grade.getItens().stream().forEach(gradeItem -> removerDadosDoArquivo("grades_itens", gradeItem.getId().toString()));
+		
+		//Remove a grade
 		removerDadosDoArquivo("grades", grade.getId().toString());
 	}
 	
 	public void resetarArquivoGrades() {
 		resetarArquivo("grades");
+		resetarArquivo("grades_itens");
 	}
 
-	public Grade pegarGradePorId(Integer id) {
+	public Grade pegarGradePorId(Integer id, boolean incluirItems) {
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("grades"));
 			lerArq = new BufferedReader(arq);
@@ -1149,7 +1164,16 @@ public class ManipularArquivo {
 				String[] atributo = linha.split(SEPARATOR);
 
 				if (id.toString().equals(atributo[0])) {
-					return criarGradeApartirAtributos(atributo);
+					Grade novaGrade = criarGradeApartirAtributos(atributo);
+					
+					//Carrega o model Fase a Grade
+					novaGrade.setFase(pegarFasePorId(novaGrade.getFase().getId()));
+
+					if (incluirItems) {
+						novaGrade.setItens(pegarGradeItens(novaGrade.getId()));
+					}
+
+					return novaGrade;
 				}
 
 				linha = lerArq.readLine();
@@ -1161,7 +1185,7 @@ public class ManipularArquivo {
 		return null;
 	}
 	
-	public Grade pegarGradePorChaves(Integer idFase, Integer idDisciplina, Integer idProfessor) {
+	public Grade pegarGradePorIdFase(Integer idFase, boolean incluirItems) {
 		try {
 			FileReader arq = new FileReader(pegarDestinoArquivo("grades"));
 			lerArq = new BufferedReader(arq);
@@ -1171,8 +1195,17 @@ public class ManipularArquivo {
 			while (linha != null) {
 				String[] atributo = linha.split(SEPARATOR);
 
-				if (idFase.toString().equals(atributo[1]) && idDisciplina.toString().equals(atributo[2]) && idProfessor.toString().equals(atributo[3])) {
-					return criarGradeApartirAtributos(atributo);
+				if (idFase.toString().equals(atributo[1])) {
+					Grade grade = criarGradeApartirAtributos(atributo);
+					
+					//Carrega o model Fase a Grade
+					grade.setFase(pegarFasePorId(grade.getFase().getId()));
+					
+					if (incluirItems) {
+						grade.setItens(pegarGradeItens(grade.getId()));
+					}
+
+					return grade;
 				}
 
 				linha = lerArq.readLine();
@@ -1183,64 +1216,9 @@ public class ManipularArquivo {
 
 		return null;
 	}
-
-	private String criarStringDados(Grade grade) {
-		return grade.getId() + SEPARATOR + grade.getId_fase() + SEPARATOR + grade.getId_disciplina() + SEPARATOR +
-				grade.getId_professor();
-	}
-
-	private Grade criarGradeApartirAtributos(String[] atributo) {
-		Grade novaGrade = new Grade();
-
-		novaGrade.setId(Integer.parseInt(atributo[0]));
-		novaGrade.setId_fase(Integer.parseInt(atributo[1]));
-		novaGrade.setId_disciplina(Integer.parseInt(atributo[2]));
-		novaGrade.setId_professor(Integer.parseInt(atributo[3]));
-		
-		//Setar descrições para a listagem.
-		List<Fase> fases = new ArrayList<Fase>();
-		fases = pegarFases();
-		
-		Professor professor = new Professor();
-		professor = pegarProfessorPorId(Integer.parseInt(atributo[3]));
-		
-		Disciplina disciplina = new Disciplina();
-		disciplina = pegarDisciplinaPorId(Integer.parseInt(atributo[2]));
-		
-		Fase fase = new Fase();
-		fase = pegarFasePorId(Integer.parseInt(atributo[1]));
-		
-		for(int i = 0; i < fases.size(); i++) {
-			
-			if(fases.get(i).getId().equals(Integer.parseInt(atributo[1]))) {
-				
-				Curso curso = new Curso();
-				curso = pegarCursoPorId(fases.get(i).getIdCurso());
-				
-				if(curso != null) {
-				novaGrade.setDescricaoCurso(curso.getCurso());
-				}
-				break;
-			}
-		}
-		
-		if(disciplina != null) {
-		novaGrade.setDescricaoDisciplina(disciplina.getDisciplina());
-		}
-		
-	    if(fase != null) {
-		novaGrade.setDescricaoFase(fase.getFase());
-	    }
-	    
-	    if(professor != null) {
-		novaGrade.setDescricaoProfessor(professor.getProfessor());
-	    }
-
-		return novaGrade;
-	}
-
-	public List<Grade> pegarGrades() {
-		List<Grade> grade = new ArrayList<Grade>();
+	
+	public List<Grade> pegarGrades(boolean incluirItems) {
+		List<Grade> grades = new ArrayList<Grade>();
 
 		try {
 			
@@ -1253,7 +1231,9 @@ public class ManipularArquivo {
 			while (linha != null) {
 				String[] atributo = linha.split(SEPARATOR);
 
-				grade.add(criarGradeApartirAtributos(atributo));
+				Grade grade = criarGradeApartirAtributos(atributo);
+				
+				grades.add(grade);
 
 				linha = lerArq.readLine();
 			}
@@ -1262,28 +1242,120 @@ public class ManipularArquivo {
 		} catch (IOException e) {
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
+		
+		for (Grade grade : grades) {
+				//Carrega o model Fase a Grade
+				grade.setFase(pegarFasePorId(grade.getFase().getId()));
+				
+				//Carrega o model GradeItem a Grade
+				if (incluirItems) {
+					grade.setItens(pegarGradeItens(grade.getId()));
+				}
+		}
+		
+		return grades.stream()
+				.sorted((p1, p2) -> p2.getFase().getCurso().getNome().compareTo(p1.getFase().getCurso().getNome()))
+				.collect(Collectors.toList());
+	}
+	
+	public List<Grade> pegarGrades(String valorBusca, boolean incluirItems) {
+		List<Grade> gradesFiltradas = pegarGrades(true).stream()
+		.filter(grade -> 
+			//Busca por nome da fase
+			grade.getFase().getNome().toLowerCase().contains(valorBusca.toLowerCase())
+			//Busca por professores
+			 || grade.getItens().stream()
+			.filter(
+					item -> item.getProfessor().getNome().toLowerCase().contains(valorBusca.toLowerCase())
+			).count() > 0
+			//Busca por disciplinas
+			 || grade.getItens().stream()
+			.filter(
+					item -> item.getDisciplina().getNome().toLowerCase().contains(valorBusca.toLowerCase())
+			).count() > 0
+		)
+		.collect(Collectors.toList());
+
+		return gradesFiltradas;
+	}
+	
+	public HashSet<GradeItem> pegarGradeItens(Integer idGrade) {
+		HashSet<GradeItem> gradeItens = new HashSet<GradeItem>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("grades_itens"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				if (idGrade.toString().equals(atributo[1])) {
+					gradeItens.add(criarGradeItemApartirAtributos(atributo));
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		gradeItens.stream().forEach(gradeItem -> {
+			//Carrega model Grade a GradeItem
+			gradeItem.setGrade(pegarGradePorId(gradeItem.getGrade().getId(), false));
+			
+			//Carrega model Disciplina a GradeItem
+			gradeItem.setDisciplina(pegarDisciplinaPorId(gradeItem.getDisciplina().getId()));
+			
+			//Carrega model Professor a GradeItem
+			gradeItem.setProfessor(pegarProfessorPorId(gradeItem.getProfessor().getId()));
+		});
+		
+		return gradeItens;
+	}
+
+	private String criarStringDados(Grade grade) {
+		return grade.getId() + SEPARATOR + grade.getFase().getId();
+	}
+	
+	private String criarStringDados(GradeItem gradeItem) {
+		return gradeItem.getId() + SEPARATOR + gradeItem.getGrade().getId() + SEPARATOR 
+				+ gradeItem.getDisciplina().getId() + SEPARATOR + gradeItem.getProfessor().getId() + SEPARATOR + gradeItem.getCodigoDiaSemana();
+	}
+
+	private Grade criarGradeApartirAtributos(String[] atributo) {
+		Grade grade = new Grade();
+
+		grade.setId(Integer.parseInt(atributo[0]));
+		
+		Fase fase = new Fase();
+		fase.setId(Integer.parseInt(atributo[1]));
+		grade.setFase(fase);
 
 		return grade;
 	}
 	
-	public List<Grade> pegarGrades(String valorBusca) {
-		List<Grade> gradesFiltradas = new ArrayList<Grade>();
-		List<Grade> grades = new ArrayList<Grade>();
-		grades = pegarGrades();
-		
-		for(int i = 0; i < grades.size(); i++) {
-			
-			String dados = grades.get(i).getDescricaoCurso().toLowerCase() + SEPARATOR + 
-				           grades.get(i).getDescricaoFase().toLowerCase() + SEPARATOR +
-				           grades.get(i).getDescricaoDisciplina().toLowerCase() + SEPARATOR +
-				           grades.get(i).getDescricaoProfessor().toLowerCase();
-			
-			if(dados.contains(valorBusca.toLowerCase())) {
-				gradesFiltradas.add(grades.get(i));
-			}
-		}
+	private GradeItem criarGradeItemApartirAtributos(String[] atributo) {
+		GradeItem gradeItem = new GradeItem();
 
-		return gradesFiltradas;
+		gradeItem.setId(Integer.parseInt(atributo[0]));
+		
+		Grade grade = new Grade();
+		grade.setId(Integer.parseInt(atributo[1]));
+		gradeItem.setGrade(grade);
+		
+		Disciplina disciplina = new Disciplina();
+		disciplina.setId(Integer.parseInt(atributo[2]));
+		gradeItem.setDisciplina(disciplina);
+		
+		Professor professor = new Professor();
+		professor.setId(Integer.parseInt(atributo[3]));
+		gradeItem.setProfessor(professor);
+		
+		gradeItem.setCodigoDiaSemana(atributo[4]);
+
+		return gradeItem;
 	}
 	
 	/*
@@ -1343,7 +1415,7 @@ public class ManipularArquivo {
 	 * HELPERS
 	 */
 	// Método auxiliar responsável por gravar dos dados no arquivo
-	private void inserirDadosNoArquivo(String area, String dados) {
+	private boolean inserirDadosNoArquivo(String area, String dados) {
 		try {
 			FileWriter arq = new FileWriter(pegarDestinoArquivo(area), true);
 			PrintWriter gravarArq = new PrintWriter(arq);
@@ -1351,8 +1423,10 @@ public class ManipularArquivo {
 			arq.close();
 		} catch (IOException e) {
 			System.err.printf("Não foi possível gravar o arquivo: %s.\n", e.getMessage());
+			return false;
 		}
-
+		
+		return true;
 	}
 	
 	private void resetarArquivo(String area) {
@@ -1480,6 +1554,8 @@ public class ManipularArquivo {
 			return new File(PROFESSOR_PATH).getAbsolutePath();
 		case "grades":
 			return new File(GRADE_PATH).getAbsolutePath();
+		case "grades_itens":
+			return new File(GRADE_ITEMS_PATH).getAbsolutePath();
 		case "configuracoes":
 			return new File(CONFIGURACOES_PATH).getAbsolutePath();
 		}

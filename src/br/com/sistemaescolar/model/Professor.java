@@ -1,13 +1,13 @@
 package br.com.sistemaescolar.model;
 
 public class Professor {
-	Integer id;
-	private String professor;
+	private Integer id;
+	private String nome;
 	private String tituloDocente;
 
 	public Professor(Integer id, String professor, String tituloDocente) {
 		this.id = id;
-		this.professor = professor;
+		this.nome = professor;
 		this.tituloDocente = tituloDocente;
 	}
 
@@ -23,12 +23,12 @@ public class Professor {
 		this.id = id;
 	}
 
-	public String getProfessor() {
-		return professor;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setProfessor(String professor) {
-		this.professor = professor;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getTituloDocente() {
@@ -38,6 +38,4 @@ public class Professor {
 	public void setTituloDocente(String tituloDocente) {
 		this.tituloDocente = tituloDocente;
 	}
-	
-	
 }

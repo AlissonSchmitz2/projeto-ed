@@ -97,7 +97,7 @@ public class CadastrarCursosWindow extends AbstractWindowFrame implements Subjec
 			return;
 		}
 		
-		curso.setCurso(txfCurso.getText());
+		curso.setNome(txfCurso.getText());
 		
 		if (curso.getId() == null) {
 			aM.inserirDado(curso);
@@ -133,7 +133,7 @@ public class CadastrarCursosWindow extends AbstractWindowFrame implements Subjec
 	}
 	
 	public void setarValores(Curso curso) {
-		txfCurso.setText(curso.getCurso());
+		txfCurso.setText(curso.getNome());
 	}
 
 	@Override

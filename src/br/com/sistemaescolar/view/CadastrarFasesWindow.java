@@ -121,11 +121,11 @@ public class CadastrarFasesWindow extends AbstractWindowFrame implements Subject
 			return;
 		}
 		
-		Curso c = new Curso();
-		c = aM.pegarCursoPorNome(cbxCurso.getSelectedItem().toString());
+		Curso curso = new Curso();
+		curso = aM.pegarCursoPorNome(cbxCurso.getSelectedItem().toString());
 		
-		fase.setFase(cbxFases.getSelectedItem().toString());
-		fase.setIdCurso(c.getId());
+		fase.setNome(cbxFases.getSelectedItem().toString());
+		fase.setCurso(curso);
 
 		if(fase.getId() != null) {
 		aM.editarDado(fase);
@@ -162,16 +162,13 @@ public class CadastrarFasesWindow extends AbstractWindowFrame implements Subject
 	}
 
 	private List<String> opcoesCursos(List<Curso> cursos) {
-		return cursos.stream().map(curso -> curso.getCurso()).distinct().collect(Collectors.toList());
+		return cursos.stream().map(curso -> curso.getNome()).distinct().collect(Collectors.toList());
 	}
 	
 	private void setarValores(Fase fase) {
 		// TODO: setar valores iniciais para edição
-		Curso c = new Curso();
-		c = aM.pegarCursoPorId(fase.getIdCurso());
-
-		cbxCurso.setSelectedItem(c.getCurso());
-		cbxFases.setSelectedItem(fase.getFase());
+		cbxCurso.setSelectedItem(fase.getCurso().getNome());
+		cbxFases.setSelectedItem(fase.getNome());
 	}
 	
 	@Override

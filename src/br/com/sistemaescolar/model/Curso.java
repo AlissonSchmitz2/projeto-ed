@@ -2,15 +2,14 @@ package br.com.sistemaescolar.model;
 
 public class Curso {
 	Integer id;
-	private String curso;
+	private String nome;
 	
 	public Curso() {
-		
 	}
 
-	public Curso(Integer id, String curso) {
+	public Curso(Integer id, String nome) {
 		this.id = id;
-		this.curso = curso;
+		this.nome = nome;
 	}
 	
 	public Integer getId() {
@@ -19,10 +18,10 @@ public class Curso {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getCurso() {
-		return curso;
+	public String getNome() {
+		return nome;
 	}
-	public void setCurso(String curso) {
-		this.curso = curso;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}	
 }

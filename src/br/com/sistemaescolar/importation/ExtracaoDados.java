@@ -81,7 +81,7 @@ public class ExtracaoDados extends ManipuladorRegistro {
 	 */
 	public void carregarDisciplinasCadastradas() {
 		aM.pegarDisciplinas().stream()
-			.forEach(disciplina -> disciplinasCadastradas.put(String.format("%06d", disciplina.getCodDisciplina()), disciplina.getDisciplina()));
+			.forEach(disciplina -> disciplinasCadastradas.put(String.format("%06d", disciplina.getCodDisciplina()), disciplina.getNome()));
 	}
 	
 	/**

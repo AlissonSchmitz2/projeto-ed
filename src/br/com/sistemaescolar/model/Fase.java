@@ -3,13 +3,13 @@ package br.com.sistemaescolar.model;
 public class Fase {
 
 	Integer id;
-	private Integer idCurso;
-	private String fase;
+	private Curso curso;
+	private String nome;
 
-	public Fase(Integer id, String fase, Integer idCurso) {
+	public Fase(Integer id, String nome, Curso curso) {
 		this.id = id;
-		this.fase = fase;
-		this.idCurso = idCurso;
+		this.nome = nome;
+		this.curso = curso;
 	}
 	
 	public Fase() {
@@ -24,20 +24,20 @@ public class Fase {
 		this.id = id;
 	}
 
-	public String getFase() {
-		return fase;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setFase(String fase) {
-		this.fase = fase;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public Integer getIdCurso() {
-		return idCurso;
+	public Curso getCurso() {
+		return curso;
 	}
 
-	public void setIdCurso(Integer idCurso) {
-		this.idCurso = idCurso;
+	public void setCurso(Curso curso) {
+		this.curso = curso;
 	}
 
 }

@@ -26,7 +26,7 @@ public class InformacoesCursosWindow extends AbstractWindowFrame{
 		labes.setBounds(15, 10, 250, 25);
 		getContentPane().add(labes);
 
-		txfCod = new JTextField(cursoSelecionado.getCurso());
+		txfCod = new JTextField(cursoSelecionado.getNome());
 		txfCod.setBackground(Color.WHITE);
 		txfCod.setEditable(false);
 		txfCod.setBounds(15, 30, 125, 25);

@@ -75,7 +75,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 		add(botaoEditar);
 		botaoEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado));
+				Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado), false);
 				
 				if (grade instanceof Grade) {
 					abrirEdicaoGrade(grade);
@@ -90,20 +90,20 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 		add(botaoExcluir);
 		botaoExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado));
+				Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado), false);
 				
 				if (grade instanceof Grade) {
 					// Remove dado do arquivo
 					aM.removerDado(grade);
 
-					// Percorre a lista de usuarios e remove o Usuario com ID selecionado
+					// Percorre a lista de grades e remove o Usuario com ID selecionado
 					listaGrades = listaGrades.stream().filter(it -> !it.getId().equals(grade.getId()))
 							.collect(Collectors.toList());
 
 					// Reseta a lista e atualiza JTable novamente
 					model.limpar();
 					try {
-						listaGrades = aM.pegarGrades();
+						listaGrades = aM.pegarGrades(false);
 						model.addListaDeGrades(listaGrades);
 					} catch (Exception e2) {
 						System.err.printf("Erro ao iniciar lista de Grades: %s.\n", e2.getMessage());
@@ -148,7 +148,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 				txfBuscar.setText("");
 				model.limpar();
 				try {
-					listaGrades = aM.pegarGrades();
+					listaGrades = aM.pegarGrades(false);
 					model.addListaDeGrades(listaGrades);
 				} catch (Exception e2) {
 					System.err.printf("Erro ao iniciar lista de Grades: %s.\n", e2.getMessage());
@@ -169,7 +169,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 		model.limpar();
 
 		// Lista oque estiver relacionado com a busca.
-		listaGrades = aM.pegarGrades(txfBuscar.getText());
+		listaGrades = aM.pegarGrades(txfBuscar.getText(), false);
 		model.addListaDeGrades(listaGrades);
 	}
 	
@@ -202,7 +202,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (usuarioLogado.possuiPerfilAdministrador()) {
-						Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado));
+						Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado), false);
 						
 						if (grade instanceof Grade) {
 							abrirEdicaoGrade(grade);							
@@ -213,7 +213,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 		});
 
 		try {
-			listaGrades = aM.pegarGrades();
+			listaGrades = aM.pegarGrades(false);
 			model.addListaDeGrades(listaGrades);		
 		} catch (Exception e) {
 			System.err.printf("Erro ao iniciar lista de Grades: %s.\n", e.getMessage());
@@ -228,7 +228,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 	}
 	
 	private void abrirEdicaoGrade(Grade grade) {
-		CadastrarGradeWindow frame = new CadastrarGradeWindow(grade, model);
+		CadastrarGradeWindow frame = new CadastrarGradeWindow(grade);
 		frame.addObserver(this);
 		abrirFrame(frame);
 	}
@@ -255,7 +255,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 	@Override
 	public void update(Grade grade) {
 		model.limpar();
-		listaGrades = aM.pegarGrades(txfBuscar.getText());
+		listaGrades = aM.pegarGrades(txfBuscar.getText(), false);
 		model.addListaDeGrades(listaGrades);
 	}
 }

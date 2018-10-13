@@ -107,7 +107,7 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame implements S
 		}
 		
 		disciplina.setCodDisciplina(Integer.parseInt(txfCodDisciplina.getText()));
-		disciplina.setDisciplina(txfDisciplina.getText());
+		disciplina.setNome(txfDisciplina.getText());
 		
 		if(disciplina.getId() != null) {
 			aM.editarDado(disciplina);
@@ -144,7 +144,7 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame implements S
 	private void setarValores(Disciplina disciplina) {
 		// TODO: setar valores iniciais para edição
 		txfCodDisciplina.setText(Integer.toString(disciplina.getCodDisciplina()));
-		txfDisciplina.setText(disciplina.getDisciplina());
+		txfDisciplina.setText(disciplina.getNome());
 	}
 	
 	@Override

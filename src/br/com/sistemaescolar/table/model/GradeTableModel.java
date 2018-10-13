@@ -7,11 +7,11 @@ import javax.swing.table.AbstractTableModel;
 
 import br.com.sistemaescolar.model.Grade;
 
-public class GradeTableModel extends AbstractTableModel {
-	private static final long serialVersionUID = -4647244243422437228L;
-	
+public class GradeTableModel extends AbstractTableModel{
+	private static final long serialVersionUID = -7672880562932393874L;
+
 	private List<Grade> grades;
-	private String[] colunas = new String[] { "ID", "Curso", "Fase", "Disciplina", "Professor" };
+	private String[] colunas = new String[] { "ID", "Curso", "Fase" };
 	
 	public GradeTableModel (List<Grade> grades) {
 		this.grades = grades;
@@ -41,16 +41,10 @@ public class GradeTableModel extends AbstractTableModel {
 		Grade grade = grades.get(rowIndex);
 
 		grade.setId(aValue.getId());
-		grade.setDescricaoCurso(aValue.getDescricaoCurso());
-		grade.setDescricaoFase(aValue.getDescricaoFase());
-		grade.setDescricaoDisciplina(aValue.getDescricaoDisciplina());
-		grade.setDescricaoProfessor(aValue.getDescricaoProfessor());
+		grade.setFase(aValue.getFase());
 
 		fireTableCellUpdated(rowIndex, 0);
 		fireTableCellUpdated(rowIndex, 1);
-		fireTableCellUpdated(rowIndex, 2);
-		fireTableCellUpdated(rowIndex, 3);
-		fireTableCellUpdated(rowIndex, 4);
 	}
 	
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
@@ -59,14 +53,6 @@ public class GradeTableModel extends AbstractTableModel {
 		switch (columnIndex) {
 		case 0:
 			grade.setId(Integer.parseInt(aValue.toString()));
-		case 1:			
-			grade.setDescricaoCurso(aValue.toString());
-		case 2:
-			grade.setDescricaoFase(aValue.toString());
-		case 3:
-			grade.setDescricaoDisciplina(aValue.toString());
-		case 4:
-			grade.setDescricaoProfessor(aValue.toString());
 
 		default:
 			System.err.println("Índice da coluna inválido");
@@ -84,19 +70,13 @@ public class GradeTableModel extends AbstractTableModel {
 			valueObject = gradeSelecionada.getId().toString();
 			break;
 		case 1:
-			valueObject = gradeSelecionada.getDescricaoCurso();
+			valueObject = gradeSelecionada.getFase().getCurso().getNome();
 			break;
 		case 2:
-			valueObject = gradeSelecionada.getDescricaoFase();
-			break;
-		case 3:
-			valueObject = gradeSelecionada.getDescricaoDisciplina();
-			break;
-		case 4:
-			valueObject = gradeSelecionada.getDescricaoProfessor();
+			valueObject = gradeSelecionada.getFase().getNome();
 			break;
 		default:
-			System.err.println("Índice inválido para propriedade do bean Professor.class");
+			System.err.println("Índice inválido para propriedade do bean Grade.class");
 		}
 
 		return valueObject;
@@ -111,8 +91,8 @@ public class GradeTableModel extends AbstractTableModel {
 		return grades.get(indiceLinha);
 	}
 	
-	public void addGrade(Grade g) {
-		grades.add(g);
+	public void addGrade(Grade d) {
+		grades.add(d);
 
 		int ultimoIndice = getRowCount() - 1;
 
@@ -140,4 +120,6 @@ public class GradeTableModel extends AbstractTableModel {
 	public boolean isEmpty() {
 		return grades.isEmpty();
 	}
+
+	
 }

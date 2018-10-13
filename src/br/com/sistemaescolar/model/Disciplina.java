@@ -1,18 +1,18 @@
 package br.com.sistemaescolar.model;
 
 public class Disciplina {
-	Integer id;
-	private String disciplina;
-	private int codDisciplina;
-	
-	public Disciplina(Integer id,int codDisciplina,String disciplina) {
+	private Integer id;
+	private String nome;
+	private Integer codDisciplina;
+
+	public Disciplina(Integer id, int codDisciplina, String disciplina) {
 		this.id = id;
-		this.disciplina = disciplina;
+		this.nome = disciplina;
 		this.codDisciplina = codDisciplina;
 	}
-	
+
 	public Disciplina() {
-		
+
 	}
 
 	public Integer getId() {
@@ -23,15 +23,15 @@ public class Disciplina {
 		this.id = id;
 	}
 
-	public String getDisciplina() {
-		return disciplina;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setDisciplina(String disciplina) {
-		this.disciplina = disciplina;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
-	
-	public int getCodDisciplina() {
+
+	public Integer getCodDisciplina() {
 		return codDisciplina;
 	}
 

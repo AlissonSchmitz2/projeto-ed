@@ -34,10 +34,11 @@ import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
 import br.com.sistemaescolar.model.Grade;
+import br.com.sistemaescolar.model.GradeItem;
 import br.com.sistemaescolar.model.Professor;
 
 public class ImportarWindow extends AbstractWindowFrame{
-	
+	int dialogButton = JOptionPane.YES_NO_OPTION;
 	private JLabel labelDescricao;
 	private JTextField txfData;
 	private JTextField txfFaseInicial;
@@ -165,8 +166,6 @@ public class ImportarWindow extends AbstractWindowFrame{
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 5) {
-					int dialogButton = JOptionPane.YES_NO_OPTION;
-					
 					//Quer continuar
 					int resultado = JOptionPane.showConfirmDialog (null, "Gostaria de iniciar o processo de resetar arquivos?", "Resetar Arquivos", dialogButton);
 
@@ -281,21 +280,42 @@ public class ImportarWindow extends AbstractWindowFrame{
 						
 						if (curso == null) {
 							Curso novoCurso = new Curso();
-							novoCurso.setCurso(nomeCurso);
+							novoCurso.setNome(nomeCurso);
 							
 							curso = aM.inserirDado(novoCurso);
 						}
 						
 						for (ResumoFase resumoFase : extracaoDados.getResumos().values()) {
-							Fase fase = aM.pegarFasePorFaseCurso(resumoFase.getFase().trim(), curso.getId());
+							Fase fase = aM.pegarFasePorNomeFaseIdCurso(resumoFase.getFase().trim(), curso.getId());
 							
-							if (fase == null) {
+							//Se a fase já existe, verifica se já não existe uma grade para a mesma
+							if (fase != null) {
+								Grade grade = aM.pegarGradePorIdFase(fase.getId(), false);
+								
+								//Se já existir uma grade, questiona o usuário se ele quer continuar
+								if (grade != null) {
+									if (JOptionPane.showConfirmDialog (null, "Já existe uma grade para o curso \"" + curso.getNome() 
+									+ "\" e para a fase \"" + fase.getNome() + "\". Deseja sobreescrever?", 
+											"Importação de Dados", dialogButton) == JOptionPane.YES_OPTION) {
+										//Remove grade anterior
+										aM.removerDado(grade);
+									} else {
+										continue;
+									}
+								}
+							
+							//Se não existir a fase, existe a necessidade de verificar se a grade já existe
+							} else {
 								Fase novaFase = new Fase();
-								novaFase.setFase(resumoFase.getFase().trim());
-								novaFase.setIdCurso(curso.getId());
+								novaFase.setNome(resumoFase.getFase().trim());
+								novaFase.setCurso(curso);
 								
 								fase = aM.inserirDado(novaFase);
 							}
+							
+							//Recria a grade
+							Grade grade = new Grade();
+							grade.setFase(fase);
 							
 							for (ResumoDisciplina resumoDisciplina : resumoFase.getDisciplinas().values()) {
 								Disciplina disciplina = aM.pegarDisciplinaPorCodigo(Integer.parseInt(resumoDisciplina.getCodigoDisciplina()));
@@ -303,7 +323,7 @@ public class ImportarWindow extends AbstractWindowFrame{
 								if (disciplina == null) {
 									Disciplina novaDisciplina = new Disciplina();
 									novaDisciplina.setCodDisciplina(Integer.parseInt(resumoDisciplina.getCodigoDisciplina()));
-									novaDisciplina.setDisciplina("---Importado---");
+									novaDisciplina.setNome("---Importado---");
 									
 									disciplina = aM.inserirDado(novaDisciplina);
 								}
@@ -313,25 +333,23 @@ public class ImportarWindow extends AbstractWindowFrame{
 									
 									if (professor == null) {
 										Professor novoProfessor = new Professor();
-										novoProfessor.setProfessor(resumoProfessor.getNome().trim());
+										novoProfessor.setNome(resumoProfessor.getNome().trim());
 										novoProfessor.setTituloDocente(TitulosDocentes.getDescriptionByCode(resumoProfessor.getCodigoTitulo()));
 										
 										professor = aM.inserirDado(novoProfessor);
 									}
 									
-									Grade grade = aM.pegarGradePorChaves(fase.getId(), disciplina.getId(), professor.getId());
+									GradeItem gradeItem = new GradeItem();
 									
-									//Só cadastra um novo item se não houver um outro exatamente igual
-									if (grade == null) {
-										grade = new Grade();
-										grade.setId_fase(fase.getId());
-										grade.setId_disciplina(disciplina.getId());
-										grade.setId_professor(professor.getId());
-										
-										aM.inserirDado(grade);
-									}
+									gradeItem.setDisciplina(disciplina);
+									gradeItem.setProfessor(professor);
+									gradeItem.setCodigoDiaSemana(resumoDisciplina.getCodigoDiaSemana());
+									
+									grade.setItem(gradeItem);
 								}
 							}
+							
+							aM.inserirDado(grade);
 						}
 						
 						//Incrementa controle de importação

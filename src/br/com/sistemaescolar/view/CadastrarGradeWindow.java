@@ -21,10 +21,10 @@ import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
 import br.com.sistemaescolar.model.Grade;
+import br.com.sistemaescolar.model.GradeItem;
 import br.com.sistemaescolar.model.Professor;
 import br.com.sistemaescolar.observer.ObserverGrade;
 import br.com.sistemaescolar.observer.SubjectGrade;
-import br.com.sistemaescolar.table.model.GradeTableModel;
 
 public class CadastrarGradeWindow extends AbstractWindowFrame implements SubjectGrade {
 
@@ -32,8 +32,6 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	
 	ManipularArquivo aM = new ManipularArquivo();
 	private Grade grade = new Grade();
-	private GradeTableModel modelGradesEdicao;
-	private List<Grade> listaGrades = new ArrayList<Grade>();
 	DefaultTableModel model = new DefaultTableModel();
 	private JLabel labes;
 	private JComboBox<String> cbxCurso, cbxFases;
@@ -53,29 +51,28 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	private JPanel painel;
 	private JScrollPane scrollpane;
 
-	Disciplina disc = new Disciplina();
-	Professor prof = new Professor();
-
 	public CadastrarGradeWindow() {
-		super("Grade");
-		curso = aM.pegarCursos();
-		fase = aM.pegarFases();
-		disciplina = aM.pegarDisciplinas();
-		professor = aM.pegarProfessores();
-		criarComponentes();
-		criarGrid(null);
+		super("Cadastrar Grade");
+		this.grade = new Grade();
+		inicializar();
 	}
 	
-	public CadastrarGradeWindow(Grade grade, GradeTableModel modelGradesEdicao) {
+	public CadastrarGradeWindow(Grade grade) {
 		super("Editar Grade");
+		this.grade = grade;
+		inicializar();
+
+		setarValores(grade);
+	}
+	
+	private void inicializar() {
 		curso = aM.pegarCursos();
 		fase = aM.pegarFases();
 		disciplina = aM.pegarDisciplinas();
 		professor = aM.pegarProfessores();
+		
 		criarComponentes();
 		criarGrid(null);
-		setarValores(grade);
-		this.modelGradesEdicao = modelGradesEdicao;
 	}
 
 	public void criarComponentes() {
@@ -113,7 +110,6 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 					return;
 				}
 
-				// Adiciona opções estados
 				opcoesFases(fase, cursoSelecionado).forEach(fase -> cbxFases.addItem(fase));
 				// TODO: Atualizar ComboBox ao voltar na opção --Selecione-- do Curso
 				// TODO:Adicionar disciplinas ao JTable, se já cadastradas
@@ -185,56 +181,67 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	}
 
 	public void cadastrarGrade() {
-
-		Grade grade = new Grade();		
-
-		for (int i = 0; i < numRow; i++) {
-			Curso curso = aM.pegarCursoPorNome(cbxCurso.getSelectedItem().toString());
-			Fase fase = aM.pegarFasePorFaseCurso(cbxFases.getSelectedItem().toString(), curso.getId());
-
-			String valueRowDisciplina = (String) tabela.getValueAt(i, 1);
-			disc = aM.pegarDisciplinaPorNome(valueRowDisciplina);
-			String valueRowProf = (String) tabela.getValueAt(i, 2);
-			prof = aM.pegarProfessorPorNome(valueRowProf);
-
-			grade.setId_disciplina(disc.getId());
-			grade.setId_professor(prof.getId());
-			grade.setId_fase(fase.getId());
+		Curso curso = aM.pegarCursoPorNome(cbxCurso.getSelectedItem().toString());
+		Fase fase = aM.pegarFasePorNomeFaseIdCurso(cbxFases.getSelectedItem().toString(), curso.getId());
+		
+		//Antes de continuar, verifica se já não existe um grade para o curso e fase
+		if (aM.pegarGradePorIdFase(fase.getId(), false) != null) {
+			JOptionPane.showMessageDialog(rootPane, "Já existe uma grade para o curso e fase selecionados!", "",
+					JOptionPane.ERROR_MESSAGE, null);
 			
-			if(this.grade.getId() != null && i == 0) {
+			return;
+		}
+		
+		grade.setFase(fase);
+		grade.clearItens();
+		
+		//Percorre os items da grid
+		for (int i = 0; i < numRow; i++) {
+			String valueRowDisciplina = (String) tabela.getValueAt(i, 1);
+			Disciplina disciplina = aM.pegarDisciplinaPorNome(valueRowDisciplina);
+			
+			String valueRowProf = (String) tabela.getValueAt(i, 2);
+			Professor professor = aM.pegarProfessorPorNome(valueRowProf);
+			
+			//Cadastro
+			if (grade.getId() == null) {
+				GradeItem novoItemGrade = new GradeItem();
+				novoItemGrade.setDisciplina(disciplina);
+				novoItemGrade.setProfessor(professor);
+				novoItemGrade.setCodigoDiaSemana("01"); //TODO: pegar da grid
 				
-				grade.setId(this.grade.getId());
+				//Insere os items no objeto grade
+				grade.setItem(novoItemGrade);
+			}
+			
+			//Edição
+			if (grade.getId() != null) {
 				
-				aM.editarDado(grade);
-				
-				notifyObservers(grade);
-				
-			} else {
-				aM.inserirDado(grade);
 			}
 		}
 		
-		if(this.grade.getId() == null) {
-			JOptionPane.showMessageDialog(null, "Grade cadastrada com sucesso!");
-		} else {
-			// Reseta a lista e atualiza JTable novamente para o caso de haver uma nova adiçao de grade na tela de edição.
-			modelGradesEdicao.limpar();
-
-			try {
-				listaGrades = aM.pegarGrades();
-				modelGradesEdicao.addListaDeGrades(listaGrades);
-			} catch (Exception e2) {
-				System.err.printf("Erro ao iniciar lista de Grades: %s.\n", e2.getMessage());
-			}
+		//Edição
+		if (grade.getId() != null) {
+			//aM.editarDado(cidade);
 			
+			//notifyObservers(cidade);
 			JOptionPane.showMessageDialog(null, "Grade salva com sucesso!");
+			
+			limparFormulario();
 			setVisible(false);
+		}
+
+		//Cadastro
+		if (grade.getId() == null) {
+			aM.inserirDado(grade);
+			limparFormulario();
+			JOptionPane.showMessageDialog(null, "Grade salva com sucesso!");
 		}
 	}
 
 	// Obtem lista de Cursos
 	private List<String> opcoesCursos(List<Curso> cursos) {
-		return cursos.stream().map(curso -> curso.getCurso()).distinct().collect(Collectors.toList());
+		return cursos.stream().map(curso -> curso.getNome()).distinct().collect(Collectors.toList());
 	}
 
 	// Obtem lista de Fases referente ao curso
@@ -243,19 +250,19 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		Curso _curso = aM.pegarCursoPorNome(curso);
 		int idCurso = _curso.getId();
 
-		return fases.stream().filter(fase -> idCurso == fase.getIdCurso()).map(fase -> fase.getFase()).distinct()
+		return fases.stream().filter(fase -> idCurso == fase.getCurso().getId()).map(fase -> fase.getNome()).distinct()
 				.collect(Collectors.toList());
 	}
 
 	// Obtem lista de Disciplinas
 	private List<String> opcoesDisciplinas(List<Disciplina> disciplinas) {
-		return disciplinas.stream().map(disciplina -> disciplina.getDisciplina()).distinct()
+		return disciplinas.stream().map(disciplina -> disciplina.getNome()).distinct()
 				.collect(Collectors.toList());
 	}
 
 	// Obtem lista de Professores
 	private List<String> opcoesProfessores(List<Professor> professores) {
-		return professores.stream().map(professor -> professor.getProfessor()).distinct().collect(Collectors.toList());
+		return professores.stream().map(professor -> professor.getNome()).distinct().collect(Collectors.toList());
 	}
 
 	// Manipulação da JTable
@@ -263,11 +270,11 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	// TODO:Organizar manipulação com Table a uma classe DisciplinasTableModel
 
 	public void addListaJTable(String disciplina, String professor) {
-		disc = aM.pegarDisciplinaPorNome(disciplina);
-		prof = aM.pegarProfessorPorNome(professor);
+		Disciplina disc = aM.pegarDisciplinaPorNome(disciplina);
+		Professor prof = aM.pegarProfessorPorNome(professor);
 
 		String codDisciplina = String.valueOf(disc.getCodDisciplina());
-		String[] linha = { codDisciplina, disc.getDisciplina(), prof.getProfessor() };
+		String[] linha = { codDisciplina, disc.getNome(), prof.getNome() };
 		criarGrid(linha);
 	}
 
@@ -310,7 +317,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		// TODO: setar valores iniciais para edição
 		this.grade.setId(grade.getId());
 		
-		if(grade.getDescricaoCurso() != null) {
+		/*if(grade.getDescricaoCurso() != null) {
 			cbxCurso.setSelectedItem(grade.getDescricaoCurso());
 		}
 		
@@ -324,7 +331,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		
 		if(grade.getDescricaoProfessor() != null) {
 			cbxProfessor.setSelectedItem(grade.getDescricaoProfessor());
-		}
+		}*/
 	}
 
 	@Override

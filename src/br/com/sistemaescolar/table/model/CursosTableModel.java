@@ -39,7 +39,7 @@ import java.util.List;
 			Curso curso = cursos.get(rowIndex);
 
 			curso.setId(aValue.getId());
-			curso.setCurso(aValue.getCurso());
+			curso.setNome(aValue.getNome());
 
 			fireTableCellUpdated(rowIndex, 0);
 			fireTableCellUpdated(rowIndex, 1);
@@ -53,7 +53,7 @@ import java.util.List;
 			case 0:
 				curso.setId(Integer.parseInt(aValue.toString()));
 			case 1:
-				curso.setCurso(aValue.toString());
+				curso.setNome(aValue.toString());
 			default:
 				System.err.println("Índice da coluna inválido");
 			}
@@ -68,7 +68,7 @@ import java.util.List;
 				valueObject = cursoSelecionado.getId().toString();
 				break;
 			case 1:
-				valueObject = cursoSelecionado.getCurso();
+				valueObject = cursoSelecionado.getNome();
 				break;
 			default:
 				System.err.println("Índice inválido para propriedade do bean Aluno.class");
