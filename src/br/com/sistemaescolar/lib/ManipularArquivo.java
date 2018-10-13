@@ -1138,6 +1138,14 @@ public class ManipularArquivo {
 		String novosDados = criarStringDados(grade);
 		
 		editarDadosNoArquivo("grades", grade.getId().toString(), novosDados);
+		
+		//Remove todos os items da grade
+		pegarGradeItens(grade.getId()).stream().forEach(gradeItem -> removerDado(gradeItem));
+		
+		//Recadastra os itens na grade
+		grade.getItens().stream().forEach(item -> { item.setGrade(grade); inserirDado(item); });
+		
+		//TODO: Melhorar a maneira como os itens são editados. Inserir os novos, editar o mantidos e excluir os não presentes na lista
 	}
 
 	public void removerDado(Grade grade) {
@@ -1145,7 +1153,11 @@ public class ManipularArquivo {
 		removerDadosDoArquivo("grades", grade.getId().toString());
 				
 		//Remove Itens
-		grade.getItens().stream().forEach(gradeItem -> removerDadosDoArquivo("grades_itens", gradeItem.getId().toString()));
+		grade.getItens().stream().forEach(gradeItem -> removerDado(gradeItem));
+	}
+	
+	public void removerDado(GradeItem gradeItem) {
+		removerDadosDoArquivo("grades_itens", gradeItem.getId().toString());
 	}
 	
 	public void resetarArquivoGrades() {

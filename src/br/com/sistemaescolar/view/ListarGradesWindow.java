@@ -75,7 +75,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 		add(botaoEditar);
 		botaoEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado), false);
+				Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado), true);
 				
 				if (grade instanceof Grade) {
 					abrirEdicaoGrade(grade);
@@ -202,7 +202,7 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					if (usuarioLogado.possuiPerfilAdministrador()) {
-						Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado), false);
+						Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado), true);
 						
 						if (grade instanceof Grade) {
 							abrirEdicaoGrade(grade);							
