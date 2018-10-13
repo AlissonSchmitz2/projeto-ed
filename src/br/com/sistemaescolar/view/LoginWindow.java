@@ -109,9 +109,13 @@ public class LoginWindow extends JDialog {
 			} else {
 				JOptionPane.showMessageDialog(rootPane, "Login e/ou senha incorretos!", "", JOptionPane.ERROR_MESSAGE, null);
 			}
-		} catch (Exception message) {
-			// Cadastra administrador caso Exception seja lançada
-			new CadastrarPrimeiroUser().setVisible(true);
+		} catch (Exception error) {
+			if (error.getMessage().equals("nenhum.usuario.cadastrado")) {
+				// Cadastra administrador caso Exception seja lançada
+				new CadastrarPrimeiroUser().setVisible(true);
+			} else {
+				JOptionPane.showMessageDialog(rootPane, "Houve um erro: " + error.getMessage(), "", JOptionPane.ERROR_MESSAGE, null);
+			}
 		}
 	}
 

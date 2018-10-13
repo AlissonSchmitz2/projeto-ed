@@ -1,0 +1,532 @@
+20456;;;Contabilidade para Administradores
+17288;;;Ensino Jurídico
+17167;;;Direito do Consumidor
+16198;;;Manutenção Industrial
+20455;;;Coaching
+17289;;;Estado Brasileiro
+17168;;;Direito Ambiental
+16197;;;Introdução ao Projeto e Manufatura Assistidos Por Computador
+20454;;;Cases Contextualização
+17169;;;Direito Internacional Privado
+16196;;;Introdução À Engenharia de Segurança
+20453;;;Associativismo
+19589;;;Empreendedorismo
+16195;;;Refrigeração e Ventilação
+20452;;;Administração Pública
+17284;;;Direito Romano
+17163;;;Responsabilidade Civil
+20451;;;Administração de Serviços
+17285;;;Direito Sanitário
+17164;;;Optativa I
+20450;;;Consultoria em Gestão Empresarial
+17286;;;Direito Urbanístico
+17165;;;Optativa II
+17287;;;Direitos Humanos das Mulheres
+17166;;;Optativa III
+16199;;;Sociologia
+17280;;;Direito Minerário
+16190;;;Introdução ao Comando Numérico
+17281;;;Direito Partidário
+17160;;;Processo Constitucional
+17282;;;Direito Penal IV
+17161;;;Direito Previdenciário
+17283;;;Direito Processual Eleitoral
+17162;;;Metodologia do Trabalho Monográfico
+16194;;;Trabalho de Conclusão de Curso
+16193;;;Optativa
+20458;;;E-Commerce
+16192;;;Motores a Combustão Interna
+20457;;;E-Business
+16191;;;Engenharia Econômica
+10899;;;Programação para Dispositivos Móveis
+10898;;;Programação Java Avançada
+10891;;;Empreendedorismo
+10890;;;Gestão de Sistemas de Informação
+10893;;;Tópicos Especiais III
+10892;;;Optativa I
+10895;;;Optativa II
+10894;;;Trabalho de Conclusão de Curso - TCC III
+10897;;;Objetos Distribuídos e Serviços Web
+10896;;;Criptografia para Segurança de Dados
+20467;;;Gerenciamento de Projetos
+20346;;;Matemática para Administradores
+17299;;;Temas Atuais em Direito Constitucional
+17178;;;Direito Constitucional Administrativo
+20466;;;Geopolítica
+20345;;;Teoria Geral da Administração II
+17179;;;Direito Constitucional Estadual
+20465;;;Fundamentos de Direito
+20344;;;Gestão de Marketing I
+20464;;;Espanhol Técnico
+20343;;;Teoria Geral da Administração I
+20463;;;Empreendedorismo
+20342;;;Administração de Comércio Exterior
+17295;;;Medicina Legal
+17174;;;Antropologia Jurídica
+20462;;;Economia Internacional
+20341;;;Organização, Sistemas e Métodos
+17296;;;Políticas Públicas
+17175;;;Cultura, Sociedade e Justiça Ambiental
+20340;;;Metodologia Científica e da Pesquisa
+17297;;;Psicocinética Aplicada ao Direito
+17176;;;Direito Alternativo
+17298;;;Segurança e Saúde do Trabalhador
+17177;;;Direito Comercial e Empresarial III
+19591;;;Empreendedorismo
+17291;;;Libras
+17170;;;Ética Profissional
+17292;;;Lógica Jurídica
+17171;;;Psicologia Aplicada ao Direito
+17293;;;Mandado de Segurança
+17172;;;Trabalho Monográfico
+17294;;;Mediação e Arbitragem
+17173;;;Alterações Recentes da Consolidação das Leis do Trabalho
+20349;;;Logística I
+20469;;;Informática
+20348;;;Gestão de Marketing II
+20468;;;Gestão de Processos
+20347;;;Gestão Ambiental e da Qualidade
+17290;;;Informática Aplicada ao Direito
+20434;;;Práticas Gerenciais II - Estágio na Área de Gestão de Pessoas
+17266;;;Trabalho Monográfico
+17145;;;Estágio de Prática Jurídica I
+16176;;;Controle de Sistemas Dinâmicos
+20433;;;Pesquisa Operacional
+17267;;;Alterações Recentes da Consolidação das Leis do Trabalho
+17146;;;Estágio de Prática Jurídica II
+16175;;;Gestão da Inovação
+20432;;;Gestão Estratégica
+17268;;;Antropologia Jurídica
+17147;;;Estágio de Prática Jurídica III
+16174;;;Transferência de Calor e Massa
+20431;;;Administração da Produção e Operações II
+17269;;;Cultura, Sociedade e Justiça Ambiental
+17148;;;Estágio de Prática Jurídica IV
+16173;;;Instrumentação
+20430;;;Gestão de Pessoas II
+17262;;;Direito Ambiental
+17141;;;Relações do Trabalho II
+17263;;;Direito Internacional Privado
+17142;;;Direito Administrativo I
+16179;;;Processos de Fabricação I
+17264;;;Ética Profissional
+17143;;;Direito Administrativo II
+16178;;;Projeto Integrado de Engenharia
+17265;;;Psicologia Aplicada ao Direito
+19200;;;Direito na Sociedade Informacional
+17144;;;Direito de Família
+16177;;;Mecanismos
+17260;;;Optativa III
+20439;;;Práticas Gerenciais Iii-Estágio na Área de Administração da Produção e Operações
+17261;;;Direito do Consumidor
+17140;;;Relações do Trabalho I
+20438;;;Economia para Administradores
+16172;;;Elementos de Máquinas
+20437;;;Custo Gerencial
+16171;;;Introdução À Ciência da Computação
+20436;;;Administração Financeira II
+16170;;;Eletricidade Básica
+20435;;;Administração Financeira I
+10877;;;Banco de Dados II
+10876;;;Engenharia de Software I
+10879;;;Compiladores
+10878;;;Engenharia de Software II
+10871;;;Teoria dos Grafos
+10870;;;Cálculo Numérico
+10873;;;Linguagens Formais
+17149;;;Estágio de Prática Jurídica V
+10872;;;Sistemas Operacionais
+10875;;;Banco de Dados I
+10874;;;Tópicos Especiais I
+20445;;;Trabalho de Conclusão de Curso - Tc I
+17277;;;Direito do Idoso
+17156;;;Direito Comercial e Empresarial I
+16187;;;Máquinas de Fluxo
+20444;;;Sociologia
+17278;;;Direito e Movimentos Sociais
+17157;;;Direito Comercial e Empresarial II
+16186;;;Sistemas Hidráulicos e Pneumáticos
+20443;;;Gestão do Conhecimento e Inovação
+17279;;;Direito Eleitoral
+17158;;;Direitos Humanos
+16185;;;Organização Industrial
+20442;;;Práticas Gerenciais IV - Estágio na Área de Finanças
+17159;;;Direito da Criança e do Adolescente
+16184;;;Sistemas de Qualidade
+20441;;;Direito Empresarial
+17273;;;Direito Constitucional Estadual
+17152;;;Direito Processual do Trabalho
+20440;;;Projeto Trabalho de Conclusão de Curso - Orientação para Estágio
+17274;;;Direito Constitucional Municipal
+17153;;;Filosofia Geral e do Direito
+17275;;;Direito da Pessoa com Deficiência
+17154;;;Direito Tributário I
+16189;;;Projetos de Estruturas
+17276;;;Direito de Cooperativa
+17155;;;Direito Tributário II
+16188;;;Desenho Técnico Computacional
+17270;;;Direito Alternativo
+17271;;;Direito Comercial e Empresarial III
+17150;;;Direito das Sucessões
+17272;;;Direito Constitucional Administrativo
+17151;;;Direito Internacional Público
+20449;;;Optativa
+16183;;;Vibrações e Acústica
+20448;;;Práticas Gerenciais V - Estágio na Área de Empreendedorismo
+16182;;;Projetos Empresariais
+20447;;;Gestão Tributária
+16181;;;Eletrônica Básica
+20446;;;Trabalho de Conclusão de Curso - Tc II
+16180;;;Processos de Fabricação II
+10888;;;Tópicos Especiais II
+10887;;;Trabalho de Conclusão de Curso - TCC I
+10889;;;Trabalho de Conclusão de Curso - TCC II
+10880;;;Comunicação de Dados
+10882;;;Redes de Computadores
+10881;;;Teoria da Computação
+10884;;;Computação Gráfica
+10883;;;Computação Paralela e Distribuída
+10886;;;Administração Empresarial
+10885;;;Inteligência Artificial
+20412;;;Organização, Sistemas e Métodos
+18454;;;Empreendedorismo
+17244;;;Direito das Sucessões
+17123;;;Sociologia Geral e do Direito
+16154;;;Cálculo II
+20411;;;Metodologia Científica e da Pesquisa
+18455;;;Laboratório de Jogos V: Projeto Integrado
+17245;;;Direito Internacional Público
+17124;;;Geopolítica
+16153;;;Física Experimental II
+20410;;;Tópicos Emergentes
+18456;;;Língua Brasileira de Sinais: Libras
+17246;;;Direito Processual do Trabalho
+17125;;;Direito das Obrigações
+16152;;;Física III
+18457;;;Programação para Dispositivos Móveis
+17247;;;Filosofia Geral e do Direito
+17126;;;Direito Constitucional I
+16151;;;Cálculo I
+18450;;;Tópicos Especiais em Jogos Digitais
+17240;;;Estágio de Prática Jurídica II
+16158;;;Controle de Qualidade
+18451;;;Áudio e Vídeo para Jogos
+17241;;;Estágio de Prática Jurídica III
+17120;;;Direito Penal II
+16157;;;Cálculo Numérico
+18452;;;Inteligência Artificial para Jogos
+17242;;;Estágio de Prática Jurídica IV
+17121;;;Direito Penal III
+16156;;;Química Experimental
+18453;;;Optativa
+17243;;;Estágio de Prática Jurídica V
+17122;;;Teoria do Estado e da Constituição
+16155;;;Materiais de Engenharia I
+20419;;;Gestão de Marketing II
+20418;;;Gestão Ambiental e da Qualidade
+20417;;;Matemática para Administradores
+20416;;;Teoria Geral da Administração II
+16150;;;Física Experimental I
+20415;;;Gestão de Marketing I
+20414;;;Teoria Geral da Administração I
+20413;;;Administração de Comércio Exterior
+10855;;;Lógica para Computação
+10854;;;Fundamentos Matemáticos para Computação
+10857;;;Filosofia
+10856;;;Física Aplicada
+10859;;;Programação I
+10858;;;Cálculo I
+16159;;;Mecânica Geral I
+10851;;;Introdução À Ciência da Computação
+18458;;;Programação para Consoles
+17248;;;Direito Tributário I
+17127;;;Direito Constitucional II
+10850;;;Algoritmos e Programação
+18459;;;Programação para Web
+17249;;;Direito Tributário II
+17128;;;Teoria Geral do Processo
+10853;;;Produção e Interpretação de Textos
+17129;;;Criminologia
+10852;;;Metodologia Científica e da Pesquisa
+20423;;;Gestão de Pessoas I
+17255;;;Direito Previdenciário
+17134;;;Direito Processual Civil I
+16165;;;Resistência dos Materiais I
+20422;;;Matemática Financeira para Administradores
+17256;;;Metodologia do Trabalho Monográfico
+17135;;;Direito Processual Civil II
+16164;;;Estatística
+20421;;;Logística II
+17257;;;Responsabilidade Civil
+17136;;;Direito Processual Civil III
+16163;;;Fundamentos de Termodinâmica
+20420;;;Logística I
+17258;;;Optativa I
+17137;;;Direito Processual Civil IV
+16162;;;Mecânica Geral II
+17251;;;Direito Comercial e Empresarial II
+17130;;;Contratos
+16169;;;Mecânica dos Fluidos
+17252;;;Direitos Humanos
+17131;;;Direito Processual Penal I
+16168;;;Resistência dos Materiais II
+17253;;;Direito da Criança e do Adolescente
+17132;;;Direito Processual Penal II
+16167;;;Materiais de Engenharia II
+17254;;;Processo Constitucional
+17133;;;Direito Processual Penal III
+16166;;;Cálculo IV
+20429;;;Práticas Gerenciais I - Estágio na Área de Marketing
+20428;;;Análise Econômica e Financeira
+18460;;;Técnicas de Otimização
+17250;;;Direito Comercial e Empresarial I
+20427;;;Administração da Produção e Operações I
+16161;;;Cálculo III
+20426;;;Pesquisa de Mercado
+16160;;;Física IV
+20425;;;Estatística Aplicada À Administração
+20424;;;Contabilidade Gerencial
+10866;;;Estrutura de Dados II
+10865;;;Projeto Interdisciplinar da Computação I
+10868;;;Análise de Algoritmos
+10867;;;Projeto Interdisciplinar da Computação II
+10869;;;Arquitetura e Organização de Computadores
+10860;;;Cálculo II
+10862;;;Circuitos Digitais
+17259;;;Optativa II
+17138;;;Direito Processual Civil V
+10861;;;Programação II
+17139;;;Direito das Coisas
+10864;;;Estrutura de Dados I
+10863;;;Estatística e Probabilidade
+18432;;;Animação Computadorizada
+17222;;;Teoria Geral do Processo
+19764;;;Tópicos Especiais em Direito
+18433;;;Interação Humano-Computador
+17223;;;Criminologia
+18434;;;Processamento Gráfico
+17224;;;Contratos
+18435;;;Laboratório de Jogos Ii: Ferramentas de Desenvolvimento Rápido de Jogos 3D
+17225;;;Direito Processual Penal I
+19765;;;Tópicos Especiais em Direito
+18430;;;Algoritmos e Estruturas de Dados
+17220;;;Direito Constitucional I
+18431;;;Projeto de Jogos Digitais
+17221;;;Direito Constitucional II
+21849;;;Automação e Controle de Processos
+21848;;;Introdução ao Projeto de Veículos Automotores
+21847;;;Tópicos de Física Moderna
+21846;;;Refrigeração Comercial e Industrial
+21845;;;Ar Condicionado para Conforto Térmico
+16139;;;Geometria Analítica
+16138;;;Fundamentos Matemáticos
+18436;;;Motores de Jogos
+17226;;;Direito Processual Penal II
+18437;;;Ferramentas de Design
+17227;;;Direito Processual Penal III
+18438;;;Física para Jogos
+17228;;;Direito Processual Civil I
+18439;;;Banco de Dados
+17229;;;Direito Processual Civil II
+20401;;;Planejamento Estratégico
+18443;;;Programação Multijogador
+17233;;;Direito das Coisas
+16143;;;Desenho Técnico I
+20400;;;Pesquisa de Mercado
+18444;;;Técnicas de Balanceamento de Jogos
+17234;;;Relações do Trabalho I
+17113;;;Introdução ao Estudo do Direito
+16142;;;Metodologia Científica e da Pesquisa
+21852;;;Corrosão
+18445;;;Programação Multiplataforma
+17235;;;Relações do Trabalho II
+17114;;;História do Pensamento e das Instituições Jurídicas
+16141;;;Introdução À Engenharia Mecânica
+21851;;;Laboratório de Microcontroladores
+18446;;;Sistemas Operacionais
+17236;;;Direito Administrativo I
+17115;;;Metodologia Científica e da Pesquisa
+16140;;;Química Geral
+21850;;;Manufatura Aditiva e Fabricação Digital
+16147;;;Álgebra Linear
+18440;;;Metodologia Científica e da Pesquisa
+17230;;;Direito Processual Civil III
+16146;;;Física II
+18441;;;Computação Gráfica
+17231;;;Direito Processual Civil IV
+16145;;;Desenho Técnico II
+18442;;;Laboratório de Jogos Iii: Motores de Jogos
+17232;;;Direito Processual Civil V
+16144;;;Física I
+20409;;;Sistemática de Comércio Exterior
+20408;;;Sistemas de Computação Aplicados a Administração
+20407;;;Sistema de Importação
+20406;;;Sistema de Exportação
+20405;;;Relações Humanas
+20404;;;Produção Textual para Trabalhos Monográficos
+20403;;;Produção e Interpretação de Texto
+20402;;;Plano de Negócios
+16149;;;Programação para Engenharia
+16148;;;Metrologia
+18447;;;Redes e Internet
+17237;;;Direito Administrativo II
+17116;;;Ciência Política
+18448;;;Realidade Virtual
+17238;;;Direito de Família
+17117;;;Produção e Interpretação de Textos
+18449;;;Laboratório de Jogos Iv: Plataformas
+17239;;;Estágio de Prática Jurídica I
+17118;;;Introdução ao Direito Civil
+17119;;;Direito Penal I
+19198;;;Direito na Sociedade Informacional
+20399;;;Negociações Internacionais
+20398;;;Libras
+20397;;;Legislação Aduaneira
+20396;;;Inglês Técnico
+20395;;;Informática
+20394;;;Gestão de Processos
+20393;;;Gerenciamento de Projetos
+20392;;;Geopolítica
+20391;;;Fundamentos de Direito
+20390;;;Espanhol Técnico
+20379;;;Consultoria em Gestão Empresarial
+20378;;;Optativa
+20377;;;Práticas Gerenciais V - Estágio na Área de Empreendedorismo
+20376;;;Gestão Tributária
+20375;;;Trabalho de Conclusão de Curso - Tc II
+20374;;;Trabalho de Conclusão de Curso - Tc I
+20373;;;Sociologia
+20372;;;Gestão do Conhecimento e Inovação
+20371;;;Práticas Gerenciais IV - Estágio na Área de Finanças
+20370;;;Direito Empresarial
+20389;;;Empreendedorismo
+20388;;;Economia Internacional
+20387;;;E-Commerce
+20386;;;E-Business
+20385;;;Contabilidade para Administradores
+20384;;;Coaching
+20383;;;Cases Contextualização
+20382;;;Associativismo
+20381;;;Administração Pública
+20380;;;Administração de Serviços
+20478;;;Produção Textual para Trabalhos Monográficos
+20357;;;Análise Econômica e Financeira
+17189;;;Direito Processual Eleitoral
+20477;;;Produção e Interpretação de Texto
+20356;;;Administração da Produção e Operações I
+20476;;;Plano de Negócios
+20355;;;Pesquisa de Mercado
+20475;;;Planejamento Estratégico
+20354;;;Estatística Aplicada À Administração
+20474;;;Pesquisa de Mercado
+20353;;;Contabilidade Gerencial
+17185;;;Direito Eleitoral
+20473;;;Negociações Internacionais
+20352;;;Gestão de Pessoas I
+17186;;;Direito Minerário
+20472;;;Libras
+20351;;;Matemática Financeira para Administradores
+17187;;;Direito Partidário
+20471;;;Legislação Aduaneira
+20350;;;Logística II
+17188;;;Direito Penal IV
+17181;;;Direito da Pessoa com Deficiência
+17182;;;Direito de Cooperativa
+17183;;;Direito do Idoso
+17184;;;Direito e Movimentos Sociais
+20359;;;Gestão de Pessoas II
+20479;;;Relações Humanas
+20358;;;Práticas Gerenciais I - Estágio na Área de Marketing
+17180;;;Direito Constitucional Municipal
+20470;;;Inglês Técnico
+20368;;;Práticas Gerenciais Iii-Estágio na Área de Administração da Produção e Operações
+20367;;;Economia para Administradores
+20366;;;Custo Gerencial
+20365;;;Administração Financeira II
+20364;;;Administração Financeira I
+17196;;;Informática Aplicada ao Direito
+20484;;;Tópicos Emergentes
+20363;;;Práticas Gerenciais II - Estágio na Área de Gestão de Pessoas
+17197;;;Libras
+20483;;;Sistemática de Comércio Exterior
+20362;;;Pesquisa Operacional
+17198;;;Lógica Jurídica
+20482;;;Sistemas de Computação Aplicados a Administração
+20361;;;Gestão Estratégica
+17199;;;Mandado de Segurança
+17192;;;Direito Urbanístico
+17193;;;Direitos Humanos das Mulheres
+17194;;;Ensino Jurídico
+17195;;;Estado Brasileiro
+17190;;;Direito Romano
+20369;;;Projeto Trabalho de Conclusão de Curso - Orientação para Estágio
+17191;;;Direito Sanitário
+20481;;;Sistema de Importação
+20360;;;Administração da Produção e Operações II
+20480;;;Sistema de Exportação
+16403;;;Energias Alternativas
+16402;;;Legislação para Engenharia
+17200;;;Mediação e Arbitragem
+17201;;;Medicina Legal
+17202;;;Políticas Públicas
+17203;;;Psicocinética Aplicada ao Direito
+17208;;;História do Pensamento e das Instituições Jurídicas
+17209;;;Metodologia Científica e da Pesquisa
+17204;;;Segurança e Saúde do Trabalhador
+17205;;;Temas Atuais em Direito Constitucional
+17206;;;Tribunal do Júri
+17207;;;Introdução ao Estudo do Direito
+17211;;;Produção e Interpretação de Textos
+17212;;;Introdução ao Direito Civil
+18423;;;Algoritmos e Programação
+17213;;;Direito Penal I
+18424;;;Roteiros
+17214;;;Direito Penal II
+17210;;;Ciência Política
+18429;;;Laboratório de Jogos I: Ferramentas de Desenvolvimento Rápido de Jogos 2D
+17219;;;Direito das Obrigações
+18425;;;Matemática para Jogos
+17215;;;Direito Penal III
+18426;;;Introdução À Computação
+17216;;;Teoria do Estado e da Constituição
+18427;;;Sociologia
+17217;;;Sociologia Geral e do Direito
+18428;;;Fundamentos de Jogos
+17218;;;Geopolítica
+17300;;;Tribunal do Júri
+10907;;;Língua Inglesa Avançada
+10906;;;Língua Inglesa
+10909;;;Psicologia
+10908;;;Sociologia
+10910;;;O Computador e a Sociedade
+10912;;;Plano de Negócios
+10911;;;Programação em Lógica
+10914;;;Análise Organizacional
+10913;;;Interface Humano Computador
+10916;;;Administração de Sistemas de Informação
+10915;;;Gestão Ambiental e da Qualidade
+21930;;;Ensaios Fotográficos
+10918;;;Imagens Digitais
+10917;;;Computação Arte
+10919;;;Desenho Digital
+21931;;;Fotografia e Pesquisa
+10921;;;Libras
+10920;;;Artes Gráficas
+10923;;;Atividade Física e Qualidade de Vida II
+10922;;;Atividade Física e Qualidade de Vida I
+21929;;;Processos Fotográficos
+16202;;;Projeto de Máquinas Ferramentas
+16201;;;Estágio Supervisionado
+16200;;;Ciências do Ambiente
+10901;;;Java para Web
+10900;;;Programação Orientada À Aspectos
+10903;;;Sistemas Operacionais Avançados
+10902;;;Programação para Web
+10905;;;Língua Espanhola Avançada
+10904;;;Língua Espanhola
+16206;;;Português
+16205;;;Introdução ao Estudo de Libras
+16204;;;Tubulações Industriais
+16203;;;Empreendedorismo
+16208;;;Geração e Distribuição do Vapor
+16207;;;Soldagem

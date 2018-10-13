@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -218,11 +219,36 @@ public class ImportarWindow extends AbstractWindowFrame{
 						resultado = JOptionPane.showConfirmDialog (null, "Gostaria de recadastrar todas as disciplinas?", "Resetar Arquivos", dialogButton);
 
 						if (resultado == JOptionPane.YES_OPTION) {
+							String arquivoSelecionado = null;
 							
+							while (arquivoSelecionado == null) {
+								String mensagemErro = null;
+								arquivoSelecionado = fileChooser();
+								
+								try {
+									if (arquivoSelecionado != null) {
+										aM.resetarArquivoDisciplinas();
+										aM.importarDisciplinas(arquivoSelecionado);
+										
+										continue;
+									}
+								} catch (IOException error) {
+									arquivoSelecionado = null;
+									mensagemErro = error.getMessage();
+								}
+								
+								//Gostaria de sair
+								resultado = JOptionPane.showConfirmDialog (null, "Erro ao importar" + (mensagemErro != null ? ": "+ mensagemErro : "") + ". "
+										+ "Gostaria de tentar novamente?", "Resetar Arquivos", dialogButton);
+								
+								if (resultado != JOptionPane.YES_OPTION) {
+									arquivoSelecionado = "escapar";
+								}
+							}
 						}
 						
 						//Conclusão
-						JOptionPane.showMessageDialog(rootPane, "Processo finaizado", "Resetar Arquivos", JOptionPane.WARNING_MESSAGE, null);
+						JOptionPane.showMessageDialog(rootPane, "Processo finalizado", "Resetar Arquivos", JOptionPane.WARNING_MESSAGE, null);
 					}
 				}
 			}

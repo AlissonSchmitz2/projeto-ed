@@ -8,7 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import br.com.sistemaescolar.model.Aluno;
 import br.com.sistemaescolar.model.Cidade;
@@ -132,7 +134,7 @@ public class ManipularArquivo {
 			// Se a linha for null, significa que o arquivo de dados está vazio (Uma
 			// exception é retornada)
 			if (linha == null) {
-				throw new Exception("Nenhum usuário cadastrado");
+				throw new Exception("nenhum.usuario.cadastrado");
 			}
 
 			while (linha != null) {
@@ -145,8 +147,8 @@ public class ManipularArquivo {
 
 				linha = lerArq.readLine();
 			}
-		} catch (IOException e) {
-			throw new Exception(e);
+		} catch (Exception error) {
+			throw new Exception(error.getMessage());
 		}
 
 		return null;
@@ -939,6 +941,34 @@ public class ManipularArquivo {
 
 		return disciplina;
 	}
+	
+	//Este método importa as disciplinas apartir do arquivo dentro do projeto
+	public void importarDisciplinas(String caminhoArquivo) throws IOException {
+		FileReader arq = new FileReader(caminhoArquivo);
+		lerArq = new BufferedReader(arq);
+
+		String linha = lerArq.readLine();
+		
+		HashMap<String, String> disciplinasParaCadastrar = new HashMap<String, String>();
+		
+		//Percorre as linhas do arquivo para extrair os dados
+		while (linha != null) {
+			String[] atributos = linha.split(SEPARATOR);
+			
+			disciplinasParaCadastrar.put(atributos[0], atributos[1]);
+
+			linha = lerArq.readLine();
+		}
+		
+		//Faz o cadastro das disciplinas
+		for (Entry<String, String> dados : disciplinasParaCadastrar.entrySet()) {
+			Disciplina novaDisciplina = new Disciplina();
+			novaDisciplina.setCodDisciplina(Integer.parseInt(dados.getKey()));
+			novaDisciplina.setDisciplina(dados.getValue());
+			
+			inserirDado(novaDisciplina);
+		}
+	}
 
 
 	/*
@@ -1220,14 +1250,15 @@ public class ManipularArquivo {
 
 			String linha = lerArq.readLine();
 
-				while (linha != null) {
-					String[] atributo = linha.split(SEPARATOR);
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
 
-					grade.add(criarGradeApartirAtributos(atributo));
+				grade.add(criarGradeApartirAtributos(atributo));
 
-					linha = lerArq.readLine();
-				}
+				linha = lerArq.readLine();
+			}
 			
+			lerArq.close();
 		} catch (IOException e) {
 			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
 		}
