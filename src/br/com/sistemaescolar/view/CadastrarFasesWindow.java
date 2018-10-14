@@ -166,7 +166,6 @@ public class CadastrarFasesWindow extends AbstractWindowFrame implements Subject
 	}
 	
 	private void setarValores(Fase fase) {
-		// TODO: setar valores iniciais para edição
 		cbxCurso.setSelectedItem(fase.getCurso().getNome());
 		cbxFases.setSelectedItem(fase.getNome());
 	}

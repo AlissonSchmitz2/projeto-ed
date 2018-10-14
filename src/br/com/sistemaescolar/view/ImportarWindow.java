@@ -408,8 +408,6 @@ public class ImportarWindow extends AbstractWindowFrame{
 						modelProfessores.clear();
 						extracaoDados.getTodosProfessores().values().stream().forEach(resumoProfessor -> modelProfessores.addElement(resumoProfessor));
 					} catch (Exception erro) {
-						//TODO: Limpar todos os valores dos componentes e desabilitar botão de processamento da importação
-						
 						txfImportacao.setBackground(Color.getHSBColor((float)100, (float)0.29, (float)1));
 						
 						extracaoDados = null;
