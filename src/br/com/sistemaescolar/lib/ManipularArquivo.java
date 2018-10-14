@@ -1153,7 +1153,7 @@ public class ManipularArquivo {
 		removerDadosDoArquivo("grades", grade.getId().toString());
 				
 		//Remove Itens
-		grade.getItens().stream().forEach(gradeItem -> removerDado(gradeItem));
+		pegarGradeItens(grade.getId()).stream().forEach(gradeItem -> removerDado(gradeItem));
 	}
 	
 	public void removerDado(GradeItem gradeItem) {
@@ -1365,7 +1365,9 @@ public class ManipularArquivo {
 		professor.setId(Integer.parseInt(atributo[3]));
 		gradeItem.setProfessor(professor);
 		
-		gradeItem.setCodigoDiaSemana(atributo[4]);
+		if (atributo.length > 4 && atributo[4] != null) {
+			gradeItem.setCodigoDiaSemana(atributo[4]);
+		}
 
 		return gradeItem;
 	}

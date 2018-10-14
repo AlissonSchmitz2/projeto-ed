@@ -6,6 +6,17 @@ public class GradeItem {
 	private Disciplina disciplina;
 	private Professor professor;
 	private String codigoDiaSemana = "";
+	
+	public GradeItem(Integer id, Grade grade, Disciplina disciplina, Professor professor, String codigoDiaSemana) {
+		this.id = id;
+		this.grade = grade;
+		this.disciplina = disciplina;
+		this.professor = professor;
+		this.codigoDiaSemana = codigoDiaSemana;
+	}
+	
+	public GradeItem() {
+	}
 
 	public Integer getId() {
 		return id;
