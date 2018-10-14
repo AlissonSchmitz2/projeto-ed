@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Configuracoes;
@@ -21,7 +21,7 @@ public class ExtracaoDados extends ManipuladorRegistro {
 	
 	private ManipularArquivo aM = new ManipularArquivo();
 	
-	private Map<String, String> disciplinasCadastradas = new HashMap<String, String>();
+	private Map<String, String> disciplinasCadastradas = new TreeMap<String, String>();
 	
 	public ExtracaoDados(String caminhoArquivo, Configuracoes configuracoes) throws Exception {
 		this.caminhoArquivo = caminhoArquivo;
@@ -48,7 +48,7 @@ public class ExtracaoDados extends ManipuladorRegistro {
 	 * Retorna todas as disciplinas de todas as fases
 	 */
 	public Map<String, ResumoDisciplina> getTodasDisciplinas() {
-		Map<String, ResumoDisciplina> disciplinas = new HashMap<String, ResumoDisciplina>();
+		Map<String, ResumoDisciplina> disciplinas = new TreeMap<String, ResumoDisciplina>();
 		
 		for (Entry<String, ResumoFase> entradaFase : getResumos().entrySet()){
 	        for (ResumoDisciplina resumoDisciplina : entradaFase.getValue().getDisciplinas().values()){
@@ -64,7 +64,7 @@ public class ExtracaoDados extends ManipuladorRegistro {
 	 * Retorna todas os professores de todas as disciplinas
 	 */
 	public Map<String, ResumoProfessor> getTodosProfessores() {
-		Map<String, ResumoProfessor> professores = new HashMap<String, ResumoProfessor>();
+		Map<String, ResumoProfessor> professores = new TreeMap<String, ResumoProfessor>();
 		
 		for (Entry<String, ResumoFase> entradaFase : getResumos().entrySet()){
 	        for (Entry<String, ResumoDisciplina> entradaDisciplina : entradaFase.getValue().getDisciplinas().entrySet()){
@@ -135,7 +135,7 @@ public class ExtracaoDados extends ManipuladorRegistro {
 	
 			String linha = bufferArquivo.readLine();
 			
-			Map<String, ResumoFase> resumosExtraidos = new HashMap<String, ResumoFase>();
+			Map<String, ResumoFase> resumosExtraidos = new TreeMap<String, ResumoFase>();
 			
 			//Variáveis para controle ordem de inserção dados
 			ResumoFase ultimoResumoFase = null;
