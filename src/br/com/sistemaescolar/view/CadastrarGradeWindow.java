@@ -3,6 +3,7 @@ package br.com.sistemaescolar.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -294,8 +295,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		return adicionarItemGrid(item);
 	}
 
-	private boolean adicionarGradeItem(Disciplina disciplina, Professor professor) {
-		String codDiaSemana = "0" + cbxDiaSemana.getItemCount();
+	private boolean adicionarGradeItem(Disciplina disciplina, Professor professor,String codDiaSemana) {
 		GradeItem item = new GradeItem(null, null, disciplina, professor, codDiaSemana);
 
 		return adicionarItemGrid(item);
@@ -306,7 +306,6 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 			return false;
 		}
 		modelGridDisciplinas.addItem(item);
-
 		return true;
 	}
 
@@ -358,9 +357,9 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		cbxCurso.setSelectedItem(grade.getFase().getCurso().getNome());
 
 		cbxFases.setSelectedItem(grade.getFase().getNome());
-
+		
 		// Preenche a grid com os items
-		grade.getItens().forEach(gradeItem -> adicionarGradeItem(gradeItem.getDisciplina(), gradeItem.getProfessor()));
+		grade.getItens().forEach(gradeItem -> adicionarGradeItem(gradeItem.getDisciplina(), gradeItem.getProfessor(),gradeItem.getCodigoDiaSemana()));
 	}
 
 	public boolean verificaItemDuplicado(GradeItem item) {
