@@ -207,6 +207,13 @@ public class ListarGradesWindow extends AbstractGridWindow implements ObserverGr
 						if (grade instanceof Grade) {
 							abrirEdicaoGrade(grade);							
 						}
+					} else {
+						Grade grade = aM.pegarGradePorId(Integer.parseInt(idSelecionado), true);
+						
+						if (grade instanceof Grade) {
+							InformacoesGradeWindow frame = new InformacoesGradeWindow(grade);
+							abrirFrame(frame);
+						}
 					}
 				}
 			}
