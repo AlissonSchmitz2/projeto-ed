@@ -304,7 +304,6 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	}
 
 	private boolean adicionarItemGrid(GradeItem item) {
-		// TODO: validar se algum item duplicado esta sendo inserido
 		if (verificaItemDuplicado(item)) {
 			return false;
 		}
