@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Curso;
@@ -43,7 +45,8 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	private ArrayList<ObserverGrade> observers = new ArrayList<ObserverGrade>();
 	private JComboBox<String> cbxDisciplina;
 	private JComboBox<String> cbxProfessor;
-	private JButton btnAdd, btnSalvar;
+	private JComboBox<String> cbxDiaSemana;
+	private JButton btnAdd, btnSalvar,btnRemover;
 	private JLabel label;
 
 	private Grade grade = new Grade();
@@ -51,6 +54,8 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	private GradeItemTableModel modelGridDisciplinas = new GradeItemTableModel();
 	private JTable gridDisciplinas;
 	private JScrollPane scrollpaneGridDisciplinas;
+	
+	private int linhaSelecionada;
 	
 	ManipularArquivo aM = new ManipularArquivo();
 
@@ -130,17 +135,33 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		opcoesDisciplinas(listaDisciplinas).forEach(disciplinas -> cbxDisciplina.addItem(disciplinas));
 
 		label = new JLabel("Professor:");
-		label.setBounds(660, 130, 70, 45);
+		label.setBounds(410, 160, 70, 45);
 		getContentPane().add(label);
 
 		cbxProfessor = new JComboBox<String>();
-		cbxProfessor.setBounds(730, 140, 170, 25);
+		cbxProfessor.setBounds(480, 170, 170, 25);
 		getContentPane().add(cbxProfessor);
 		cbxProfessor.addItem("-Selecione-");
 		opcoesProfessores(listaProfessores).forEach(professores -> cbxProfessor.addItem(professores));
 
+		label = new JLabel("Dia da Semana:");
+		label.setBounds(670,160,130,45);
+		getContentPane().add(label);
+		
+		cbxDiaSemana = new JComboBox<String>();
+		cbxDiaSemana.addItem("-Selecione-");
+		cbxDiaSemana.addItem("01-Domingo");
+		cbxDiaSemana.addItem("02-Segunda-Feira");
+		cbxDiaSemana.addItem("03-Terça-Feira");
+		cbxDiaSemana.addItem("04-Quarta-Feira");
+		cbxDiaSemana.addItem("05-Quinta-Feira");
+		cbxDiaSemana.addItem("06-Sexta-Feira");
+		cbxDiaSemana.addItem("07-Sábado");
+		cbxDiaSemana.setBounds(770, 170, 170, 25);
+		getContentPane().add(cbxDiaSemana);
+		
 		btnAdd = new JButton("+");
-		btnAdd.setBounds(959, 140, 50, 25);
+		btnAdd.setBounds(959, 170, 50, 25);
 		getContentPane().add(btnAdd);
 		
 		btnAdd.addActionListener(new ActionListener() {
@@ -149,15 +170,30 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 					JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
 							JOptionPane.ERROR_MESSAGE, null);
 				} else {
-					if (addGridItem(cbxDisciplina.getSelectedItem().toString(), cbxProfessor.getSelectedItem().toString())) {
+					if (addGridItem(cbxDisciplina.getSelectedItem().toString(), 
+							cbxProfessor.getSelectedItem().toString()
+							)) {
 						limparSeletoresDisciplina();
 					}
 				}
 			}
 		});
+		
+		btnRemover = new JButton("-");
+		btnRemover.setBounds(1019, 170, 50, 25);
+		btnRemover.setEnabled(false);
+		getContentPane().add(btnRemover);
+		
+		btnRemover.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				removerLinha();
+				btnRemover.setEnabled(false);
+			}
+		});
 
 		btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(900, 320, 110, 25);
+		btnSalvar.setBounds(960, 350, 110, 25);
 		getContentPane().add(btnSalvar);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -254,15 +290,16 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	private boolean addGridItem(String nomeDisciplina, String nomeProfessor) {
 		Disciplina disciplina = aM.pegarDisciplinaPorNome(nomeDisciplina);
 		Professor professor = aM.pegarProfessorPorNome(nomeProfessor);
-		//TODO: pegar código dia da semana do campo e passar no último argumento
-		GradeItem item = new GradeItem(null, null, disciplina, professor, "");
+		String codDiaSemana = "0" + cbxDiaSemana.getSelectedIndex();
+		
+		GradeItem item = new GradeItem(null, null, disciplina, professor, codDiaSemana);
 		
 		return adicionarItemGrid(item);
 	}
 	
 	private boolean adicionarGradeItem(Disciplina disciplina, Professor professor) {
-		//TODO: pegar código dia da semana do campo e passar no último argumento
-		GradeItem item = new GradeItem(null, null, disciplina, professor, "");
+		String codDiaSemana = "0" + cbxDiaSemana.getItemCount();
+		GradeItem item = new GradeItem(null, null, disciplina, professor,codDiaSemana);
 		
 		return adicionarItemGrid(item);
 	}
@@ -281,8 +318,18 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		
 		gridDisciplinas = new JTable(modelGridDisciplinas);
 		gridDisciplinas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		// Ação Seleção de uma linha
+				gridDisciplinas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+					public void valueChanged(ListSelectionEvent event) {
+						btnRemover.setEnabled(true);
+						if (gridDisciplinas.getSelectedRow() != -1) {
+							linhaSelecionada = gridDisciplinas.getSelectedRow();
+						}
+					}
+				});
+				
 		scrollpaneGridDisciplinas = new JScrollPane(gridDisciplinas);
-		scrollpaneGridDisciplinas.setBounds(410, 170, 600, 135);
+		scrollpaneGridDisciplinas.setBounds(410, 200, 660, 135);
 		setLayout(null);
 		scrollpaneGridDisciplinas.setVisible(true);
 		add(scrollpaneGridDisciplinas);
@@ -295,12 +342,17 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	private void limparSeletoresDisciplina() {
 		cbxDisciplina.setSelectedIndex(0);
 		cbxProfessor.setSelectedIndex(0);
+		cbxDiaSemana.setSelectedIndex(0);
 	}
 
 	public void limparFormulario() {
 		//TODO: limpar os campos da grade (exceto seletores da grid pois já são limpos ao inserir)
 		limparSeletoresDisciplina();
 		limparGrid();
+	}
+	
+	public void removerLinha() {
+		modelGridDisciplinas.removeItem(linhaSelecionada);
 	}
 	
 	private void setarValores(Grade grade) {

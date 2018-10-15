@@ -1322,6 +1322,9 @@ public class ManipularArquivo {
 			
 			//Carrega model Professor a GradeItem
 			gradeItem.setProfessor(pegarProfessorPorId(gradeItem.getProfessor().getId()));
+			
+			//Carrega model Dia da Semana
+			gradeItem.setCodigoDiaSemana("07");
 		});
 		
 		return gradeItens;
