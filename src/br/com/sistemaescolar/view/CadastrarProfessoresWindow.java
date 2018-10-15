@@ -77,6 +77,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 		
 		cbxTitulo.setBounds(15, 80, 200, 25);
 		cbxTitulo.setToolTipText("Informe o título docente");
+		cbxTitulo.addKeyListener(acao);
 		getContentPane().add(cbxTitulo);
 		
 		
