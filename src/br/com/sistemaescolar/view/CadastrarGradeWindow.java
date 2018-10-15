@@ -32,31 +32,31 @@ import br.com.sistemaescolar.table.model.GradeItemTableModel;
 public class CadastrarGradeWindow extends AbstractWindowFrame implements SubjectGrade {
 
 	private static final long serialVersionUID = 10914486141164967L;
-	
+
 	private JPanel painel;
 	private JLabel labes;
 	private JComboBox<String> cbxCurso, cbxFases;
-	
+
 	private List<Curso> listaCursos;
 	private List<Fase> listaFases;
 	private List<Disciplina> listaDisciplinas;
 	private List<Professor> listaProfessores;
-	
+
 	private ArrayList<ObserverGrade> observers = new ArrayList<ObserverGrade>();
 	private JComboBox<String> cbxDisciplina;
 	private JComboBox<String> cbxProfessor;
 	private JComboBox<String> cbxDiaSemana;
-	private JButton btnAdd, btnSalvar,btnRemover;
+	private JButton btnAdd, btnSalvar, btnRemover;
 	private JLabel label;
 
 	private Grade grade = new Grade();
-	
+
 	private GradeItemTableModel modelGridDisciplinas = new GradeItemTableModel();
 	private JTable gridDisciplinas;
 	private JScrollPane scrollpaneGridDisciplinas;
-	
+
 	private int linhaSelecionada;
-	
+
 	ManipularArquivo aM = new ManipularArquivo();
 
 	public CadastrarGradeWindow() {
@@ -64,7 +64,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		this.grade = new Grade();
 		inicializar();
 	}
-	
+
 	public CadastrarGradeWindow(Grade grade) {
 		super("Editar Grade");
 		this.grade = grade;
@@ -72,13 +72,13 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 
 		setarValores(grade);
 	}
-	
+
 	private void inicializar() {
 		listaCursos = aM.pegarCursos();
 		listaFases = aM.pegarFases();
 		listaDisciplinas = aM.pegarDisciplinas();
 		listaProfessores = aM.pegarProfessores();
-		
+
 		criarComponentes();
 		criarGrid();
 	}
@@ -145,9 +145,9 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		opcoesProfessores(listaProfessores).forEach(professores -> cbxProfessor.addItem(professores));
 
 		label = new JLabel("Dia da Semana:");
-		label.setBounds(670,160,130,45);
+		label.setBounds(670, 160, 130, 45);
 		getContentPane().add(label);
-		
+
 		cbxDiaSemana = new JComboBox<String>();
 		cbxDiaSemana.addItem("-Selecione-");
 		cbxDiaSemana.addItem("01-Domingo");
@@ -159,31 +159,33 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		cbxDiaSemana.addItem("07-Sábado");
 		cbxDiaSemana.setBounds(770, 170, 170, 25);
 		getContentPane().add(cbxDiaSemana);
-		
+
 		btnAdd = new JButton("+");
 		btnAdd.setBounds(959, 170, 50, 25);
 		getContentPane().add(btnAdd);
-		
+
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (validarCamposObrigatorios()) {
 					JOptionPane.showMessageDialog(rootPane, "Informe todos os campos para cadastrar!", "",
 							JOptionPane.ERROR_MESSAGE, null);
 				} else {
-					if (addGridItem(cbxDisciplina.getSelectedItem().toString(), 
-							cbxProfessor.getSelectedItem().toString()
-							)) {
+					if (addGridItem(cbxDisciplina.getSelectedItem().toString(),
+							cbxProfessor.getSelectedItem().toString())) {
 						limparSeletoresDisciplina();
+					}else {
+						JOptionPane.showMessageDialog(rootPane, "Item já esta cadastrado na grade!", "",
+								JOptionPane.ERROR_MESSAGE, null);
 					}
 				}
 			}
 		});
-		
+
 		btnRemover = new JButton("-");
 		btnRemover.setBounds(1019, 170, 50, 25);
 		btnRemover.setEnabled(false);
 		getContentPane().add(btnRemover);
-		
+
 		btnRemover.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -208,10 +210,10 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	}
 
 	public boolean validarCamposObrigatorios() {
-		if ("-Selecione-".equals(cbxDisciplina.getSelectedItem()) ||
-			"-Selecione-".equals(cbxProfessor.getSelectedItem())  ||
-			"-Selecione-".equals(cbxCurso.getSelectedItem())   	  ||
-			"-Selecione-".equals(cbxFases.getSelectedItem())) {
+		if ("-Selecione-".equals(cbxDisciplina.getSelectedItem())
+				|| "-Selecione-".equals(cbxProfessor.getSelectedItem())
+				|| "-Selecione-".equals(cbxCurso.getSelectedItem())
+				|| "-Selecione-".equals(cbxFases.getSelectedItem())) {
 
 			return true;
 		}
@@ -221,43 +223,41 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	private void salvarGrade() {
 		Curso curso = aM.pegarCursoPorNome(cbxCurso.getSelectedItem().toString());
 		Fase fase = aM.pegarFasePorNomeFaseIdCurso(cbxFases.getSelectedItem().toString(), curso.getId());
-		
-		//Antes de continuar, verifica se já não existe um grade para o curso e fase
+
+		// Antes de continuar, verifica se já não existe um grade para o curso e fase
 		Grade gradeExistente = aM.pegarGradePorIdFase(fase.getId(), false);
-		if (
-				(grade.getId() == null && gradeExistente != null) || 
-				(grade.getId() != null && gradeExistente != null && gradeExistente.getId().compareTo(grade.getId()) != 0)
-		) {
+		if ((grade.getId() == null && gradeExistente != null) || (grade.getId() != null && gradeExistente != null
+				&& gradeExistente.getId().compareTo(grade.getId()) != 0)) {
 			JOptionPane.showMessageDialog(rootPane, "Já existe uma grade para o curso e fase selecionados!", "",
 					JOptionPane.ERROR_MESSAGE, null);
-			
+
 			return;
 		}
-		
+
 		grade.setFase(fase);
 		grade.clearItens();
-		
-		//Percorre os items da grid
-		modelGridDisciplinas.getItems().forEach(gradeItem -> {			
-			//Insere os items no objeto grade
+
+		// Percorre os items da grid
+		modelGridDisciplinas.getItems().forEach(gradeItem -> {
+			// Insere os items no objeto grade
 			grade.setItem(gradeItem);
 		});
-		
-		//Edição
+
+		// Edição
 		if (grade.getId() != null) {
 			aM.editarDado(grade);
-			
+
 			notifyObservers(grade);
 			JOptionPane.showMessageDialog(null, "Grade salva com sucesso!");
-			
+
 			limparFormulario();
 			setVisible(false);
 		}
 
-		//Cadastro
+		// Cadastro
 		if (grade.getId() == null) {
 			aM.inserirDado(grade);
-			
+
 			limparFormulario();
 			JOptionPane.showMessageDialog(null, "Grade salva com sucesso!");
 		}
@@ -272,14 +272,13 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	private List<String> opcoesFases(List<Fase> fases, String nomeCurso) {
 		Curso curso = aM.pegarCursoPorNome(nomeCurso);
 
-		return fases.stream().filter(fase -> curso.getId() == fase.getCurso().getId()).map(fase -> fase.getNome()).distinct()
-				.collect(Collectors.toList());
+		return fases.stream().filter(fase -> curso.getId() == fase.getCurso().getId()).map(fase -> fase.getNome())
+				.distinct().collect(Collectors.toList());
 	}
 
 	// Obtem lista de Disciplinas
 	private List<String> opcoesDisciplinas(List<Disciplina> disciplinas) {
-		return disciplinas.stream().map(disciplina -> disciplina.getNome()).distinct()
-				.collect(Collectors.toList());
+		return disciplinas.stream().map(disciplina -> disciplina.getNome()).distinct().collect(Collectors.toList());
 	}
 
 	// Obtem lista de Professores
@@ -291,43 +290,44 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		Disciplina disciplina = aM.pegarDisciplinaPorNome(nomeDisciplina);
 		Professor professor = aM.pegarProfessorPorNome(nomeProfessor);
 		String codDiaSemana = "0" + cbxDiaSemana.getSelectedIndex();
-		
+
 		GradeItem item = new GradeItem(null, null, disciplina, professor, codDiaSemana);
-		
+
 		return adicionarItemGrid(item);
 	}
-	
+
 	private boolean adicionarGradeItem(Disciplina disciplina, Professor professor) {
 		String codDiaSemana = "0" + cbxDiaSemana.getItemCount();
-		GradeItem item = new GradeItem(null, null, disciplina, professor,codDiaSemana);
-		
+		GradeItem item = new GradeItem(null, null, disciplina, professor, codDiaSemana);
+
 		return adicionarItemGrid(item);
 	}
-	
+
 	private boolean adicionarItemGrid(GradeItem item) {
-		//TODO: validar se algum item duplicado esta sendo inserido
-		
+		if (verificaItemDuplicado(item)) {
+			return false;
+		}
 		modelGridDisciplinas.addItem(item);
-		
+
 		return true;
 	}
 
 	private void criarGrid() {
 		painel = new JPanel();
 		getContentPane().add(painel);
-		
+
 		gridDisciplinas = new JTable(modelGridDisciplinas);
 		gridDisciplinas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		// Ação Seleção de uma linha
-				gridDisciplinas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-					public void valueChanged(ListSelectionEvent event) {
-						btnRemover.setEnabled(true);
-						if (gridDisciplinas.getSelectedRow() != -1) {
-							linhaSelecionada = gridDisciplinas.getSelectedRow();
-						}
-					}
-				});
-				
+		gridDisciplinas.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent event) {
+				btnRemover.setEnabled(true);
+				if (gridDisciplinas.getSelectedRow() != -1) {
+					linhaSelecionada = gridDisciplinas.getSelectedRow();
+				}
+			}
+		});
+
 		scrollpaneGridDisciplinas = new JScrollPane(gridDisciplinas);
 		scrollpaneGridDisciplinas.setBounds(410, 200, 660, 135);
 		setLayout(null);
@@ -338,7 +338,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	public void limparGrid() {
 		modelGridDisciplinas.limpar();
 	}
-	
+
 	private void limparSeletoresDisciplina() {
 		cbxDisciplina.setSelectedIndex(0);
 		cbxProfessor.setSelectedIndex(0);
@@ -346,22 +346,40 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	}
 
 	public void limparFormulario() {
-		//TODO: limpar os campos da grade (exceto seletores da grid pois já são limpos ao inserir)
+		// TODO: limpar os campos da grade (exceto seletores da grid pois já são limpos
+		// ao inserir)
 		limparSeletoresDisciplina();
 		limparGrid();
 	}
-	
+
 	public void removerLinha() {
 		modelGridDisciplinas.removeItem(linhaSelecionada);
 	}
-	
+
 	private void setarValores(Grade grade) {
 		cbxCurso.setSelectedItem(grade.getFase().getCurso().getNome());
 
 		cbxFases.setSelectedItem(grade.getFase().getNome());
-		
-		//Preenche a grid com os items
+
+		// Preenche a grid com os items
 		grade.getItens().forEach(gradeItem -> adicionarGradeItem(gradeItem.getDisciplina(), gradeItem.getProfessor()));
+	}
+
+	public boolean verificaItemDuplicado(GradeItem item) {
+
+		String linhaItem = item.getDisciplina().getId() + item.getCodigoDiaSemana() + item.getProfessor().getId();
+
+		for (int i = 0; i < modelGridDisciplinas.getRowCount(); i++) {
+			GradeItem itemGrade = modelGridDisciplinas.getItem(i);
+			String linhaItemGrade = itemGrade.getDisciplina().getId() + itemGrade.getCodigoDiaSemana()
+					+ itemGrade.getProfessor().getId();
+
+			if (linhaItem.equals(linhaItemGrade)) {
+				return true;
+			}
+
+		}
+		return false;
 	}
 
 	@Override

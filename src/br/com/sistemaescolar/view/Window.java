@@ -63,6 +63,7 @@ public class Window extends JFrame {
 	private ListarCursosWindow frameListarCursos;
 	private ListarFasesWindow frameListarFases;
 	private ListarDisciplinasWindow frameListarDisciplinas;
+	private CadastrarMatriculaWindow frameMatricularAluno;
 	
 	private JLabel wallpaper;
 	
@@ -376,6 +377,10 @@ public class Window extends JFrame {
 			
 			menuGrade.add(getMenuItemCadastrarGrade());
 			menuGrade.add(getMenuItemListarGrade());
+			menuGrade.addSeparator();
+			menuGrade.add(getMenuItemMatricula());
+			menuGrade.add(getMenuItemListarMatricula());
+			
 			return menuGrade;
 		}
 		
@@ -415,6 +420,40 @@ public class Window extends JFrame {
 			return menuItem;
 		}
 
+		private JMenuItem getMenuItemMatricula() {
+			JMenuItem menuItem = new JMenuItem();
+			
+			menuItem.setText("Matricular aluno");
+			menuItem.setFont(getDefaultFont());
+			
+			protegerMenuItemBaseadoPerfilUsuario(menuItem);
+			
+			menuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frameMatricularAluno = new CadastrarMatriculaWindow();
+					abrirFrame(frameMatricularAluno);
+				}
+			});
+			
+			return menuItem;
+		}
+		
+		private JMenuItem getMenuItemListarMatricula() {
+			JMenuItem menuItem = new JMenuItem();
+			
+			menuItem.setText("Listar matricula");
+			menuItem.setFont(getDefaultFont());
+			
+			protegerMenuItemBaseadoPerfilUsuario(menuItem);
+			
+			menuItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				
+				}
+			});
+			
+			return menuItem;
+		}
 	// Menu Cidades
 	private JMenu getMenuCidades() {
 		menuCidades = new JMenu();
