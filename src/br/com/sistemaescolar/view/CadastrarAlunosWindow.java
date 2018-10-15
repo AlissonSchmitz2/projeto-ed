@@ -519,7 +519,6 @@ public class CadastrarAlunosWindow extends AbstractWindowFrame implements Subjec
 	}
 
 	private void setarValores(Aluno aluno) {
-		// TODO: setar valores iniciais para edição
 		txfNome.setText(aluno.getNomeAluno());
 		txfCod.setText(aluno.getCodAluno());
 		txfEmail.setText(aluno.getEmail());

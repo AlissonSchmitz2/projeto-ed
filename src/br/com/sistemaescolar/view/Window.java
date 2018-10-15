@@ -215,7 +215,6 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO: Listar professores
 				frameListarProfessores = new ListarProfessoresWindow(desktop, usuarioLogado);
 				abrirFrame(frameListarProfessores);
 				// Garante que a grid se encaixe na tela depois que a tela Ã© criada
@@ -264,7 +263,6 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO:Abrir frame para listar cursos
 				frameListarCursos = new ListarCursosWindow(desktop, usuarioLogado);
 				abrirFrame(frameListarCursos);
 				// Garante que a grid se encaixe na tela depois que a tela é criada
@@ -311,7 +309,6 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO:Abrir frame para listar fases
 				frameListarFases = new ListarFasesWindow(desktop, usuarioLogado);
 				abrirFrame(frameListarFases);
 				// Garante que a grid se encaixe na tela depois que a tela é criada
@@ -359,7 +356,6 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO:Abrir frame para listar disciplinas
 				frameListarDisciplinas = new ListarDisciplinasWindow(desktop, usuarioLogado);
 				abrirFrame(frameListarDisciplinas);
 				// Garante que a grid se encaixe na tela depois que a tela é criada
@@ -409,7 +405,6 @@ public class Window extends JFrame {
 
 			menuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// TODO:Abrir frame para listar grade
 					frameListarGrades = new ListarGradesWindow(desktop, usuarioLogado);
 					abrirFrame(frameListarGrades);
 					// Garante que a grid se encaixe na tela depois que a tela é criada
