@@ -114,13 +114,11 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 				cbxFases.removeAllItems();
 				cbxFases.addItem("-Selecione-");
 
-				if (cursoSelecionado == null) {
+				if (cursoSelecionado == null || cursoSelecionado.equals("-Selecione-")) {
 					return;
 				}
 
 				opcoesFases(listaFases, cursoSelecionado).forEach(fase -> cbxFases.addItem(fase));
-				// TODO: Atualizar ComboBox ao voltar na opção --Selecione-- do Curso
-				// TODO:Adicionar disciplinas ao JTable, se já cadastradas
 			}
 		});
 
