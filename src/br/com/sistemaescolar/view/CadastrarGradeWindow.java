@@ -3,6 +3,7 @@ package br.com.sistemaescolar.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -114,7 +115,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 				cbxFases.removeAllItems();
 				cbxFases.addItem("-Selecione-");
 
-				if (cursoSelecionado.equals("-Selecione-")) {
+				if (cursoSelecionado == null || cursoSelecionado.equals("-Selecione-")) {
 					return;
 				}
 
@@ -303,7 +304,6 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 			return false;
 		}
 		modelGridDisciplinas.addItem(item);
-
 		return true;
 	}
 
@@ -342,7 +342,6 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 
 	public void limparFormulario() {
 		cbxCurso.setSelectedIndex(0);
-		//cbxFases.setSelectedIndex(0);
 		
 		limparSeletoresDisciplina();
 		limparGrid();
@@ -356,7 +355,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		cbxCurso.setSelectedItem(grade.getFase().getCurso().getNome());
 
 		cbxFases.setSelectedItem(grade.getFase().getNome());
-
+		
 		// Preenche a grid com os items
 		grade.getItens().forEach(gradeItem -> adicionarGradeItem(gradeItem.getDisciplina(), gradeItem.getProfessor(), gradeItem.getCodigoDiaSemana()));
 	}
