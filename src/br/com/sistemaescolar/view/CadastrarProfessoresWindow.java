@@ -97,7 +97,7 @@ public class CadastrarProfessoresWindow extends AbstractWindowFrame implements S
 			}
 		});
 		
-		btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar = new JButton("Salvar");
 		btnCadastrar.setBounds(120, 130, 95, 25);
 		getContentPane().add(btnCadastrar);
 		btnCadastrar.addActionListener(new ActionListener() {

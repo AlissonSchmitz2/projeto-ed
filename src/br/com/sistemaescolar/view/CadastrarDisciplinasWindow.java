@@ -82,10 +82,15 @@ public class CadastrarDisciplinasWindow extends AbstractWindowFrame implements S
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				if(disciplina.getId() != null) {
+					setarValores(disciplina);
+				} else {
+					limparFormulario();
+				}
 			}
 		});
 		
-		btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar = new JButton("Salvar");
 		btnCadastrar.setBounds(120, 130, 95, 25);
 		getContentPane().add(btnCadastrar);
 		

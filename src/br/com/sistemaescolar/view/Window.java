@@ -541,6 +541,8 @@ public class Window extends JFrame {
 		JMenuItem menuItem = new JMenuItem();
 		menuItem.setText("Importador");
 		menuItem.setFont(getDefaultFont());
+		
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -76,7 +76,7 @@ public class CadastrarCursosWindow extends AbstractWindowFrame implements Subjec
 		});
 		
 		
-		btnSalvar = new JButton(new AbstractAction("Cadastrar") {
+		btnSalvar = new JButton(new AbstractAction("Salvar") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

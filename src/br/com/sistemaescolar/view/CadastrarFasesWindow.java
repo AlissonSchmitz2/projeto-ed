@@ -77,6 +77,7 @@ public class CadastrarFasesWindow extends AbstractWindowFrame implements Subject
 		cbxFases.setBounds(15, 80, 200, 25);
 		cbxFases.setToolTipText("Informe a fase");
 		getContentPane().add(cbxFases);
+		cbxFases.addKeyListener(acao);
 
 		labes = new JLabel("Curso:");
 		labes.setBounds(15, 10, 250, 25);
@@ -100,13 +101,20 @@ public class CadastrarFasesWindow extends AbstractWindowFrame implements Subject
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				if(fase.getId() != null) {
+					setarValores(fase);					
+				} else {
+					limparFormulario();
+				}
 
 			}
 		});
 
-		btnSalvar = new JButton("Cadastrar");
+		btnSalvar = new JButton("Salvar");
 		btnSalvar.setBounds(120, 130, 95, 25);
 		getContentPane().add(btnSalvar);
+		btnSalvar.addKeyListener(acao);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cadastrarFase();
@@ -147,7 +155,7 @@ public class CadastrarFasesWindow extends AbstractWindowFrame implements Subject
 
 	public boolean validarCamposObrigatorios() {
 
-		if (cbxFases.getSelectedItem().toString().isEmpty()) {
+		if ("-Selecione-".equals(cbxFases.getSelectedItem()) || "-Selecione-".equals(cbxCurso.getSelectedItem())) {
 			return true;
 		}
 
@@ -155,8 +163,8 @@ public class CadastrarFasesWindow extends AbstractWindowFrame implements Subject
 	}
 
 	public void limparFormulario() {
-		cbxFases.setSelectedIndex(0);
-		cbxCurso.setSelectedIndex(0);
+		cbxFases.setSelectedItem("-Selecione-");
+		cbxCurso.setSelectedItem("-Selecione-");
 		
 		fase = new Fase();
 	}
