@@ -18,6 +18,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import br.com.sistemaescolar.enums.DiasSemana;
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Curso;
 import br.com.sistemaescolar.model.Disciplina;
@@ -108,19 +109,16 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 
 		cbxCurso.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String cursoSelecionado = (String) cbxCurso.getSelectedItem();
+				String cursoSelecionado = cbxCurso.getSelectedItem().toString();
 
-				// Reseta estados e cidades
 				cbxFases.removeAllItems();
 				cbxFases.addItem("-Selecione-");
 
-				if (cursoSelecionado == null) {
+				if (cursoSelecionado.equals("-Selecione-")) {
 					return;
 				}
 
 				opcoesFases(listaFases, cursoSelecionado).forEach(fase -> cbxFases.addItem(fase));
-				// TODO: Atualizar ComboBox ao voltar na opção --Selecione-- do Curso
-				// TODO:Adicionar disciplinas ao JTable, se já cadastradas
 			}
 		});
 
@@ -150,13 +148,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 
 		cbxDiaSemana = new JComboBox<String>();
 		cbxDiaSemana.addItem("-Selecione-");
-		cbxDiaSemana.addItem("01-Domingo");
-		cbxDiaSemana.addItem("02-Segunda-Feira");
-		cbxDiaSemana.addItem("03-Terça-Feira");
-		cbxDiaSemana.addItem("04-Quarta-Feira");
-		cbxDiaSemana.addItem("05-Quinta-Feira");
-		cbxDiaSemana.addItem("06-Sexta-Feira");
-		cbxDiaSemana.addItem("07-Sábado");
+		DiasSemana.getDiasSemana().forEach((codigo, valor) -> cbxDiaSemana.addItem(valor));
 		cbxDiaSemana.setBounds(770, 170, 170, 25);
 		getContentPane().add(cbxDiaSemana);
 
@@ -271,9 +263,13 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	// Obtem lista de Fases referente ao curso
 	private List<String> opcoesFases(List<Fase> fases, String nomeCurso) {
 		Curso curso = aM.pegarCursoPorNome(nomeCurso);
-
-		return fases.stream().filter(fase -> curso.getId() == fase.getCurso().getId()).map(fase -> fase.getNome())
-				.distinct().collect(Collectors.toList());
+		
+		if (curso != null) {
+			return fases.stream().filter(fase -> curso.getId() == fase.getCurso().getId()).map(fase -> fase.getNome())
+					.distinct().collect(Collectors.toList());
+		}
+		
+		return null;
 	}
 
 	// Obtem lista de Disciplinas
@@ -296,9 +292,8 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		return adicionarItemGrid(item);
 	}
 
-	private boolean adicionarGradeItem(Disciplina disciplina, Professor professor) {
-		String codDiaSemana = "0" + cbxDiaSemana.getItemCount();
-		GradeItem item = new GradeItem(null, null, disciplina, professor, codDiaSemana);
+	private boolean adicionarGradeItem(Disciplina disciplina, Professor professor, String codigoDiaSemana) {
+		GradeItem item = new GradeItem(null, null, disciplina, professor, codigoDiaSemana);
 
 		return adicionarItemGrid(item);
 	}
@@ -346,8 +341,9 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 	}
 
 	public void limparFormulario() {
-		// TODO: limpar os campos da grade (exceto seletores da grid pois já são limpos
-		// ao inserir)
+		cbxCurso.setSelectedIndex(0);
+		//cbxFases.setSelectedIndex(0);
+		
 		limparSeletoresDisciplina();
 		limparGrid();
 	}
@@ -362,7 +358,7 @@ public class CadastrarGradeWindow extends AbstractWindowFrame implements Subject
 		cbxFases.setSelectedItem(grade.getFase().getNome());
 
 		// Preenche a grid com os items
-		grade.getItens().forEach(gradeItem -> adicionarGradeItem(gradeItem.getDisciplina(), gradeItem.getProfessor()));
+		grade.getItens().forEach(gradeItem -> adicionarGradeItem(gradeItem.getDisciplina(), gradeItem.getProfessor(), gradeItem.getCodigoDiaSemana()));
 	}
 
 	public boolean verificaItemDuplicado(GradeItem item) {

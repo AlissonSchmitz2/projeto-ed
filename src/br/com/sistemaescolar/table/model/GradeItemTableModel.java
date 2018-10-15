@@ -3,6 +3,8 @@ package br.com.sistemaescolar.table.model;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+
+import br.com.sistemaescolar.enums.DiasSemana;
 import br.com.sistemaescolar.model.GradeItem;
 
 public class GradeItemTableModel extends AbstractTableModel{
@@ -75,7 +77,7 @@ public class GradeItemTableModel extends AbstractTableModel{
 			valueObject = gradeItemSelecionado.getProfessor().getNome();
 			break;
 		case 3:
-			valueObject = gradeItemSelecionado.getCodigoDiaSemana();
+			valueObject = DiasSemana.getDescriptionByCode(gradeItemSelecionado.getCodigoDiaSemana());
 			break;
 		default:
 			System.err.println("Índice inválido para propriedade do bean Grade.class");
