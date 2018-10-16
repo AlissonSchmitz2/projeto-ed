@@ -71,7 +71,13 @@ public class CadastrarCursosWindow extends AbstractWindowFrame implements Subjec
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				limparFormulario();
+				
+				if(curso.getId() != null) {
+					setarValores(curso);
+				} else {
+					limparFormulario();
+				}
+				
 			}
 		});
 		
@@ -110,7 +116,7 @@ public class CadastrarCursosWindow extends AbstractWindowFrame implements Subjec
 			
 			notifyObservers(curso);
 			
-			JOptionPane.showMessageDialog(null, "Curso editado com sucesso!");
+			JOptionPane.showMessageDialog(null, "Curso salvo com sucesso!");
 			
 			limparFormulario();
 			setVisible(false);

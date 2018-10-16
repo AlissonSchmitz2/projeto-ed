@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionListener;
 
 import br.com.sistemaescolar.lib.ManipularArquivo;
 import br.com.sistemaescolar.model.Curso;
+import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Usuario;
 import br.com.sistemaescolar.observer.ObserverCursos;
 import br.com.sistemaescolar.table.model.CursosTableModel;
@@ -197,6 +198,21 @@ public class ListarCursosWindow extends AbstractGridWindow implements ObserverCu
 
 					if (jTableCursos.getSelectedRow() != -1) {
 						idSelecionado = jTableCursos.getValueAt(jTableCursos.getSelectedRow(), 0).toString();
+					}
+				}
+			});
+			
+			// Double Click na linha
+			jTableCursos.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 2) {
+						if (usuarioLogado.possuiPerfilAdministrador()) {
+							Curso curso = aM.pegarCursoPorId(Integer.parseInt(idSelecionado));
+							
+							if (curso instanceof Curso) {
+								abrirEdicaoCursos(curso);
+							}
+						}
 					}
 				}
 			});
