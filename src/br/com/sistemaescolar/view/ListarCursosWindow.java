@@ -201,21 +201,6 @@ public class ListarCursosWindow extends AbstractGridWindow implements ObserverCu
 					}
 				}
 			});
-			
-			// Double Click na linha
-			jTableCursos.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					if (e.getClickCount() == 2) {
-						if (usuarioLogado.possuiPerfilAdministrador()) {
-							Curso curso = aM.pegarCursoPorId(Integer.parseInt(idSelecionado));
-							
-							if (curso instanceof Curso) {
-								abrirEdicaoCursos(curso);
-							}
-						}
-					}
-				}
-			});
 
 			try {
 				listaCursos = aM.pegarCursos();
