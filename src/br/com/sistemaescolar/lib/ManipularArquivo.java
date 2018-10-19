@@ -22,6 +22,8 @@ import br.com.sistemaescolar.model.Disciplina;
 import br.com.sistemaescolar.model.Fase;
 import br.com.sistemaescolar.model.Grade;
 import br.com.sistemaescolar.model.GradeItem;
+import br.com.sistemaescolar.model.Matricula;
+import br.com.sistemaescolar.model.MatriculaItem;
 import br.com.sistemaescolar.model.Professor;
 import br.com.sistemaescolar.model.Usuario;
 
@@ -37,7 +39,9 @@ public class ManipularArquivo {
 	private static String GRADE_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\grade.txt";
 	private static String GRADE_ITEMS_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\grade-itens.txt";
 	private static String CONFIGURACOES_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\configuracoes.txt";
-
+	private static String MATRICULA_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\matriculas.txt";
+	private static String MATRICULA_ITENS_PATH = System.getProperty("user.home") + "\\sistemaescolar\\data\\matricula-itens.txt";
+	
 	private static String SEPARATOR = ";;;";
 
 	private BufferedReader lerArq;
@@ -284,6 +288,29 @@ public class ManipularArquivo {
 				String[] atributo = linha.split(SEPARATOR);
 
 				if (codigo.equals(atributo[1])) {
+					return criarAlunoApartirAtributos(atributo);
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return null;
+	}
+	
+	public Aluno pegarAlunoPorNome(String nome) {
+		
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("alunos"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+				if (nome.equals(atributo[2])) {
 					return criarAlunoApartirAtributos(atributo);
 				}
 
@@ -1376,6 +1403,259 @@ public class ManipularArquivo {
 	}
 	
 	/*
+	 * MATRICULAS
+	 */
+	
+	public Matricula inserirDado(Matricula matricula) {
+		matricula.setId(pegarProximoId("matriculas"));
+
+		String novosDados = criarStringDados(matricula);
+
+		if (inserirDadosNoArquivo("matriculas", novosDados)) {
+			matricula.getItens().stream().forEach(item -> { item.setMatricula(matricula); inserirDado(item); });
+		}
+		
+		return matricula;
+	}
+	
+	public MatriculaItem inserirDado(MatriculaItem matriculaItem) {
+		matriculaItem.setId(pegarProximoId("matriculas_itens"));
+
+		String novosDados = criarStringDados(matriculaItem);
+
+		inserirDadosNoArquivo("matriculas_itens", novosDados);
+		
+		return matriculaItem;
+	}
+
+	public void editarDado(Matricula matricula) {
+		String novosDados = criarStringDados(matricula);
+		
+		editarDadosNoArquivo("matriculas", matricula.getId().toString(), novosDados);
+		
+		//Remove todos os items da grade
+		pegarMatriculaItens(matricula.getId()).stream().forEach(matriculaItem -> removerDado(matriculaItem));
+		
+		//Recadastra os itens na grade
+		matricula.getItens().stream().forEach(item -> { item.setMatricula(matricula); inserirDado(item); });
+		
+		//TODO: Melhorar a maneira como os itens são editados. Inserir os novos, editar o mantidos e excluir os não presentes na lista
+	}
+
+	public void removerDado(Matricula matricula) {
+		//Remove a grade
+		removerDadosDoArquivo("matriculas", matricula.getId().toString());
+				
+		//Remove Itens
+		pegarMatriculaItens(matricula.getId()).stream().forEach(matriculaItem -> removerDado(matriculaItem));
+	}
+	
+	public void removerDado(MatriculaItem matriculaItem) {
+		removerDadosDoArquivo("matriculas_itens", matriculaItem.getId().toString());
+	}
+	
+	public void resetarArquivoMatriculas() {
+		resetarArquivo("matriculas");
+		resetarArquivo("matriculas_itens");
+	}
+
+	public Matricula pegarMatriculaPorId(Integer id, boolean incluirItems) {
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("matriculas"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				if (id.toString().equals(atributo[0])) {
+					Matricula novaMatricula = criarMatriculaApartirAtributos(atributo);
+					
+					//Carrega o model Fase a Grade
+					novaMatricula.setAluno(pegarAlunoPorId(novaMatricula.getAluno().getId()));
+
+					if (incluirItems) {
+						novaMatricula.setItens(pegarMatriculaItens(novaMatricula.getId()));
+					}
+
+					return novaMatricula;
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return null;
+	}
+	
+	public Matricula pegarMatriculaPorIdAluno(Integer idAluno, boolean incluirItems) {
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("matriculas"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				if (idAluno.toString().equals(atributo[1])) {
+					Matricula matricula = criarMatriculaApartirAtributos(atributo);
+					
+					//Carrega o model Fase a Grade
+					matricula.setAluno(pegarAlunoPorId(matricula.getAluno().getId()));
+					
+					if (incluirItems) {
+						matricula.setItens(pegarMatriculaItens(matricula.getId()));
+					}
+
+					return matricula;
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+
+		return null;
+	}
+	
+	public List<Matricula> pegarMatriculas(boolean incluirItems) {
+		List<Matricula> matriculas = new ArrayList<Matricula>();
+
+		try {
+			
+			FileReader arq = new FileReader(pegarDestinoArquivo("matriculas"));
+			
+			BufferedReader lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				Matricula matricula = criarMatriculaApartirAtributos(atributo);
+				
+				matriculas.add(matricula);
+
+				linha = lerArq.readLine();
+			}
+			
+			lerArq.close();
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		for (Matricula matricula : matriculas) {
+				//Carrega o model Fase a Grade
+				matricula.setAluno(pegarAlunoPorId(matricula.getAluno().getId()));
+				
+				//Carrega o model GradeItem a Grade
+				if (incluirItems) {
+					matricula.setItens(pegarMatriculaItens(matricula.getId()));
+				}
+		}
+		
+		return matriculas.stream()
+				.sorted((p1, p2) -> p2.getAluno().getNomeAluno().compareTo(p1.getAluno().getNomeAluno()))
+				.collect(Collectors.toList());
+	}
+	
+	public List<Matricula> pegarMatriculas(String valorBusca, boolean incluirItems) {
+		List<Matricula> gradesFiltradas = pegarMatriculas(true);
+		//TODO:Fazer lógica para pegar Disciplinas
+		return gradesFiltradas;
+	}
+	
+	public HashSet<MatriculaItem> pegarMatriculaItens(Integer idMatricula) {
+		HashSet<MatriculaItem> matriculaItens = new HashSet<MatriculaItem>();
+
+		try {
+			FileReader arq = new FileReader(pegarDestinoArquivo("matriculas_itens"));
+			lerArq = new BufferedReader(arq);
+
+			String linha = lerArq.readLine();
+
+			while (linha != null) {
+				String[] atributo = linha.split(SEPARATOR);
+
+				if (idMatricula.toString().equals(atributo[1])) {
+					matriculaItens.add(criarMatriculaItemApartirAtributos(atributo));
+				}
+
+				linha = lerArq.readLine();
+			}
+		} catch (IOException e) {
+			System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+		}
+		
+		matriculaItens.stream().forEach(matriculaItem -> {
+			//Carrega model Matricula a MatriculaItem
+			matriculaItem.setMatricula(pegarMatriculaPorId(matriculaItem.getMatricula().getId(), false));
+			
+			//Carrega model Disciplina a GradeItem
+			matriculaItem.setDisciplina(pegarDisciplinaPorId(matriculaItem.getDisciplina().getId()));
+			
+			//Carrega model Professor a GradeItem
+			matriculaItem.setCurso(pegarCursoPorId(matriculaItem.getCurso().getId()));
+			
+			matriculaItem.setFase(pegarFasePorId(matriculaItem.getFase().getId()));
+
+		});
+		
+		return matriculaItens;
+	}
+
+	private String criarStringDados(Matricula matricula) {
+		return matricula.getId() + SEPARATOR + matricula.getAluno().getId() + SEPARATOR + matricula.getData().toString() 
+		+ SEPARATOR + matricula.getDiaVencimento();
+	}
+	
+	private String criarStringDados(MatriculaItem matriculaItem) {
+		return matriculaItem.getId() + SEPARATOR + matriculaItem.getMatricula().getId() + SEPARATOR 
+				+ matriculaItem.getCurso().getId() + SEPARATOR + matriculaItem.getFase().getId() + SEPARATOR + matriculaItem.getDisciplina().getId();
+	}
+
+	private Matricula criarMatriculaApartirAtributos(String[] atributo) {
+		Matricula matricula = new Matricula();
+
+		matricula.setId(Integer.parseInt(atributo[0]));
+		
+		Aluno aluno = new Aluno();
+		aluno.setId(Integer.parseInt(atributo[1]));
+		matricula.setAluno(aluno);
+
+		return matricula;
+	}
+	
+	private MatriculaItem criarMatriculaItemApartirAtributos(String[] atributo) {
+		MatriculaItem matriculaItem = new MatriculaItem();
+
+		matriculaItem.setId(Integer.parseInt(atributo[0]));
+		
+		Matricula matricula = new Matricula();
+		matricula.setId(Integer.parseInt(atributo[1]));
+		matriculaItem.setMatricula(matricula);
+		
+		Curso curso = new Curso();
+		curso.setId(Integer.parseInt(atributo[2]));
+		matriculaItem.setCurso(curso);
+		
+		Fase fase = new Fase();
+		fase.setId(Integer.parseInt(atributo[3]));
+		matriculaItem.setFase(fase);
+		
+		Disciplina disciplina = new Disciplina();
+		disciplina.setId(Integer.parseInt(atributo[3]));
+		matriculaItem.setDisciplina(disciplina);
+		
+		return matriculaItem;
+	}
+	
+	/*
 	 * CONFIGURAÇÕES
 	 */
 	
@@ -1427,6 +1707,17 @@ public class ManipularArquivo {
 	private String criarStringDados(Configuracoes configuracoes) {
 		return "1" + SEPARATOR + configuracoes.getSequencialImportacao();
 	}
+	
+
+
+	/*
+	 * MATRICULA
+	 */
+	
+	public int getMatricula() {
+		return pegarProximoId("matriculas");
+	}
+	
 
 	/*
 	 * HELPERS
@@ -1575,6 +1866,11 @@ public class ManipularArquivo {
 			return new File(GRADE_ITEMS_PATH).getAbsolutePath();
 		case "configuracoes":
 			return new File(CONFIGURACOES_PATH).getAbsolutePath();
+		case "matriculas":
+			return new File(MATRICULA_PATH).getAbsolutePath();
+		case "matriculas_itens":
+			return new File(MATRICULA_ITENS_PATH).getAbsolutePath();
+		
 		}
 		return null;
 	}

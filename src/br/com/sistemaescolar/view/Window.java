@@ -45,7 +45,7 @@ public class Window extends JFrame {
 	private JMenu menuGrade;
 
 	private JDesktopPane desktop;
-	
+
 	private ListarAlunosWindow frameListarAlunos;
 	private CadastrarAlunosWindow frameCadastrarAlunos;
 	private CadastrarCidadesWindow frameCadastrarCidade;
@@ -64,9 +64,9 @@ public class Window extends JFrame {
 	private ListarFasesWindow frameListarFases;
 	private ListarDisciplinasWindow frameListarDisciplinas;
 	private CadastrarMatriculaWindow frameMatricularAluno;
-	
+
 	private JLabel wallpaper;
-	
+
 	public Window(Usuario usuarioLogado) {
 		super();
 
@@ -76,22 +76,21 @@ public class Window extends JFrame {
 		desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 		desktop.setVisible(true);
 		setContentPane(desktop);
-		
-		
+
 		URL url = this.getClass().getResource("/br/com/sistemaescolar/icons/t.png");
 		Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
 		this.setIconImage(imagemTitulo);
-		
-	    ImageIcon logo = new ImageIcon(this.getClass().getResource("/br/com/sistemaescolar/icons/wallpaper.jpg"));
+
+		ImageIcon logo = new ImageIcon(this.getClass().getResource("/br/com/sistemaescolar/icons/wallpaper.jpg"));
 		wallpaper = new JLabel(logo);
-		
-	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		wallpaper.setBounds(0, -50, screenSize.width, screenSize.height);
 		getContentPane().add(wallpaper);
-		
+
 		inicializar();
 
-		//Full screen
+		// Full screen
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 	}
 
@@ -110,7 +109,7 @@ public class Window extends JFrame {
 		this.setBounds(new Rectangle(0, 0, 796, 713));
 		this.setFocusableWindowState(true);
 		getContentPane().setBackground(new Color(247, 247, 247));
-		
+
 	}
 
 	/*
@@ -123,6 +122,7 @@ public class Window extends JFrame {
 		menuBar.add(getMenuDisciplinas());
 		menuBar.add(getMenuProfessores());
 		menuBar.add(getMenuGrade());
+		menuBar.add(getMenuMatriculas());
 		menuBar.add(getMenuAlunos());	
 		menuBar.add(getMenuCidades());
 		menuBar.add(getMenuUsuarios());
@@ -151,7 +151,7 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				frameCadastrarAlunos = new CadastrarAlunosWindow();
 				abrirFrame(frameCadastrarAlunos);
 
@@ -199,7 +199,7 @@ public class Window extends JFrame {
 
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				frameCadastrarProfessores = new CadastrarProfessoresWindow();
 				abrirFrame(frameCadastrarProfessores);
 
@@ -226,7 +226,6 @@ public class Window extends JFrame {
 		return menuItem;
 	}
 
-	
 	// Menu Cursos
 	private JMenu getMenuCursos() {
 		menuCursos = new JMenu();
@@ -361,99 +360,110 @@ public class Window extends JFrame {
 				abrirFrame(frameListarDisciplinas);
 				// Garante que a grid se encaixe na tela depois que a tela é criada
 				frameListarDisciplinas.redimensionarGrid(frameListarDisciplinas.getGridContent());
-			
+
 			}
 		});
 
 		return menuItem;
 	}
-	
-	//Menu Grade
-	
-		private JMenu getMenuGrade() {
-			menuGrade = new JMenu();
-			menuGrade.setText("Grade");
-			menuGrade.setFont(getDefaultFont());
-			
-			menuGrade.add(getMenuItemCadastrarGrade());
-			menuGrade.add(getMenuItemListarGrade());
-			menuGrade.addSeparator();
-			menuGrade.add(getMenuItemMatricula());
-			menuGrade.add(getMenuItemListarMatricula());
-			
-			return menuGrade;
-		}
+
+	// Menu Grade
+
+	private JMenu getMenuGrade() {
+		menuGrade = new JMenu();
+		menuGrade.setText("Grade");
+		menuGrade.setFont(getDefaultFont());
+
+		menuGrade.add(getMenuItemCadastrarGrade());
+		menuGrade.add(getMenuItemListarGrade());
 		
-		private JMenuItem getMenuItemCadastrarGrade() {
-			JMenuItem menuItem = new JMenuItem();
-			
-			menuItem.setText("Cadastrar");
-			menuItem.setFont(getDefaultFont());
-			
-			protegerMenuItemBaseadoPerfilUsuario(menuItem);
-			
-			menuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					frameCadastrarGrade = new CadastrarGradeWindow();
-					abrirFrame(frameCadastrarGrade);
-				}
-			});
-			
-			return menuItem;
-		}
-		
-		private JMenuItem getMenuItemListarGrade() {
-			JMenuItem menuItem = new JMenuItem();
+		return menuGrade;
+	}
 
-			menuItem.setText("Listar");
-			menuItem.setFont(getDefaultFont());
+	private JMenuItem getMenuItemCadastrarGrade() {
+		JMenuItem menuItem = new JMenuItem();
 
-			menuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					frameListarGrades = new ListarGradesWindow(desktop, usuarioLogado);
-					abrirFrame(frameListarGrades);
-					// Garante que a grid se encaixe na tela depois que a tela é criada
-					frameListarGrades.redimensionarGrid(frameListarGrades.getGridContent());
-				}
-			});
+		menuItem.setText("Cadastrar");
+		menuItem.setFont(getDefaultFont());
 
-			return menuItem;
-		}
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 
-		private JMenuItem getMenuItemMatricula() {
-			JMenuItem menuItem = new JMenuItem();
-			
-			menuItem.setText("Matricular aluno");
-			menuItem.setFont(getDefaultFont());
-			
-			protegerMenuItemBaseadoPerfilUsuario(menuItem);
-			
-			menuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					frameMatricularAluno = new CadastrarMatriculaWindow();
-					abrirFrame(frameMatricularAluno);
-				}
-			});
-			
-			return menuItem;
-		}
-		
-		private JMenuItem getMenuItemListarMatricula() {
-			JMenuItem menuItem = new JMenuItem();
-			
-			menuItem.setText("Listar matricula");
-			menuItem.setFont(getDefaultFont());
-			
-			protegerMenuItemBaseadoPerfilUsuario(menuItem);
-			
-			menuItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				
-				}
-			});
-			
-			return menuItem;
-		}
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameCadastrarGrade = new CadastrarGradeWindow();
+				abrirFrame(frameCadastrarGrade);
+			}
+		});
+
+		return menuItem;
+	}
+
+	private JMenuItem getMenuItemListarGrade() {
+		JMenuItem menuItem = new JMenuItem();
+
+		menuItem.setText("Listar");
+		menuItem.setFont(getDefaultFont());
+
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameListarGrades = new ListarGradesWindow(desktop, usuarioLogado);
+				abrirFrame(frameListarGrades);
+				// Garante que a grid se encaixe na tela depois que a tela é criada
+				frameListarGrades.redimensionarGrid(frameListarGrades.getGridContent());
+			}
+		});
+
+		return menuItem;
+	}
+
+	// Menu Matriculas
+
+	private JMenu getMenuMatriculas() {
+		menuAlunos = new JMenu();
+		menuAlunos.setText("Matriculas");
+		menuAlunos.setFont(getDefaultFont());
+
+		menuAlunos.add(getMenuItemCadastrarMatricula());
+		menuAlunos.add(getMenuItemListarMatriculas());
+
+		return menuAlunos;
+	}
+
+	private JMenuItem getMenuItemCadastrarMatricula() {
+		JMenuItem menuItem = new JMenuItem();
+
+		menuItem.setText("Matricular aluno");
+		menuItem.setFont(getDefaultFont());
+
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
+
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameMatricularAluno = new CadastrarMatriculaWindow();
+				abrirFrame(frameMatricularAluno);
+			}
+		});
+
+		return menuItem;
+	}
+
+	private JMenuItem getMenuItemListarMatriculas() {
+		JMenuItem menuItem = new JMenuItem();
+
+		menuItem.setText("Listar matricula");
+		menuItem.setFont(getDefaultFont());
+
+		protegerMenuItemBaseadoPerfilUsuario(menuItem);
+
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
+		return menuItem;
+	}
+
 	// Menu Cidades
 	private JMenu getMenuCidades() {
 		menuCidades = new JMenu();
@@ -575,12 +585,12 @@ public class Window extends JFrame {
 
 		return menuOpcao;
 	}
-	
+
 	private JMenuItem getMenuItemImportar() {
 		JMenuItem menuItem = new JMenuItem();
 		menuItem.setText("Importador");
 		menuItem.setFont(getDefaultFont());
-		
+
 		protegerMenuItemBaseadoPerfilUsuario(menuItem);
 
 		menuItem.addActionListener(new ActionListener() {

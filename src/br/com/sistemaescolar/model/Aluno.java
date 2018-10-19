@@ -1,6 +1,7 @@
 package br.com.sistemaescolar.model;
 
 public class Aluno implements Model {
+	
 	private Integer id;
 	private String codAluno;
 	private String numero;
@@ -19,6 +20,35 @@ public class Aluno implements Model {
 	private String pais;
 	private String cep;
 	private String endereco;
+	
+	public Aluno() {
+		
+	}
+	
+	public Aluno(Integer id, String codAluno, String numero, String sexo, String senhaAluno, String dataNascimento,
+			String telefone, String celular, String email, String observacao, String complemento, String nomeAluno,
+			String bairro, String cidade, String uf, String pais, String cep, String endereco) {
+		super();
+		this.id = id;
+		this.codAluno = codAluno;
+		this.numero = numero;
+		this.sexo = sexo;
+		this.senhaAluno = senhaAluno;
+		this.dataNascimento = dataNascimento;
+		this.telefone = telefone;
+		this.celular = celular;
+		this.email = email;
+		this.observacao = observacao;
+		this.complemento = complemento;
+		this.nomeAluno = nomeAluno;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.uf = uf;
+		this.pais = pais;
+		this.cep = cep;
+		this.endereco = endereco;
+	}
+	
 
 	public Integer getId() {
 		return id;
