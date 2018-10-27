@@ -308,6 +308,10 @@ public class ExtracaoDados extends ManipuladorRegistro {
 		if (!tipoRegistro.equals(ResumoDisciplina.CODIGO_REGISTRO)) {
 			dispararErro("A linha informada não pertence a um Resumo de Disciplina");
 		}
+		
+		if(Integer.parseInt(codigoDiaSemana) > 07 || Integer.parseInt(codigoDiaSemana) < 1) {
+			dispararErro("O código da semana informado não pertence a um dia da semana");
+		}
 
 		return new ResumoDisciplina(codigoDisciplina, disciplinasCadastradas.get(codigoDisciplina), codigoDiaSemana, qtdeProfessores);
 	}
